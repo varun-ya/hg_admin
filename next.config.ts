@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'i.pravatar.cc',
       },
+      {
+        protocol: 'https',
+        hostname: 'homeguruworld.com',
+      },
     ],
     // Add image optimization settings
     formats: ['image/webp', 'image/avif'],

@@ -18,7 +18,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   }, []);
 
   return (
-    <div className="flex h-screen bg-[#293763] overflow-hidden font-matter">
+    <div className="flex h-screen bg-[#FAFAFA] overflow-hidden font-matter">
       {/* Desktop Sidebar */}
       <div className="hidden md:block">
         <AdminSidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
@@ -28,7 +28,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
       {mobileSidebarOpen && (
         <>
           <div
-            className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 md:hidden"
+            className="fixed inset-0 bg-[#000000]/20 backdrop-blur-[2px] z-40 md:hidden transition-opacity"
             onClick={closeMobileSidebar}
           />
           <div className="fixed left-0 top-0 h-full z-50 md:hidden">
@@ -38,24 +38,24 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
       )}
 
       {/* Main Content */}
-      <main className="flex-1 h-screen overflow-y-auto bg-[#FAFAFA]">
-        {/* Mobile Menu Button */}
-        <div className="md:hidden fixed top-4 left-4 z-30">
+      <main className="flex-1 h-screen overflow-y-auto bg-[#FAFAFA] relative">
+        {/* Mobile Menu Button - Styled as a floating fab to avoid header clutter */}
+        <div className="md:hidden fixed bottom-6 right-6 z-30">
           <button
             onClick={toggleMobileSidebar}
-            className="p-2 bg-white rounded-lg shadow-sm border border-[#EBEBEB]"
+            className="w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-[#EAEAEA] active:scale-95 transition-transform"
             aria-label="Toggle menu"
           >
-            {mobileSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileSidebarOpen ? <X size={20} className="text-[#111]" /> : <Menu size={20} className="text-[#111]" />}
           </button>
         </div>
 
-        {/* Header */}
-        <div className="px-6 md:px-10 lg:px-12 pt-8 pb-2 mt-16 md:mt-0">
+        {/* Header Container */}
+        <div className="px-6 md:px-10 lg:px-12 pt-8 pb-4">
           <AdminHeader />
         </div>
 
-        {/* Content */}
+        {/* Content Canvas */}
         <div className="px-6 md:px-10 lg:px-12 pb-12">
           <PageTransition>{children}</PageTransition>
         </div>
