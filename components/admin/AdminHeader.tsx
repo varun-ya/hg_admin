@@ -7,13 +7,25 @@ import {
   Info,
   Warning,
   CheckCircle,
+  X,
+  Plus,
+  VideoCamera,
+  Lightning
 } from "@phosphor-icons/react";
 import { adminNotifications } from "./mockData";
 
 export default memo(function AdminHeader() {
-  const [isOnline, setIsOnline] = useState(true);
   const [showNotifications, setShowNotifications] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isSearchClosing, setIsSearchClosing] = useState(false);
+
+  const closeSearch = () => {
+    setIsSearchClosing(true);
+    setTimeout(() => {
+      setIsSearchOpen(false);
+      setIsSearchClosing(false);
+    }, 150);
+  };
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -26,8 +38,7 @@ export default memo(function AdminHeader() {
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") { setIsSearchOpen(false); setShowNotifications(false); }
-      // Cmd+K / Ctrl+K listener for search
+      if (e.key === "Escape") { if (isSearchOpen) closeSearch(); setShowNotifications(false); }
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         setIsSearchOpen(true);
@@ -35,7 +46,7 @@ export default memo(function AdminHeader() {
     }
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [isSearchOpen]);
 
   const unreadCount = adminNotifications.filter((n) => !n.isRead).length;
 
@@ -46,59 +57,43 @@ export default memo(function AdminHeader() {
     system: <Info weight="fill" className="text-[#CACACA]" />,
   };
 
+  const today = new Date();
+  const dateStr = today.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+
   return (
     <header className="flex items-center justify-between w-full flex-wrap gap-4 font-matter">
-      {/* Vercel-style Breadcrumb */}
+      {/* Vercel-style Breadcrumb formatted nicely */}
       <div className="flex items-center gap-2.5 text-[14px]">
         <div className="flex items-center gap-2 text-[#888]">
-          <span className="hover:text-[#111] cursor-pointer transition-colors px-1 rounded hover:bg-[#FAFAFA]">HomeGuru</span>
+          <span className="hover:text-[#111] cursor-pointer transition-colors px-1 rounded hover:bg-[#EAEAEA]">HomeGuru</span>
           <span className="text-[#D0D0D0] select-none">/</span>
           <span className="text-[#111] font-medium px-1">Dashboard</span>
         </div>
         <div className="h-4 w-[1px] bg-[#EAEAEA] mx-1 hidden sm:block" />
-        <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#FAFAFA] border border-[#EAEAEA] text-[11px] font-medium text-[#666]">
+        <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white border border-[#EAEAEA] text-[11px] font-medium text-[#666] shadow-sm">
           Production <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] ml-0.5" />
         </span>
       </div>
 
       <div className="flex items-center gap-3">
-        {/* Command Palette Trigger (Linear Style) */}
+        {/* Search Toggle Styled exactly like screenshot */}
         <button
           onClick={() => setIsSearchOpen(true)}
-          className="hidden md:flex items-center justify-between w-[220px] lg:w-[260px] h-[32px] px-2.5 bg-white border border-[#EAEAEA] rounded-md text-[13px] text-[#888] hover:border-[#CCC] hover:text-[#555] transition-all cursor-text box-border"
+          className="w-[42px] h-[42px] flex items-center justify-center rounded-full bg-white border border-[#EAEAEA] hover:bg-[#F9FAFB] transition-colors text-[#555] cursor-pointer shadow-sm"
         >
-          <div className="flex items-center gap-2">
-            <MagnifyingGlass size={14} className="text-[#999]" />
-            <span>Search...</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <kbd className="px-1.5 py-0.5 text-[10px] font-medium bg-[#FAFAFA] border border-[#EAEAEA] rounded text-[#888] font-sans">⌘</kbd>
-            <kbd className="px-1.5 py-0.5 text-[10px] font-medium bg-[#FAFAFA] border border-[#EAEAEA] rounded text-[#888] font-sans">K</kbd>
-          </div>
+          <MagnifyingGlass size={18} weight="bold" />
         </button>
 
-        {/* Mobile Search Button */}
-        <button
-          onClick={() => setIsSearchOpen(true)}
-          className="md:hidden w-[32px] h-[32px] flex items-center justify-center bg-white border border-[#EAEAEA] rounded-md hover:bg-[#FAFAFA] transition-colors"
-        >
-          <MagnifyingGlass size={15} className="text-[#888]" />
-        </button>
-
-        <div className="h-4 w-[1px] bg-[#EAEAEA] hidden sm:block" />
-
-        {/* Notifications */}
+        {/* Notifications Styled exactly like screenshot */}
         <div className="relative" ref={dropdownRef}>
           <button
             aria-label="Notifications"
             onClick={() => setShowNotifications(!showNotifications)}
-            className={`relative w-[32px] h-[32px] rounded-md flex items-center justify-center transition-all border border-[#EAEAEA] cursor-pointer ${
-              showNotifications ? "bg-[#FAFAFA]" : "bg-white hover:bg-[#FAFAFA]"
-            }`}
+            className="relative w-[42px] h-[42px] flex items-center justify-center rounded-full bg-white border border-[#EAEAEA] hover:bg-[#F9FAFB] transition-colors text-[#555] cursor-pointer shadow-sm"
           >
-            <Bell size={15} weight={showNotifications ? "fill" : "regular"} className="text-[#666]" />
+            <Bell size={18} weight={showNotifications ? "fill" : "bold"} />
             {unreadCount > 0 && (
-              <span className="absolute top-[6px] right-[8px] w-[5px] h-[5px] bg-[#111] rounded-full border-[1.5px] border-white box-content" />
+              <span className="absolute top-[10px] right-[10px] w-2 h-2 bg-[#4F46E5] rounded-full border-2 border-white box-content" />
             )}
           </button>
 
@@ -126,7 +121,7 @@ export default memo(function AdminHeader() {
                         <p className={`text-[13px] truncate ${notif.isRead ? "text-[#555] font-normal" : "text-[#111] font-medium"}`}>
                           {notif.title}
                         </p>
-                        {!notif.isRead && <div className="w-1.5 h-1.5 bg-[#10b981] rounded-full shrink-0" />}
+                        {!notif.isRead && <div className="w-1.5 h-1.5 bg-[#4F46E5] rounded-full shrink-0" />}
                       </div>
                       <p className="text-[12px] text-[#888] leading-snug line-clamp-2 mt-0.5">{notif.message}</p>
                       <p className="text-[10px] text-[#BBB] font-normal mt-1.5">{notif.time}</p>
@@ -141,21 +136,31 @@ export default memo(function AdminHeader() {
           )}
         </div>
 
-        {/* Avatar Menu */}
-        <button className="w-[32px] h-[32px] rounded-full overflow-hidden border border-[#EAEAEA] hover:opacity-90 transition-opacity cursor-pointer bg-transparent p-0">
+        {/* Date Badge like Screenshot */}
+        <div className="hidden lg:flex items-center gap-2 px-4 py-2 bg-white border border-[#EAEAEA] shadow-sm rounded-full text-[13px] font-medium text-[#555]">
+          <CalendarBlank size={16} weight="regular" />
+          {dateStr}
+        </div>
+
+        {/* Avatar Menu like Screenshot */}
+        <button className="w-[42px] h-[42px] rounded-full overflow-hidden border border-[#EAEAEA] hover:opacity-90 transition-opacity cursor-pointer bg-transparent p-0 object-cover shadow-sm">
           <img
-             src="https://i.pravatar.cc/150?img=68"
+             src="https://i.pravatar.cc/150?img=47"
              alt="Admin profile"
              className="w-full h-full object-cover"
           />
         </button>
       </div>
 
-      {/* Mock Search Modal (Shown when Cmd+K is pressed) */}
+      {/* Search Modal */}
       {isSearchOpen && (
-        <div className="fixed inset-0 bg-white/60 backdrop-blur-sm z-[200] flex items-start justify-center pt-[10vh]">
-          <div className="w-full max-w-[600px] bg-white rounded-xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] border border-[#EAEAEA] overflow-hidden mx-4 flex flex-col">
-            <div className="flex items-center px-4 h[52px] border-b border-[#EAEAEA]">
+        <div className={`fixed inset-0 bg-white/60 backdrop-blur-sm z-[200] flex items-start justify-center pt-[10vh] transition-opacity duration-150 ${
+          isSearchClosing ? "opacity-0" : "animate-[fadeIn_150ms_ease-out]"
+        }`}>
+          <div className={`w-full max-w-[600px] bg-white rounded-xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] border border-[#EAEAEA] overflow-hidden mx-4 flex flex-col transition-all duration-150 ${
+            isSearchClosing ? "opacity-0 scale-95 translate-y-2" : "animate-[modalIn_150ms_ease-out]"
+          }`}>
+            <div className="flex items-center px-4 border-b border-[#EAEAEA]">
               <MagnifyingGlass size={18} className="text-[#888] shrink-0" />
               <input 
                 type="text" 
@@ -163,12 +168,16 @@ export default memo(function AdminHeader() {
                 placeholder="Search commands, users, transactions..." 
                 className="w-full h-[52px] px-3 text-[15px] font-matter bg-transparent border-none outline-none text-[#111] placeholder:text-[#BBB]"
               />
-              <button 
-                onClick={() => setIsSearchOpen(false)}
-                className="px-2 py-1 bg-[#FAFAFA] border border-[#EAEAEA] rounded text-[10px] text-[#888] font-medium"
-              >
-                ESC
-              </button>
+              <div className="flex items-center gap-1.5 shrink-0">
+                <kbd className="px-1.5 py-0.5 text-[10px] font-medium bg-[#FAFAFA] border border-[#EAEAEA] rounded text-[#888] font-sans select-none">ESC</kbd>
+                <button
+                  onClick={closeSearch}
+                  className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-[#F0F0F0] text-[#888] hover:text-[#111] transition-colors border-none bg-transparent cursor-pointer"
+                  aria-label="Close search"
+                >
+                  <X size={14} weight="bold" />
+                </button>
+              </div>
             </div>
             <div className="p-2 py-4 flex flex-col gap-1">
                <span className="px-3 text-[11px] font-medium text-[#888] tracking-widest uppercase mb-1">Suggestions</span>
@@ -182,7 +191,7 @@ export default memo(function AdminHeader() {
                </button>
             </div>
           </div>
-          <div className="fixed inset-0 -z-10" onClick={() => setIsSearchOpen(false)} />
+          <div className="fixed inset-0 z-[-1]" onClick={closeSearch} />
         </div>
       )}
     </header>
