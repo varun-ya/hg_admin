@@ -29,6 +29,12 @@ import {
   CaretDown,
   CaretLeft,
   CaretRight,
+  Eye,
+  Buildings,
+  Percent,
+  Heartbeat,
+  TreeStructure,
+  PaperPlaneTilt,
 } from "@phosphor-icons/react";
 
 interface AdminSidebarProps {
@@ -44,6 +50,7 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
     "LIVE OPS": true,
     "FINANCIAL": true,
     "AI GOVERNANCE": true,
+    "ORCHESTRATION": true,
     "SYSTEM & AUDIT": true,
   });
 
@@ -96,6 +103,17 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
           { name: "Quotas & API Keys", href: "/dashboard/admin/api-keys", icon: Key },
           { name: "AI Workflow Rules", href: "/dashboard/admin/ai-workflows", icon: GitBranch },
           { name: "Ethics Controls", href: "/dashboard/admin/ai-ethics", icon: ToggleRight },
+        ],
+      },
+      {
+        label: "ORCHESTRATION",
+        items: [
+          { name: "Impersonation", href: "/dashboard/admin/impersonation", icon: Eye },
+          { name: "B2B Tenants", href: "/dashboard/admin/tenants", icon: Buildings },
+          { name: "Commission Engine", href: "/dashboard/admin/commission", icon: Percent },
+          { name: "Churn Prediction", href: "/dashboard/admin/churn", icon: Heartbeat },
+          { name: "Taxonomy", href: "/dashboard/admin/taxonomy", icon: TreeStructure },
+          { name: "Broadcast Hub", href: "/dashboard/admin/broadcast", icon: PaperPlaneTilt },
         ],
       },
       {
