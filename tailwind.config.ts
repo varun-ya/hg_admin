@@ -41,7 +41,7 @@ const config: Config = {
       animation: {
         pageIn: 'pageIn 0.35s cubic-bezier(0.25, 0.1, 0.25, 1) forwards',
         slideIn: 'slideIn 0.28s cubic-bezier(0.25, 0.1, 0.25, 1) forwards',
-        fadeIn: 'fadeIn 0.2s ease-out forwards',
+        fadeIn: 'fadeIn 0.15s ease-out forwards',
         contextIn: 'contextIn 0.15s ease-out forwards',
       },
     },

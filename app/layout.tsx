@@ -20,6 +20,7 @@ const matter = localFont({
 export const metadata: Metadata = {
   title: "HomeGuru - Dashboard",
   description: "Your perfect tutor, matched by AI",
+  icons: [],
 };
 
 export default function RootLayout({

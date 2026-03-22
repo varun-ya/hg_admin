@@ -199,7 +199,6 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
                       <li key={itemIdx}>
                         <Link
                           href={item.href}
-                          prefetch={false}
                           className={`flex items-center rounded-xl transition-colors duration-150 border-none select-none text-left font-matter mx-4 my-0.5 relative ${
                             isOpen
                               ? "gap-3 px-3 py-2.5 min-h-[42px]"

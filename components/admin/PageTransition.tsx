@@ -11,18 +11,15 @@ export default function PageTransition({ children }: { children: React.ReactNode
   useEffect(() => {
     if (prevPath.current !== pathname) {
       prevPath.current = pathname;
-      // Phase 1: fade out old content
       setPhase("out");
       const t1 = setTimeout(() => {
-        // Phase 2: swap content + fade in
         setDisplayChildren(children);
         setPhase("in");
-        const t2 = setTimeout(() => setPhase("idle"), 300);
+        const t2 = setTimeout(() => setPhase("idle"), 150);
         return () => clearTimeout(t2);
-      }, 120);
+      }, 50);
       return () => clearTimeout(t1);
     } else {
-      // Same path, just update children (e.g. state changes)
       setDisplayChildren(children);
     }
   }, [pathname, children]);
@@ -31,12 +28,12 @@ export default function PageTransition({ children }: { children: React.ReactNode
     <div
       className={
         phase === "out"
-          ? "opacity-0 translate-y-1 transition-all duration-[120ms] ease-in"
+          ? "opacity-0 transition-opacity duration-[50ms] ease-in"
           : phase === "in"
-          ? "animate-pageIn"
+          ? "opacity-0 animate-fadeIn"
           : ""
       }
-      style={{ willChange: phase !== "idle" ? "opacity, transform" : "auto" }}
+      style={{ willChange: phase !== "idle" ? "opacity" : "auto" }}
     >
       {displayChildren}
     </div>
