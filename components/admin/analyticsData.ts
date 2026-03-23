@@ -60,6 +60,9 @@ export const unitEconomics = {
 };
 
 export const monthlyRevenue = [
+  { month: "Jul", revenue: 218000, cac: 56 },
+  { month: "Aug", revenue: 245000, cac: 53 },
+  { month: "Sep", revenue: 282000, cac: 51 },
   { month: "Oct", revenue: 320000, cac: 48 },
   { month: "Nov", revenue: 380000, cac: 45 },
   { month: "Dec", revenue: 410000, cac: 44 },
@@ -71,8 +74,17 @@ export const monthlyRevenue = [
 // ─── 5. Quality & Infrastructure ───
 export const qualityMetrics = {
   avgRating: 4.72,
-  ratingTrend: [4.65, 4.68, 4.71, 4.69, 4.74, 4.72],
-  ratingMonths: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
+  ratingTrend: [
+    { month: "Jul", rating: 4.58 },
+    { month: "Aug", rating: 4.61 },
+    { month: "Sep", rating: 4.63 },
+    { month: "Oct", rating: 4.65 },
+    { month: "Nov", rating: 4.68 },
+    { month: "Dec", rating: 4.71 },
+    { month: "Jan", rating: 4.69 },
+    { month: "Feb", rating: 4.74 },
+    { month: "Mar", rating: 4.72 },
+  ],
   techFailureRate: 1.8,
   disputeRefundRate: 2.4,
   aiAutoResolution: 78.6,

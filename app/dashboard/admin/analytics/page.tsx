@@ -1,5 +1,10 @@
 "use client";
-import { TrendUp, TrendDown, Minus } from "@phosphor-icons/react";
+import { TrendUp, TrendDown } from "@phosphor-icons/react";
+import {
+  AreaChart, Area, BarChart, Bar, LineChart, Line,
+  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
+  Cell, ReferenceLine,
+} from "recharts";
 import {
   kpiMetrics,
   subjectDemand,
@@ -12,22 +17,35 @@ import {
   qualityMetrics,
 } from "@/components/admin/analyticsData";
 
-/* ─── Helpers ─── */
-function smoothPath(points: { x: number; y: number }[]): string {
-  if (points.length < 2) return "";
-  let d = `M ${points[0].x} ${points[0].y}`;
-  for (let i = 0; i < points.length - 1; i++) {
-    const p0 = points[i], p1 = points[i + 1];
-    const cpx = (p0.x + p1.x) / 2;
-    d += ` C ${cpx} ${p0.y}, ${cpx} ${p1.y}, ${p1.x} ${p1.y}`;
-  }
-  return d;
+/* ─── Shared Tooltip ─── */
+function ChartTooltip({ active, payload, label }: any) {
+  if (!active || !payload?.length) return null;
+  return (
+    <div className="bg-white rounded-xl border border-[#F0F0F0] shadow-[0_8px_30px_-10px_rgba(0,0,0,0.12)] px-4 py-3 font-matter">
+      <p className="text-[11px] font-medium text-[#1A1A1A] mb-2">{label}</p>
+      {payload.map((p: any, i: number) => (
+        <div key={i} className="flex items-center gap-2 text-[11px] mb-0.5">
+          <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: p.color || p.stroke }} />
+          <span className="text-[#777]">{p.name}:</span>
+          <span className="text-[#1A1A1A] font-medium tabular-nums">{
+            typeof p.value === "number" && p.value > 1000
+              ? p.value >= 1_000_000 ? `$${(p.value / 1_000_000).toFixed(1)}M` : `$${(p.value / 1_000).toFixed(0)}K`
+              : p.value
+          }</span>
+        </div>
+      ))}
+    </div>
+  );
 }
 
-function fmt(n: number): string {
-  if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`;
-  if (n >= 1_000) return `$${(n / 1_000).toFixed(0)}K`;
-  return `$${n}`;
+function RatingTooltip({ active, payload, label }: any) {
+  if (!active || !payload?.length) return null;
+  return (
+    <div className="bg-white rounded-xl border border-[#F0F0F0] shadow-[0_8px_30px_-10px_rgba(0,0,0,0.12)] px-4 py-3 font-matter">
+      <p className="text-[11px] font-medium text-[#1A1A1A] mb-1">{label}</p>
+      <p className="text-[12px] text-[#555]">Rating: <span className="font-medium text-[#1A1A1A]">{payload[0].value}</span></p>
+    </div>
+  );
 }
 
 /* ─── 1. KPI Ribbon ─── */
@@ -39,9 +57,7 @@ function KPIRibbon() {
           <p className="text-[13px] text-[#ACACAC] font-normal mb-4">{m.label}</p>
           <p className="text-[26px] font-normal text-[#1A1A1A] tracking-tight leading-none mb-2.5">{m.value}</p>
           <span className="flex items-center gap-1 text-[11px] font-normal text-[#ACACAC]">
-            {m.changeType === "up"
-              ? <TrendUp size={11} weight="bold" />
-              : <TrendDown size={11} weight="bold" />}
+            {m.changeType === "up" ? <TrendUp size={11} weight="bold" /> : <TrendDown size={11} weight="bold" />}
             {m.change} <span className="text-[#DCDCDC] ml-0.5">{m.period}</span>
           </span>
         </div>
@@ -50,37 +66,34 @@ function KPIRibbon() {
   );
 }
 
-/* ─── 2a. Subject Demand ─── */
+/* ─── 2a. Subject Demand — Horizontal Bar Chart ─── */
 function SubjectDemandChart() {
-  const maxSearches = Math.max(...subjectDemand.map((s) => s.searches));
+  const data = subjectDemand.map((s) => ({
+    subject: s.subject,
+    searches: s.searches,
+    slots: s.slots,
+    fillRate: Math.round((s.slots / s.searches) * 100),
+  }));
 
   return (
     <div className="bg-white rounded-2xl border border-[#F0F0F0] p-7">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-[15px] font-medium text-[#1A1A1A] font-season">Subject Demand vs Supply</h3>
         <div className="flex items-center gap-4 text-[11px] text-[#ACACAC]">
-          <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-[#1A1A1A]" />Searches</span>
-          <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-[#D4D4D4]" />Available Slots</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#1A1A1A]" />Searches</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#D4D4D4]" />Available Slots</span>
         </div>
       </div>
-      <div className="flex flex-col gap-4">
-        {subjectDemand.map((s) => (
-          <div key={s.subject} className="flex items-center gap-4">
-            <span className="text-[12px] text-[#555] w-[110px] shrink-0 truncate">{s.subject}</span>
-            <div className="flex-1 flex flex-col gap-1">
-              <div className="w-full h-[5px] bg-[#F5F5F5] rounded-full overflow-hidden">
-                <div className="h-full rounded-full bg-[#1A1A1A]" style={{ width: `${(s.searches / maxSearches) * 100}%` }} />
-              </div>
-              <div className="w-full h-[5px] bg-[#F5F5F5] rounded-full overflow-hidden">
-                <div className="h-full rounded-full bg-[#D4D4D4]" style={{ width: `${(s.slots / maxSearches) * 100}%` }} />
-              </div>
-            </div>
-            <span className="text-[10px] text-[#ACACAC] w-[50px] text-right shrink-0">
-              {Math.round((s.slots / s.searches) * 100)}% fill
-            </span>
-          </div>
-        ))}
-      </div>
+      <ResponsiveContainer width="100%" height={320}>
+        <BarChart data={data} layout="vertical" margin={{ top: 0, right: 40, left: 10, bottom: 0 }} barGap={2} barSize={8}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#F5F5F5" horizontal={false} />
+          <XAxis type="number" tick={{ fontSize: 10, fill: "#CACACA" }} axisLine={false} tickLine={false} tickFormatter={(v) => v >= 1000 ? `${(v / 1000).toFixed(0)}K` : v} />
+          <YAxis type="category" dataKey="subject" tick={{ fontSize: 11, fill: "#555" }} axisLine={false} tickLine={false} width={100} />
+          <Tooltip content={<ChartTooltip />} />
+          <Bar dataKey="searches" name="Searches" fill="#1A1A1A" radius={[0, 4, 4, 0]} animationDuration={600} />
+          <Bar dataKey="slots" name="Slots" fill="#D4D4D4" radius={[0, 4, 4, 0]} animationDuration={600} />
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 }
@@ -219,16 +232,8 @@ function CohortRetention() {
   );
 }
 
-/* ─── 4. Unit Economics ─── */
+/* ─── 4. Unit Economics + Revenue Trend (Recharts) ─── */
 function UnitEconomics() {
-  const svgW = 400, svgH = 140, padX = 16, padY = 14;
-  const maxRev = Math.max(...monthlyRevenue.map((d) => d.revenue)) * 1.15;
-  const toX = (i: number) => padX + (i / (monthlyRevenue.length - 1)) * (svgW - padX * 2);
-  const toY = (v: number) => svgH - padY - (v / maxRev) * (svgH - padY * 2);
-  const pts = monthlyRevenue.map((d, i) => ({ x: toX(i), y: toY(d.revenue) }));
-  const path = smoothPath(pts);
-  const area = `${path} L ${pts[pts.length - 1].x} ${svgH - padY} L ${pts[0].x} ${svgH - padY} Z`;
-
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="bg-white rounded-2xl border border-[#F0F0F0] p-7 flex flex-col">
@@ -268,47 +273,41 @@ function UnitEconomics() {
           <h3 className="text-[15px] font-medium text-[#1A1A1A] font-season">Revenue Trend</h3>
           <span className="text-[11px] text-[#CACACA]">{monthlyRevenue[0].month} — {monthlyRevenue[monthlyRevenue.length - 1].month}</span>
         </div>
-        <div className="flex-1 min-h-[140px]">
-          <svg viewBox={`0 0 ${svgW} ${svgH}`} preserveAspectRatio="none" className="w-full h-full">
-            <defs>
-              <linearGradient id="aRevGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#1A1A1A" stopOpacity="0.04" />
-                <stop offset="100%" stopColor="#1A1A1A" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            {[0.25, 0.5, 0.75].map((f) => (
-              <line key={f} x1={padX} y1={toY(maxRev * f)} x2={svgW - padX} y2={toY(maxRev * f)} stroke="#F5F5F5" strokeWidth="1" />
-            ))}
-            <path d={area} fill="url(#aRevGrad)" />
-            <path d={path} fill="none" stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-            {pts.map((p, i) => (
-              <circle key={i} cx={p.x} cy={p.y} r="2" fill="#1A1A1A" />
-            ))}
-          </svg>
-        </div>
-        <div className="flex items-center justify-between mt-4">
-          <div className="flex items-center gap-4 text-[11px] text-[#ACACAC]">
-            <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-[#1A1A1A]" />Net Revenue</span>
-          </div>
-          <div className="flex items-center gap-3 text-[10px] text-[#CACACA]">
-            {monthlyRevenue.map((d) => <span key={d.month}>{d.month}</span>)}
-          </div>
+        <div className="flex-1" style={{ minHeight: 200 }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={monthlyRevenue} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
+              <defs>
+                <linearGradient id="aRevGrad2" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#1A1A1A" stopOpacity={0.06} />
+                  <stop offset="100%" stopColor="#1A1A1A" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#F5F5F5" vertical={false} />
+              <XAxis dataKey="month" tick={{ fontSize: 10, fill: "#CACACA" }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 10, fill: "#CACACA" }} axisLine={false} tickLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}K`} />
+              <Tooltip content={<ChartTooltip />} />
+              <Area
+                type="monotone"
+                dataKey="revenue"
+                name="Net Revenue"
+                stroke="#1A1A1A"
+                fill="url(#aRevGrad2)"
+                strokeWidth={2}
+                dot={{ r: 3, fill: "#1A1A1A", strokeWidth: 0 }}
+                activeDot={{ r: 5, fill: "#1A1A1A", stroke: "#fff", strokeWidth: 2 }}
+                animationDuration={800}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </div>
   );
 }
 
-/* ─── 5. Quality & Infra ─── */
+/* ─── 5. Quality & Infra (Recharts) ─── */
 function QualityOps() {
-  const { ratingTrend, ratingMonths } = qualityMetrics;
-  const svgW = 300, svgH = 80, padX = 10, padY = 10;
-  const minR = Math.min(...ratingTrend) - 0.1;
-  const maxR = Math.max(...ratingTrend) + 0.1;
-  const toX = (i: number) => padX + (i / (ratingTrend.length - 1)) * (svgW - padX * 2);
-  const toY = (v: number) => svgH - padY - ((v - minR) / (maxR - minR)) * (svgH - padY * 2);
-  const pts = ratingTrend.map((v, i) => ({ x: toX(i), y: toY(v) }));
-  const path = smoothPath(pts);
+  const { ratingTrend } = qualityMetrics;
 
   const metrics = [
     { label: "Tech Failure Rate", value: `${qualityMetrics.techFailureRate}%`, target: "< 2%", ok: qualityMetrics.techFailureRate < 2 },
@@ -327,17 +326,26 @@ function QualityOps() {
           {qualityMetrics.avgRating}
           <span className="text-[14px] text-[#DCDCDC] ml-1 font-normal">/ 5.0</span>
         </p>
-        <div className="h-[80px]">
-          <svg viewBox={`0 0 ${svgW} ${svgH}`} preserveAspectRatio="none" className="w-full h-full">
-            <line x1={padX} y1={toY(4.7)} x2={svgW - padX} y2={toY(4.7)} stroke="#E08A3C" strokeWidth="0.5" strokeDasharray="4 3" vectorEffect="non-scaling-stroke" />
-            <path d={path} fill="none" stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-            {pts.map((p, i) => (
-              <circle key={i} cx={p.x} cy={p.y} r="2" fill="#1A1A1A" />
-            ))}
-          </svg>
-        </div>
-        <div className="flex items-center justify-between mt-3 text-[10px] text-[#CACACA]">
-          {ratingMonths.map((m) => <span key={m}>{m}</span>)}
+        <div style={{ height: 120 }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={ratingTrend} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#F5F5F5" vertical={false} />
+              <XAxis dataKey="month" tick={{ fontSize: 10, fill: "#CACACA" }} axisLine={false} tickLine={false} />
+              <YAxis domain={[4.5, 4.85]} tick={{ fontSize: 10, fill: "#CACACA" }} axisLine={false} tickLine={false} />
+              <ReferenceLine y={4.7} stroke="#E08A3C" strokeDasharray="4 3" strokeWidth={1} />
+              <Tooltip content={<RatingTooltip />} />
+              <Line
+                type="monotone"
+                dataKey="rating"
+                name="Rating"
+                stroke="#1A1A1A"
+                strokeWidth={2}
+                dot={{ r: 3, fill: "#1A1A1A", strokeWidth: 0 }}
+                activeDot={{ r: 5, fill: "#1A1A1A", stroke: "#fff", strokeWidth: 2 }}
+                animationDuration={800}
+              />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       </div>
 
@@ -366,12 +374,10 @@ export default function AnalyticsPage() {
   return (
     <div className="flex flex-col gap-8 md:gap-10 pt-4">
       <KPIRibbon />
-
       <div className="flex flex-col gap-6">
         <SubjectDemandChart />
         <LiquidityPanel />
       </div>
-
       <CohortRetention />
       <UnitEconomics />
       <QualityOps />
