@@ -242,7 +242,7 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
       <div className={`mt-auto shrink-0 border-t border-[#EBEBEB] flex items-center gap-3 transition-all ${
         isOpen ? "px-4 py-4 cursor-pointer hover:bg-[#EBEBEB]" : "justify-center py-4 px-0 flex-col"
       }`}>
-        <div className="w-8 h-8 rounded-lg bg-[#111] text-white flex items-center justify-center shrink-0">
+        <div className="w-8 h-8 rounded-xl bg-[#111] text-white flex items-center justify-center shrink-0 ring-2 ring-[#E4E4E7]">
            <span className="text-[13px] font-semibold">N</span>
         </div>
         {isOpen && (
