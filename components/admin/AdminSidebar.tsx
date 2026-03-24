@@ -250,7 +250,9 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
              <span className="text-[13px] font-medium text-[#111] leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
                Admin Portal
              </span>
-             <span className="text-[11px] text-[#999] font-normal">Super Admin</span>
+             <span className="text-[11px] text-[#999] font-normal flex items-center gap-1.5">
+               <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] shrink-0" />Super Admin
+             </span>
           </div>
         )}
       </div>
