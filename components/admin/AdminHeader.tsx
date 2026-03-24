@@ -139,8 +139,8 @@ export default memo(function AdminHeader() {
         </div>
 
         {/* Date Badge like Screenshot */}
-        <div className="hidden lg:flex items-center gap-2 px-4 py-2 bg-white border border-[#EAEAEA] shadow-sm rounded-full text-[13px] font-medium text-[#555]">
-          <CalendarBlank size={16} weight="regular" />
+        <div className="hidden lg:flex items-center gap-2 px-3.5 py-1.5 bg-white border border-[#EAEAEA] shadow-sm rounded-lg text-[13px] font-medium text-[#555]">
+          <CalendarBlank size={15} weight="regular" className="text-[#4F46E5]" />
           {dateStr}
         </div>
 
