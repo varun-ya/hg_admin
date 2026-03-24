@@ -211,7 +211,7 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
                           title={!isOpen ? item.name : ""}
                         >
                           <span className={`inline-flex shrink-0 ${isActive ? "text-[#4F46E5]" : "text-[#ACACAC]"}`}>
-                            <Icon size={18} weight="regular" />
+                            <Icon size={18} weight={isActive ? "duotone" : "regular"} />
                           </span>
                           {isOpen && (
                             <span className="overflow-hidden text-ellipsis whitespace-nowrap flex-1 text-[13px]">
