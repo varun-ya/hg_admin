@@ -160,7 +160,7 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
         )}
         <button
           onClick={toggleSidebar}
-          className="text-[#ACACAC] hover:text-[#555] p-1.5 rounded-full transition-colors flex cursor-pointer border-none bg-transparent hover:bg-[#EBEBEB]"
+          className="text-[#ACACAC] hover:text-[#555] p-1.5 rounded-md transition-colors flex cursor-pointer border-none bg-transparent hover:bg-[#EBEBEB]"
           title="Toggle Sidebar"
         >
           {isOpen ? <CaretLeft size={16} weight="regular" /> : <CaretRight size={16} weight="regular" />}
