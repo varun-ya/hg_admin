@@ -79,9 +79,11 @@ export default memo(function AdminHeader() {
         {/* Search Toggle Styled exactly like screenshot */}
         <button
           onClick={() => setIsSearchOpen(true)}
-          className="w-[42px] h-[42px] flex items-center justify-center rounded-full bg-white border border-[#EAEAEA] hover:bg-[#F9FAFB] transition-colors text-[#555] cursor-pointer shadow-sm"
+          className="h-[38px] flex items-center gap-2 px-3 rounded-lg bg-white border border-[#EAEAEA] hover:bg-[#F9FAFB] hover:border-[#D0D0D0] transition-colors text-[#888] cursor-pointer shadow-sm"
         >
-          <MagnifyingGlass size={18} weight="bold" />
+          <MagnifyingGlass size={15} weight="bold" />
+          <span className="hidden lg:inline text-[12px] font-medium text-[#BBB]">Search...</span>
+          <kbd className="hidden lg:inline-flex px-1.5 py-0.5 text-[10px] font-semibold bg-[#F4F4F5] border border-[#E4E4E7] rounded text-[#999] font-sans select-none ml-1">⌘K</kbd>
         </button>
 
         {/* Notifications Styled exactly like screenshot */}
