@@ -95,7 +95,7 @@ export default memo(function AdminHeader() {
           >
             <Bell size={18} weight={showNotifications ? "fill" : "bold"} />
             {unreadCount > 0 && (
-              <span className="absolute top-[10px] right-[10px] w-2 h-2 bg-[#4F46E5] rounded-full border-2 border-white box-content" />
+              <span className="absolute top-[7px] right-[7px] w-2 h-2 bg-[#4F46E5] rounded-full border-2 border-white box-content" />
             )}
           </button>
 
