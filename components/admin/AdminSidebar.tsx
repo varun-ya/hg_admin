@@ -172,7 +172,7 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
         {navGroups.map((group, index) => {
           const isExpanded = expandedGroups[group.label] !== false;
           return (
-            <div key={index} className="py-2.5">
+            <div key={index} className="py-2">
               {isOpen && (
                 <button
                   onClick={() => toggleGroup(group.label)}
