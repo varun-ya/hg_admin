@@ -28,7 +28,7 @@ const TXN_CFG: Record<string, { dot: string; amtColor: string }> = {
   pending: { dot: "#F59E0B", amtColor: "#888"    },
 };
 
-interface Props { student: Student | null; onClose: () => void; }
+interface Props { student: Student | null; onClose: () => void; inline?: boolean; }
 
 function Skeleton({ rows = 3 }: { rows?: number }) {
   return (
@@ -43,7 +43,7 @@ function Skeleton({ rows = 3 }: { rows?: number }) {
   );
 }
 
-function StudentDrawer({ student, onClose }: Props) {
+function StudentDrawer({ student, onClose, inline }: Props) {
   const [profile, setProfile] = useState<StudentProfile | null>(null);
   const [copiedId, setCopiedId] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
@@ -66,6 +66,8 @@ function StudentDrawer({ student, onClose }: Props) {
   }, [student, onClose]);
 
   if (!student) return null;
+  // In inline mode on desktop, don't render the overlay version (page.tsx handles it)
+  if (inline === false && typeof window !== "undefined" && window.innerWidth >= 1024) return null;
 
   const sc  = STATUS_CFG[student.status] ?? STATUS_CFG.inactive;
   const rc  = RISK_CFG[student.riskScore];
@@ -78,12 +80,15 @@ function StudentDrawer({ student, onClose }: Props) {
   };
 
   return (
-    <>
-      {/* Backdrop */}
-      <div className="fixed inset-0 bg-black/20 backdrop-blur-[2px] z-40 animate-fadeIn" onClick={onClose} />
+    <div className={inline ? "contents" : ""}>
+      {/* Backdrop — only in overlay mode */}
+      {!inline && <div className="fixed inset-0 bg-black/20 backdrop-blur-[2px] z-40 animate-fadeIn" onClick={onClose} />}
 
-      {/* Drawer */}
-      <div className="fixed right-0 top-0 h-full w-[520px] max-w-[96vw] bg-white z-50 shadow-[-24px_0_80px_-20px_rgba(0,0,0,0.10)] flex flex-col animate-slideIn overflow-hidden">
+      {/* Panel */}
+      <div className={inline
+        ? "bg-white rounded-2xl border border-[#F0F0F0] shadow-[0_8px_40px_-12px_rgba(0,0,0,0.10)] flex flex-col overflow-hidden max-h-[calc(100vh-120px)]"
+        : "fixed right-0 top-0 h-full w-[520px] max-w-[96vw] bg-white z-50 shadow-[-24px_0_80px_-20px_rgba(0,0,0,0.10)] flex flex-col animate-slideIn overflow-hidden"
+      }>
 
         {/* ── Hero ── */}
         <div className="shrink-0 bg-gradient-to-b from-[#FAFAFA] to-white border-b border-[#F0F0F0]">
@@ -288,13 +293,13 @@ function StudentDrawer({ student, onClose }: Props) {
 
       {/* Toast */}
       {toast && (
-        <div className="fixed bottom-6 right-6 z-[300] flex items-center gap-3 bg-[#1A1A1A] text-white px-4 py-3 rounded-xl shadow-xl animate-fadeIn">
+        <div className={`${inline ? "absolute" : "fixed"} bottom-6 right-6 z-[300] flex items-center gap-3 bg-[#1A1A1A] text-white px-4 py-3 rounded-xl shadow-xl animate-fadeIn`}>
           <CheckCircle size={14} weight="fill" className="text-[#22C55E] shrink-0" />
           <span className="text-[13px]">{toast}</span>
           <button onClick={() => setToast(null)} className="ml-1 text-white/40 hover:text-white bg-transparent border-none cursor-pointer"><X size={11} weight="bold" /></button>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

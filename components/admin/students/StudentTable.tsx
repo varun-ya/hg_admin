@@ -57,9 +57,10 @@ const MAX_HOURS = 420; // for engagement bar scaling
 
 interface Props {
   onSelectStudent: (student: Student) => void;
+  selectedId?: string | null;
 }
 
-function StudentTable({ onSelectStudent }: Props) {
+function StudentTable({ onSelectStudent, selectedId }: Props) {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
   const [showFilters, setShowFilters] = useState(false);
@@ -219,7 +220,9 @@ function StudentTable({ onSelectStudent }: Props) {
                 <tr
                   key={s.id}
                   onClick={() => onSelectStudent(s)}
-                  className={`hover:bg-[#FAFAFA]/60 transition-colors duration-100 cursor-pointer group ${i > 0 ? "border-t border-[#F8F8F8]" : ""}`}
+                  className={`transition-colors duration-100 cursor-pointer group ${i > 0 ? "border-t border-[#F8F8F8]" : ""} ${
+                    selectedId === s.id ? "bg-[#F7F8FF] border-l-2 border-l-[#293763]" : "hover:bg-[#FAFAFA]/60"
+                  }`}
                 >
                   {/* Student Info */}
                   <td className="py-4 pl-7 pr-3">
