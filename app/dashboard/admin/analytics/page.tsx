@@ -66,34 +66,102 @@ function KPIRibbon() {
   );
 }
 
-/* ─── 2a. Subject Demand — Horizontal Bar Chart ─── */
+/* ─── 2a. Subject Demand ─── */
+const SUPPLY_STATUS: Record<string, { color: string; bg: string; dot: string; label: string }> = {
+  low:      { color: "#16A34A", bg: "#F0FDF4", dot: "#22C55E", label: "Healthy" },
+  high:     { color: "#B45309", bg: "#FFFBEB", dot: "#F59E0B", label: "Gap" },
+  critical: { color: "#DC2626", bg: "#FEF2F2", dot: "#EF4444", label: "Critical" },
+};
+
 function SubjectDemandChart() {
+  const maxVal = Math.max(...subjectDemand.map((s) => s.searches));
   const data = subjectDemand.map((s) => ({
-    subject: s.subject,
-    searches: s.searches,
-    slots: s.slots,
+    ...s,
     fillRate: Math.round((s.slots / s.searches) * 100),
+    unmet: s.searches - s.slots,
   }));
 
   return (
-    <div className="bg-white rounded-2xl border border-[#F0F0F0] p-7">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-[15px] font-medium text-[#1A1A1A] font-season">Subject Demand vs Supply</h3>
-        <div className="flex items-center gap-4 text-[11px] text-[#ACACAC]">
-          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#1A1A1A]" />Searches</span>
-          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#D4D4D4]" />Available Slots</span>
+    <div className="bg-white rounded-2xl border border-[#F0F0F0] overflow-hidden">
+      {/* Header */}
+      <div className="flex items-start justify-between px-7 pt-7 pb-5 border-b border-[#F5F5F5]">
+        <div>
+          <h3 className="text-[15px] font-medium text-[#1A1A1A] font-season">Subject Demand vs Supply</h3>
+          <p className="text-[12px] text-[#ACACAC] mt-0.5">Monthly search volume vs available tutor slots</p>
+        </div>
+        <div className="flex items-center gap-5 text-[11px] text-[#888] pt-0.5">
+          <span className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-sm bg-[#1A1A1A] shrink-0" />Searches
+          </span>
+          <span className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-sm bg-[#E2E8F0] shrink-0" />Slots
+          </span>
         </div>
       </div>
-      <ResponsiveContainer width="100%" height={320}>
-        <BarChart data={data} layout="vertical" margin={{ top: 0, right: 40, left: 10, bottom: 0 }} barGap={2} barSize={8}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#F5F5F5" horizontal={false} />
-          <XAxis type="number" tick={{ fontSize: 10, fill: "#CACACA" }} axisLine={false} tickLine={false} tickFormatter={(v) => v >= 1000 ? `${(v / 1000).toFixed(0)}K` : v} />
-          <YAxis type="category" dataKey="subject" tick={{ fontSize: 11, fill: "#555" }} axisLine={false} tickLine={false} width={100} />
-          <Tooltip content={<ChartTooltip />} />
-          <Bar dataKey="searches" name="Searches" fill="#1A1A1A" radius={[0, 4, 4, 0]} animationDuration={600} />
-          <Bar dataKey="slots" name="Slots" fill="#D4D4D4" radius={[0, 4, 4, 0]} animationDuration={600} />
-        </BarChart>
-      </ResponsiveContainer>
+
+      {/* Table header */}
+      <div className="grid px-7 py-2.5 bg-[#FAFAFA] border-b border-[#F0F0F0]" style={{ gridTemplateColumns: "1fr 80px 80px 90px 80px" }}>
+        <span className="text-[10px] font-medium text-[#ACACAC] uppercase tracking-wider">Subject</span>
+        <span className="text-[10px] font-medium text-[#ACACAC] uppercase tracking-wider text-right">Searches</span>
+        <span className="text-[10px] font-medium text-[#ACACAC] uppercase tracking-wider text-right">Slots</span>
+        <span className="text-[10px] font-medium text-[#ACACAC] uppercase tracking-wider text-right">Unmet</span>
+        <span className="text-[10px] font-medium text-[#ACACAC] uppercase tracking-wider text-right">Status</span>
+      </div>
+
+      {/* Rows */}
+      <div className="divide-y divide-[#F8F8F8]">
+        {data.map((s) => {
+          const st = SUPPLY_STATUS[s.gap];
+          const searchPct = (s.searches / maxVal) * 100;
+          const slotPct   = (s.slots   / maxVal) * 100;
+          return (
+            <div key={s.subject} className="group px-7 py-3.5 hover:bg-[#FAFAFA] transition-colors">
+              <div className="grid items-center gap-4" style={{ gridTemplateColumns: "1fr 80px 80px 90px 80px" }}>
+                {/* Subject + bars */}
+                <div className="flex flex-col gap-2 pr-4">
+                  <span className="text-[13px] font-medium text-[#1A1A1A]">{s.subject}</span>
+                  <div className="flex flex-col gap-1">
+                    <div className="relative w-full h-[5px] bg-[#F0F0F0] rounded-full overflow-hidden">
+                      <div className="absolute inset-y-0 left-0 bg-[#1A1A1A] rounded-full transition-all duration-700" style={{ width: `${searchPct}%` }} />
+                    </div>
+                    <div className="relative w-full h-[5px] bg-[#F0F0F0] rounded-full overflow-hidden">
+                      <div className="absolute inset-y-0 left-0 rounded-full transition-all duration-700" style={{ width: `${slotPct}%`, backgroundColor: st.dot }} />
+                    </div>
+                  </div>
+                </div>
+                {/* Searches */}
+                <span className="text-[13px] text-[#1A1A1A] font-medium tabular-nums text-right">{s.searches.toLocaleString()}</span>
+                {/* Slots */}
+                <span className="text-[13px] text-[#888] tabular-nums text-right">{s.slots.toLocaleString()}</span>
+                {/* Unmet */}
+                <span className="text-[13px] tabular-nums text-right font-medium" style={{ color: st.color }}>+{s.unmet.toLocaleString()}</span>
+                {/* Status badge */}
+                <div className="flex justify-end">
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-1 rounded-full" style={{ color: st.color, backgroundColor: st.bg }}>
+                    <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: st.dot }} />
+                    {st.label}
+                  </span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Footer summary */}
+      <div className="flex items-center justify-between px-7 py-4 bg-[#FAFAFA] border-t border-[#F0F0F0]">
+        <div className="flex items-center gap-6">
+          {Object.entries(SUPPLY_STATUS).map(([key, st]) => (
+            <span key={key} className="flex items-center gap-1.5 text-[11px]" style={{ color: st.color }}>
+              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: st.dot }} />
+              {st.label}
+            </span>
+          ))}
+        </div>
+        <span className="text-[11px] text-[#ACACAC]">
+          {data.filter(s => s.gap === "critical").length} critical · {data.filter(s => s.gap === "high").length} gaps
+        </span>
+      </div>
     </div>
   );
 }
@@ -158,27 +226,49 @@ function LiquidityPanel() {
 
 /* ─── 3. Cohort Retention ─── */
 function CohortRetention() {
-  const months = ["M1", "M2", "M3", "M4", "M5"];
-  const cellStyle = (v?: number): string => {
-    if (v === undefined) return "bg-[#F8F8F8] text-[#DCDCDC]";
-    if (v >= 70) return "bg-[#293763] text-white";
-    if (v >= 50) return "bg-[#3D4D7A] text-white";
-    if (v >= 35) return "bg-[#8B96B5] text-white";
-    return "bg-[#C8CEE0] text-[#293763]";
+  const months = ["Month 1", "Month 2", "Month 3", "Month 4", "Month 5"];
+
+  // 7-step continuous color scale dark→light
+  const cellStyle = (v?: number): { bg: string; text: string; label: string } => {
+    if (v === undefined) return { bg: "#F8F8F8", text: "#D0D0D0", label: "—" };
+    if (v >= 75) return { bg: "#1E2D5A", text: "#fff", label: `${v}%` };
+    if (v >= 65) return { bg: "#293763", text: "#fff", label: `${v}%` };
+    if (v >= 55) return { bg: "#3D4D7A", text: "#fff", label: `${v}%` };
+    if (v >= 45) return { bg: "#5A6A96", text: "#fff", label: `${v}%` };
+    if (v >= 35) return { bg: "#8B96B5", text: "#fff", label: `${v}%` };
+    if (v >= 25) return { bg: "#B8C0D4", text: "#293763", label: `${v}%` };
+    return { bg: "#DDE1EC", text: "#293763", label: `${v}%` };
   };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-2 bg-white rounded-2xl border border-[#F0F0F0] p-7">
-        <h3 className="text-[15px] font-medium text-[#1A1A1A] font-season mb-5">Student Cohort Retention</h3>
+        <div className="flex items-start justify-between mb-6">
+          <div>
+            <h3 className="text-[15px] font-medium text-[#1A1A1A] font-season">Student Cohort Retention</h3>
+            <p className="text-[12px] text-[#ACACAC] mt-0.5">% of students still active each month after joining</p>
+          </div>
+          {/* Gradient legend */}
+          <div className="flex flex-col items-end gap-1">
+            <div className="flex items-center gap-0.5">
+              {["#1E2D5A","#293763","#3D4D7A","#5A6A96","#8B96B5","#B8C0D4","#DDE1EC"].map((c) => (
+                <div key={c} className="w-5 h-3 rounded-sm" style={{ backgroundColor: c }} />
+              ))}
+            </div>
+            <div className="flex items-center justify-between w-full">
+              <span className="text-[9px] text-[#ACACAC]">75%+</span>
+              <span className="text-[9px] text-[#ACACAC]">Low</span>
+            </div>
+          </div>
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr>
-                <th className="py-2.5 pr-4 text-[10px] text-[#CACACA] uppercase tracking-wider font-medium">Cohort</th>
-                <th className="py-2.5 pr-4 text-[10px] text-[#CACACA] uppercase tracking-wider font-medium text-right">Size</th>
+                <th className="pb-3 pr-5 text-[10px] text-[#CACACA] uppercase tracking-wider font-medium whitespace-nowrap">Cohort</th>
+                <th className="pb-3 pr-5 text-[10px] text-[#CACACA] uppercase tracking-wider font-medium text-right whitespace-nowrap">Size</th>
                 {months.map((m) => (
-                  <th key={m} className="py-2.5 px-1.5 text-[10px] text-[#CACACA] uppercase tracking-wider font-medium text-center">{m}</th>
+                  <th key={m} className="pb-3 px-2 text-[10px] text-[#CACACA] uppercase tracking-wider font-medium text-center whitespace-nowrap">{m}</th>
                 ))}
               </tr>
             </thead>
@@ -186,16 +276,22 @@ function CohortRetention() {
               {cohortData.map((c) => {
                 const vals = [c.m1, c.m2, c.m3, c.m4, c.m5];
                 return (
-                  <tr key={c.cohort}>
-                    <td className="py-2 pr-4 text-[12px] text-[#1A1A1A]">{c.cohort}</td>
-                    <td className="py-2 pr-4 text-[12px] text-[#ACACAC] text-right">{c.size.toLocaleString()}</td>
-                    {vals.map((v, i) => (
-                      <td key={i} className="py-2 px-1.5 text-center">
-                        <span className={`inline-block w-[48px] py-1 rounded text-[11px] font-normal ${cellStyle(v)}`}>
-                          {v !== undefined ? `${v}%` : "—"}
-                        </span>
-                      </td>
-                    ))}
+                  <tr key={c.cohort} className="group">
+                    <td className="py-2 pr-5 text-[13px] font-medium text-[#1A1A1A] whitespace-nowrap">{c.cohort}</td>
+                    <td className="py-2 pr-5 text-[12px] text-[#ACACAC] text-right tabular-nums whitespace-nowrap">{c.size.toLocaleString()}</td>
+                    {vals.map((v, i) => {
+                      const s = cellStyle(v);
+                      return (
+                        <td key={i} className="py-2 px-2 text-center">
+                          <span
+                            className="inline-flex items-center justify-center w-[58px] h-[30px] rounded-lg text-[12px] font-medium transition-transform duration-150 hover:scale-105"
+                            style={{ backgroundColor: s.bg, color: s.text }}
+                          >
+                            {s.label}
+                          </span>
+                        </td>
+                      );
+                    })}
                   </tr>
                 );
               })}
