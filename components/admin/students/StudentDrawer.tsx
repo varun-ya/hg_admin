@@ -21,6 +21,7 @@ import {
   CaretRight,
   CalendarBlank,
   Clock,
+  CheckCircle,
 } from "@phosphor-icons/react";
 import { getStudentProfile } from "./studentMockData";
 import type { Student, StudentProfile, RiskLevel } from "./studentTypes";
@@ -65,6 +66,9 @@ function DrawerSkeleton({ rows = 3 }: { rows?: number }) {
 function StudentDrawer({ student, onClose }: Props) {
   const [profile, setProfile] = useState<StudentProfile | null>(null);
   const [copiedId, setCopiedId] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+
+  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 3000); };
 
   useEffect(() => {
     if (student) {
@@ -253,15 +257,22 @@ function StudentDrawer({ student, onClose }: Props) {
           <div className="px-8 py-6">
             <p className="text-[10px] font-medium text-[#DCDCDC] uppercase tracking-[0.12em] mb-3">Super Admin Actions</p>
             <div className="border border-[#F0F0F0] rounded-xl overflow-hidden divide-y divide-[#F5F5F5]">
-              <ActionRow icon={<ArrowClockwise size={13} />} label="Trigger Password Reset" sub="Sends secure Aegis reset link" />
-              <ActionRow icon={<Gift size={13} />} label="Issue Promo / Credit" sub="Add manual wallet balance" />
-              <ActionRow icon={<CurrencyDollar size={13} />} label="Process Manual Refund" sub="Overrides standard policy" />
-              <ActionRow icon={<Trash size={13} />} label="GDPR Right to be Forgotten" sub="Initiates 30-day data wipe" danger />
-              <ActionRow icon={<Prohibit size={13} />} label="Suspend / Ban Account" sub="Immediately revokes access tokens" danger />
+              <ActionRow icon={<ArrowClockwise size={13} />} label="Trigger Password Reset" sub="Sends secure Aegis reset link" onClick={() => showToast(`Password reset link sent to ${student.email}`)} />
+              <ActionRow icon={<Gift size={13} />} label="Issue Promo / Credit" sub="Add manual wallet balance" onClick={() => showToast(`Promo credit issued to ${student.name}`)} />
+              <ActionRow icon={<CurrencyDollar size={13} />} label="Process Manual Refund" sub="Overrides standard policy" onClick={() => showToast(`Manual refund initiated for ${student.name}`)} />
+              <ActionRow icon={<Trash size={13} />} label="GDPR Right to be Forgotten" sub="Initiates 30-day data wipe" onClick={() => showToast(`GDPR deletion request queued for ${student.name}`)} danger />
+              <ActionRow icon={<Prohibit size={13} />} label="Suspend / Ban Account" sub="Immediately revokes access tokens" onClick={() => showToast(`Account suspended: ${student.name}`)} danger />
             </div>
           </div>
         </div>
       </div>
+      {toast && (
+        <div className="fixed bottom-6 right-6 z-[300] flex items-center gap-3 bg-[#1A1A1A] text-white px-4 py-3 rounded-xl shadow-lg animate-fadeIn">
+          <CheckCircle size={14} weight="fill" className="text-[#22C55E] shrink-0" />
+          <span className="text-[13px]">{toast}</span>
+          <button onClick={() => setToast(null)} className="ml-2 text-white/50 hover:text-white bg-transparent border-none cursor-pointer"><X size={12} weight="bold" /></button>
+        </div>
+      )}
     </>
   );
 }
@@ -317,9 +328,9 @@ function FlagBadge({ count }: { count: number }) {
   );
 }
 
-function ActionRow({ icon, label, sub, danger }: { icon: React.ReactNode; label: string; sub: string; danger?: boolean }) {
+function ActionRow({ icon, label, sub, danger, onClick }: { icon: React.ReactNode; label: string; sub: string; danger?: boolean; onClick?: () => void }) {
   return (
-    <button className={`w-full flex items-center justify-between px-4 py-3.5 border-none cursor-pointer transition-colors text-left group/action ${
+    <button onClick={onClick} className={`w-full flex items-center justify-between px-4 py-3.5 border-none cursor-pointer transition-colors text-left group/action ${
       danger ? "bg-transparent hover:bg-[#FFF8F3]" : "bg-transparent hover:bg-[#FAFAFA]"
     }`}>
       <div className="flex items-center gap-3">

@@ -1,7 +1,89 @@
 "use client";
-import { memo } from "react";
-import { Buildings, Upload, CurrencyDollar, CaretRight } from "@phosphor-icons/react";
+import { useState, memo } from "react";
+import { Buildings, Upload, CurrencyDollar, CaretRight, X, CheckCircle } from "@phosphor-icons/react";
 import { tenants, bulkInvites, creditAllocations } from "./tenantMockData";
+import type { Tenant } from "./tenantTypes";
+
+function Toast({ msg, onClose }: { msg: string; onClose: () => void }) {
+  return (
+    <div className="fixed bottom-6 right-6 z-[300] flex items-center gap-3 bg-[#1A1A1A] text-white px-4 py-3 rounded-xl shadow-lg animate-fadeIn">
+      <CheckCircle size={14} weight="fill" className="text-[#22C55E] shrink-0" />
+      <span className="text-[13px]">{msg}</span>
+      <button onClick={onClose} className="ml-2 text-white/50 hover:text-white bg-transparent border-none cursor-pointer"><X size={12} weight="bold" /></button>
+    </div>
+  );
+}
+
+function AddTenantModal({ onClose, onSave }: { onClose: () => void; onSave: (name: string) => void }) {
+  const [name, setName] = useState("");
+  const [type, setType] = useState("school");
+  const [email, setEmail] = useState("");
+  return (
+    <div className="fixed inset-0 z-[200] flex items-center justify-center">
+      <div className="absolute inset-0 bg-black/15 backdrop-blur-[2px]" onClick={onClose} />
+      <div className="relative bg-white rounded-2xl w-[460px] max-w-[95vw] border border-[#F0F0F0] overflow-hidden">
+        <div className="px-7 py-5 flex items-center justify-between border-b border-[#F5F5F5]">
+          <h3 className="text-[15px] font-medium text-[#1A1A1A]">Add Tenant</h3>
+          <button onClick={onClose} className="text-[#CACACA] hover:text-[#999] bg-transparent border-none cursor-pointer"><X size={16} weight="bold" /></button>
+        </div>
+        <div className="px-7 py-5 space-y-4">
+          <div>
+            <label className="text-[11px] font-medium text-[#999] uppercase tracking-wider block mb-1.5">Organization Name *</label>
+            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Delhi Public School" className="w-full h-[38px] px-3 border border-[#EBEBEB] rounded-lg text-[13px] focus:outline-none focus:border-[#1A1A1A] transition-all" />
+          </div>
+          <div>
+            <label className="text-[11px] font-medium text-[#999] uppercase tracking-wider block mb-1.5">Type</label>
+            <select value={type} onChange={(e) => setType(e.target.value)} className="w-full h-[38px] px-3 border border-[#EBEBEB] rounded-lg text-[13px] bg-white focus:outline-none focus:border-[#1A1A1A] transition-all">
+              {["school", "corporation", "university"].map((t) => <option key={t}>{t}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className="text-[11px] font-medium text-[#999] uppercase tracking-wider block mb-1.5">Admin Email *</label>
+            <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="admin@organization.com" className="w-full h-[38px] px-3 border border-[#EBEBEB] rounded-lg text-[13px] focus:outline-none focus:border-[#1A1A1A] transition-all" />
+          </div>
+        </div>
+        <div className="px-7 pb-6 flex justify-end gap-3">
+          <button onClick={onClose} className="px-4 py-2 text-[13px] text-[#777] bg-white border border-[#EBEBEB] rounded-lg hover:bg-[#FAFAFA] cursor-pointer">Cancel</button>
+          <button disabled={!name || !email} onClick={() => { onSave(name); onClose(); }} className={`px-4 py-2 text-[13px] font-medium rounded-lg border-none cursor-pointer transition-all ${
+            name && email ? "bg-[#1A1A1A] text-white hover:bg-[#333]" : "bg-[#F0F0F0] text-[#CACACA] cursor-not-allowed"
+          }`}>Add Tenant</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AllocateCreditsModal({ onClose, onSave }: { onClose: () => void; onSave: (dept: string, amount: string) => void }) {
+  const [dept, setDept] = useState("");
+  const [amount, setAmount] = useState("");
+  return (
+    <div className="fixed inset-0 z-[200] flex items-center justify-center">
+      <div className="absolute inset-0 bg-black/15 backdrop-blur-[2px]" onClick={onClose} />
+      <div className="relative bg-white rounded-2xl w-[400px] max-w-[95vw] border border-[#F0F0F0] overflow-hidden">
+        <div className="px-7 py-5 flex items-center justify-between border-b border-[#F5F5F5]">
+          <h3 className="text-[15px] font-medium text-[#1A1A1A]">Allocate Credits</h3>
+          <button onClick={onClose} className="text-[#CACACA] hover:text-[#999] bg-transparent border-none cursor-pointer"><X size={16} weight="bold" /></button>
+        </div>
+        <div className="px-7 py-5 space-y-4">
+          <div>
+            <label className="text-[11px] font-medium text-[#999] uppercase tracking-wider block mb-1.5">Department *</label>
+            <input value={dept} onChange={(e) => setDept(e.target.value)} placeholder="e.g. Engineering Dept" className="w-full h-[38px] px-3 border border-[#EBEBEB] rounded-lg text-[13px] focus:outline-none focus:border-[#1A1A1A] transition-all" />
+          </div>
+          <div>
+            <label className="text-[11px] font-medium text-[#999] uppercase tracking-wider block mb-1.5">Credit Amount ($) *</label>
+            <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="e.g. 5000" className="w-full h-[38px] px-3 border border-[#EBEBEB] rounded-lg text-[13px] focus:outline-none focus:border-[#1A1A1A] transition-all" />
+          </div>
+        </div>
+        <div className="px-7 pb-6 flex justify-end gap-3">
+          <button onClick={onClose} className="px-4 py-2 text-[13px] text-[#777] bg-white border border-[#EBEBEB] rounded-lg hover:bg-[#FAFAFA] cursor-pointer">Cancel</button>
+          <button disabled={!dept || !amount} onClick={() => { onSave(dept, amount); onClose(); }} className={`px-4 py-2 text-[13px] font-medium rounded-lg border-none cursor-pointer transition-all ${
+            dept && amount ? "bg-[#1A1A1A] text-white hover:bg-[#333]" : "bg-[#F0F0F0] text-[#CACACA] cursor-not-allowed"
+          }`}>Allocate</button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const TYPE_BADGE: Record<string, string> = {
   school: "bg-[#EEF2FF] text-[#4F46E5]",
@@ -17,6 +99,12 @@ const STATUS_DOT: Record<string, string> = {
 };
 
 function TenantManager() {
+  const [tenantList, setTenantList] = useState(tenants);
+  const [showAddTenant, setShowAddTenant] = useState(false);
+  const [showAllocate, setShowAllocate] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 3000); };
+
   return (
     <div className="flex flex-col gap-6">
       {/* Tenant Directory */}
@@ -26,7 +114,7 @@ function TenantManager() {
             <Buildings size={17} weight="regular" className="text-[#999]" />
             <h3 className="text-[15px] font-medium text-[#1A1A1A]">Tenant Directory</h3>
           </div>
-          <button className="px-4 py-2 bg-[#1A1A1A] text-white rounded-full text-[12px] font-medium hover:bg-[#333] transition-all cursor-pointer border-none">
+          <button onClick={() => setShowAddTenant(true)} className="px-4 py-2 bg-[#1A1A1A] text-white rounded-full text-[12px] font-medium hover:bg-[#333] transition-all cursor-pointer border-none">
             + Add Tenant
           </button>
         </div>
@@ -40,7 +128,7 @@ function TenantManager() {
               </tr>
             </thead>
             <tbody>
-              {tenants.map((t, i) => {
+              {tenantList.map((t, i) => {
                 const pct = Math.round((t.creditsUsed / t.creditsAllocated) * 100);
                 return (
                   <tr key={t.id} className={`hover:bg-[#FAFAFA] transition-colors cursor-pointer ${i > 0 ? "border-t border-[#F8F8F8]" : ""}`}>
@@ -89,7 +177,7 @@ function TenantManager() {
               <Upload size={15} weight="regular" className="text-[#999]" />
               <h3 className="text-[15px] font-medium text-[#1A1A1A]">Bulk Onboarding</h3>
             </div>
-            <button className="px-3 py-1.5 bg-white border border-[#EBEBEB] rounded-lg text-[11px] font-medium text-[#666] hover:bg-[#FAFAFA] cursor-pointer">
+            <button onClick={() => showToast("CSV upload dialog opened — select a file to begin bulk onboarding")} className="px-3 py-1.5 bg-white border border-[#EBEBEB] rounded-lg text-[11px] font-medium text-[#666] hover:bg-[#FAFAFA] cursor-pointer">
               Upload CSV
             </button>
           </div>
@@ -120,7 +208,7 @@ function TenantManager() {
               <CurrencyDollar size={15} weight="regular" className="text-[#999]" />
               <h3 className="text-[15px] font-medium text-[#1A1A1A]">Credit Allocation</h3>
             </div>
-            <button className="px-3 py-1.5 bg-white border border-[#EBEBEB] rounded-lg text-[11px] font-medium text-[#666] hover:bg-[#FAFAFA] cursor-pointer">
+            <button onClick={() => setShowAllocate(true)} className="px-3 py-1.5 bg-white border border-[#EBEBEB] rounded-lg text-[11px] font-medium text-[#666] hover:bg-[#FAFAFA] cursor-pointer">
               Allocate Credits
             </button>
           </div>
@@ -143,6 +231,22 @@ function TenantManager() {
           })}
         </div>
       </div>
+      {showAddTenant && (
+        <AddTenantModal
+          onClose={() => setShowAddTenant(false)}
+          onSave={(name) => {
+            setTenantList((prev) => [{ id: `TEN-${Date.now()}`, name, type: "school" as const, status: "trial" as const, subAdmins: 1, activeStudents: 0, totalStudents: 0, creditsUsed: 0, creditsAllocated: 5000, onboardedVia: "manual" as const, createdAt: new Date().toLocaleDateString() }, ...prev]);
+            showToast(`Tenant "${name}" added successfully`);
+          }}
+        />
+      )}
+      {showAllocate && (
+        <AllocateCreditsModal
+          onClose={() => setShowAllocate(false)}
+          onSave={(dept, amount) => showToast(`$${amount} credits allocated to ${dept}`)}
+        />
+      )}
+      {toast && <Toast msg={toast} onClose={() => setToast(null)} />}
     </div>
   );
 }

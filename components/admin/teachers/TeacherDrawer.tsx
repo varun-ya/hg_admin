@@ -69,6 +69,9 @@ function Skeleton({ rows = 3 }: { rows?: number }) {
 function TeacherDrawer({ teacher, onClose }: Props) {
   const [profile, setProfile] = useState<TeacherProfile | null>(null);
   const [copiedId, setCopiedId] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+
+  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 3000); };
 
   useEffect(() => {
     if (teacher) {
@@ -271,14 +274,21 @@ function TeacherDrawer({ teacher, onClose }: Props) {
           <div className="px-8 py-6">
             <p className="text-[10px] font-medium text-[#DCDCDC] uppercase tracking-[0.12em] mb-3">Command & Control</p>
             <div className="border border-[#F0F0F0] rounded-xl overflow-hidden divide-y divide-[#F5F5F5]">
-              <ActionRow icon={<Rocket size={13} />} label="Feature / Boost" sub="Boost in Trending Teachers algorithm" />
-              <ActionRow icon={<Percent size={13} />} label="Adjust Commission" sub="Override platform take-rate for this tutor" />
-              <ActionRow icon={<CalendarX size={13} />} label="Force Cancel Schedule" sub="Cancel bookings & auto-refund students" />
-              <ActionRow icon={<Prohibit size={13} />} label="Suspend / Revoke Verification" sub="Freeze escrow, revoke Aegis tokens" danger />
+              <ActionRow icon={<Rocket size={13} />} label="Feature / Boost" sub="Boost in Trending Teachers algorithm" onClick={() => showToast(`${teacher.name} boosted in Trending Teachers`)} />
+              <ActionRow icon={<Percent size={13} />} label="Adjust Commission" sub="Override platform take-rate for this tutor" onClick={() => showToast(`Commission override applied for ${teacher.name}`)} />
+              <ActionRow icon={<CalendarX size={13} />} label="Force Cancel Schedule" sub="Cancel bookings & auto-refund students" onClick={() => showToast(`Schedule cancelled and refunds initiated for ${teacher.name}`)} />
+              <ActionRow icon={<Prohibit size={13} />} label="Suspend / Revoke Verification" sub="Freeze escrow, revoke Aegis tokens" onClick={() => showToast(`Account suspended: ${teacher.name}`)} danger />
             </div>
           </div>
         </div>
       </div>
+      {toast && (
+        <div className="fixed bottom-6 right-6 z-[300] flex items-center gap-3 bg-[#1A1A1A] text-white px-4 py-3 rounded-xl shadow-lg animate-fadeIn">
+          <CheckCircle size={14} weight="fill" className="text-[#22C55E] shrink-0" />
+          <span className="text-[13px]">{toast}</span>
+          <button onClick={() => setToast(null)} className="ml-2 text-white/50 hover:text-white bg-transparent border-none cursor-pointer"><X size={12} weight="bold" /></button>
+        </div>
+      )}
     </>
   );
 }
@@ -324,9 +334,9 @@ function Metric({ label, value, highlight }: { label: string; value: string; hig
   );
 }
 
-function ActionRow({ icon, label, sub, danger }: { icon: React.ReactNode; label: string; sub: string; danger?: boolean }) {
+function ActionRow({ icon, label, sub, danger, onClick }: { icon: React.ReactNode; label: string; sub: string; danger?: boolean; onClick?: () => void }) {
   return (
-    <button className={`w-full flex items-center justify-between px-4 py-3.5 border-none cursor-pointer transition-colors text-left group/action ${danger ? "bg-transparent hover:bg-[#FFF8F3]" : "bg-transparent hover:bg-[#FAFAFA]"}`}>
+    <button onClick={onClick} className={`w-full flex items-center justify-between px-4 py-3.5 border-none cursor-pointer transition-colors text-left group/action ${danger ? "bg-transparent hover:bg-[#FFF8F3]" : "bg-transparent hover:bg-[#FAFAFA]"}`}>
       <div className="flex items-center gap-3">
         <span className={danger ? "text-[#E08A3C]" : "text-[#999]"}>{icon}</span>
         <div>

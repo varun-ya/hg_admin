@@ -1,7 +1,64 @@
 "use client";
-import { memo } from "react";
-import { Scales, CurrencyDollar, Globe, Receipt, CaretRight } from "@phosphor-icons/react";
+import { useState, memo } from "react";
+import { Scales, CurrencyDollar, Globe, Receipt, CaretRight, X, CheckCircle } from "@phosphor-icons/react";
 import { commissionRules, fxRates, taxRules } from "./commissionMockData";
+import type { CommissionRule } from "./commissionTypes";
+
+function Toast({ msg, onClose }: { msg: string; onClose: () => void }) {
+  return (
+    <div className="fixed bottom-6 right-6 z-[300] flex items-center gap-3 bg-[#1A1A1A] text-white px-4 py-3 rounded-xl shadow-lg animate-fadeIn">
+      <CheckCircle size={14} weight="fill" className="text-[#22C55E] shrink-0" />
+      <span className="text-[13px]">{msg}</span>
+      <button onClick={onClose} className="ml-2 text-white/50 hover:text-white bg-transparent border-none cursor-pointer"><X size={12} weight="bold" /></button>
+    </div>
+  );
+}
+
+function NewRuleModal({ onClose, onSave }: { onClose: () => void; onSave: (name: string, rate: string) => void }) {
+  const [name, setName] = useState("");
+  const [trigger, setTrigger] = useState("flat");
+  const [rate, setRate] = useState("");
+  const [conditions, setConditions] = useState("");
+  return (
+    <div className="fixed inset-0 z-[200] flex items-center justify-center">
+      <div className="absolute inset-0 bg-black/15 backdrop-blur-[2px]" onClick={onClose} />
+      <div className="relative bg-white rounded-2xl w-[460px] max-w-[95vw] border border-[#F0F0F0] overflow-hidden">
+        <div className="px-7 py-5 flex items-center justify-between border-b border-[#F5F5F5]">
+          <h3 className="text-[15px] font-medium text-[#1A1A1A]">New Commission Rule</h3>
+          <button onClick={onClose} className="text-[#CACACA] hover:text-[#999] bg-transparent border-none cursor-pointer"><X size={16} weight="bold" /></button>
+        </div>
+        <div className="px-7 py-5 space-y-4">
+          <div>
+            <label className="text-[11px] font-medium text-[#999] uppercase tracking-wider block mb-1.5">Rule Name *</label>
+            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Premium Subject Boost" className="w-full h-[38px] px-3 border border-[#EBEBEB] rounded-lg text-[13px] focus:outline-none focus:border-[#1A1A1A] transition-all" />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-[11px] font-medium text-[#999] uppercase tracking-wider block mb-1.5">Trigger Type</label>
+              <select value={trigger} onChange={(e) => setTrigger(e.target.value)} className="w-full h-[38px] px-3 border border-[#EBEBEB] rounded-lg text-[13px] bg-white focus:outline-none focus:border-[#1A1A1A] transition-all">
+                {["flat", "subject", "volume", "tiered"].map((t) => <option key={t}>{t}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-[11px] font-medium text-[#999] uppercase tracking-wider block mb-1.5">Rate *</label>
+              <input value={rate} onChange={(e) => setRate(e.target.value)} placeholder="e.g. 18% or $5 flat" className="w-full h-[38px] px-3 border border-[#EBEBEB] rounded-lg text-[13px] focus:outline-none focus:border-[#1A1A1A] transition-all" />
+            </div>
+          </div>
+          <div>
+            <label className="text-[11px] font-medium text-[#999] uppercase tracking-wider block mb-1.5">Conditions</label>
+            <input value={conditions} onChange={(e) => setConditions(e.target.value)} placeholder="e.g. Subject = IELTS, Rating ≥ 4.5" className="w-full h-[38px] px-3 border border-[#EBEBEB] rounded-lg text-[13px] focus:outline-none focus:border-[#1A1A1A] transition-all" />
+          </div>
+        </div>
+        <div className="px-7 pb-6 flex justify-end gap-3">
+          <button onClick={onClose} className="px-4 py-2 text-[13px] text-[#777] bg-white border border-[#EBEBEB] rounded-lg hover:bg-[#FAFAFA] cursor-pointer">Cancel</button>
+          <button disabled={!name || !rate} onClick={() => { onSave(name, rate); onClose(); }} className={`px-4 py-2 text-[13px] font-medium rounded-lg border-none cursor-pointer transition-all ${
+            name && rate ? "bg-[#1A1A1A] text-white hover:bg-[#333]" : "bg-[#F0F0F0] text-[#CACACA] cursor-not-allowed"
+          }`}>Create Rule</button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const STATUS_STYLE: Record<string, string> = {
   active: "bg-[#F0F0F0] text-[#1A1A1A]",
@@ -17,6 +74,11 @@ const TRIGGER_STYLE: Record<string, string> = {
 };
 
 function CommissionEngine() {
+  const [rules, setRules] = useState(commissionRules);
+  const [showNewRule, setShowNewRule] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 3000); };
+
   return (
     <div className="flex flex-col gap-6">
       {/* Commission Rules */}
@@ -26,7 +88,7 @@ function CommissionEngine() {
             <Scales size={17} weight="regular" className="text-[#999]" />
             <h3 className="text-[15px] font-medium text-[#1A1A1A]">Commission Rule Builder</h3>
           </div>
-          <button className="px-4 py-2 bg-[#1A1A1A] text-white rounded-full text-[12px] font-medium hover:bg-[#333] transition-all cursor-pointer border-none">
+          <button onClick={() => setShowNewRule(true)} className="px-4 py-2 bg-[#1A1A1A] text-white rounded-full text-[12px] font-medium hover:bg-[#333] transition-all cursor-pointer border-none">
             + New Rule
           </button>
         </div>
@@ -40,7 +102,7 @@ function CommissionEngine() {
               </tr>
             </thead>
             <tbody>
-              {commissionRules.map((r, i) => (
+              {rules.map((r, i) => (
                 <tr key={r.id} className={`hover:bg-[#FAFAFA] transition-colors cursor-pointer ${i > 0 ? "border-t border-[#F8F8F8]" : ""}`}>
                   <td className="py-4 px-4 pl-7">
                     <span className="text-[13px] text-[#1A1A1A]">{r.name}</span>
@@ -117,6 +179,16 @@ function CommissionEngine() {
           ))}
         </div>
       </div>
+      {showNewRule && (
+        <NewRuleModal
+          onClose={() => setShowNewRule(false)}
+          onSave={(name, rate) => {
+            setRules((prev) => [{ id: `rule-${Date.now()}`, name, trigger: "flat" as const, conditions: "All tutors", rate, status: "draft" as const, appliedTo: 0, revenue30d: "$0", createdBy: "admin@homeguru.in", createdAt: new Date().toLocaleDateString() }, ...prev]);
+            showToast(`Rule "${name}" created as draft`);
+          }}
+        />
+      )}
+      {toast && <Toast msg={toast} onClose={() => setToast(null)} />}
     </div>
   );
 }

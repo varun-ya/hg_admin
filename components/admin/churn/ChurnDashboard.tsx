@@ -1,7 +1,18 @@
 "use client";
-import { memo } from "react";
-import { Warning, ChatCircle, Star, WhatsappLogo, Envelope, CaretRight } from "@phosphor-icons/react";
+import { useState, memo } from "react";
+import { Warning, ChatCircle, Star, WhatsappLogo, Envelope, CaretRight, X, CheckCircle } from "@phosphor-icons/react";
 import { atRiskUsers, sentimentFlags } from "./churnMockData";
+import type { AtRiskUser } from "./churnMockData";
+
+function Toast({ msg, onClose }: { msg: string; onClose: () => void }) {
+  return (
+    <div className="fixed bottom-6 right-6 z-[300] flex items-center gap-3 bg-[#1A1A1A] text-white px-4 py-3 rounded-xl shadow-lg animate-fadeIn">
+      <CheckCircle size={14} weight="fill" className="text-[#22C55E] shrink-0" />
+      <span className="text-[13px]">{msg}</span>
+      <button onClick={onClose} className="ml-2 text-white/50 hover:text-white bg-transparent border-none cursor-pointer"><X size={12} weight="bold" /></button>
+    </div>
+  );
+}
 
 const RISK_STYLE: Record<string, { dot: string; bg: string; text: string }> = {
   critical: { dot: "bg-[#EF4444]", bg: "bg-[#FEE2E2]", text: "text-[#DC2626]" },
@@ -11,6 +22,28 @@ const RISK_STYLE: Record<string, { dot: string; bg: string; text: string }> = {
 };
 
 function ChurnDashboard() {
+  const [users, setUsers] = useState(atRiskUsers);
+  const [flags, setFlags] = useState(sentimentFlags);
+  const [toast, setToast] = useState<string | null>(null);
+
+  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 3000); };
+
+  const sendNudge = (u: AtRiskUser) => {
+    setUsers((prev) => prev.map((x) => x.id === u.id ? { ...x, nudgeSent: true } : x));
+    showToast(`${u.nudgeChannel} nudge sent to ${u.name}`);
+  };
+
+  const sendBulkNudge = () => {
+    const unsent = users.filter((u) => !u.nudgeSent);
+    setUsers((prev) => prev.map((u) => ({ ...u, nudgeSent: true })));
+    showToast(`Bulk nudge sent to ${unsent.length} at-risk users`);
+  };
+
+  const resolveFlag = (id: string, name: string) => {
+    setFlags((prev) => prev.map((f) => f.id === id ? { ...f, resolved: true } : f));
+    showToast(`Follow-up initiated for ${name}`);
+  };
+
   return (
     <div className="flex flex-col gap-6">
       {/* At-Risk Users */}
@@ -22,7 +55,7 @@ function ChurnDashboard() {
           </div>
           <div className="flex items-center gap-2">
             <span className="text-[10px] text-[#CACACA]">Threshold: 70%</span>
-            <button className="px-3 py-1.5 bg-white border border-[#EBEBEB] rounded-lg text-[11px] font-medium text-[#666] hover:bg-[#FAFAFA] cursor-pointer">
+            <button onClick={sendBulkNudge} className="px-3 py-1.5 bg-white border border-[#EBEBEB] rounded-lg text-[11px] font-medium text-[#666] hover:bg-[#FAFAFA] cursor-pointer">
               Send Bulk Nudge
             </button>
           </div>
@@ -37,7 +70,7 @@ function ChurnDashboard() {
               </tr>
             </thead>
             <tbody>
-              {atRiskUsers.map((u, i) => {
+              {users.map((u, i) => {
                 const rs = RISK_STYLE[u.riskLevel];
                 return (
                   <tr key={u.id} className={`hover:bg-[#FAFAFA] transition-colors cursor-pointer ${i > 0 ? "border-t border-[#F8F8F8]" : ""}`}>
@@ -82,7 +115,7 @@ function ChurnDashboard() {
                           Sent
                         </span>
                       ) : (
-                        <button className="text-[10px] font-medium text-[#1A1A1A] hover:text-[#E08A3C] bg-transparent border-none cursor-pointer">
+                        <button onClick={(e) => { e.stopPropagation(); sendNudge(u); }} className="text-[10px] font-medium text-[#1A1A1A] hover:text-[#E08A3C] bg-transparent border-none cursor-pointer">
                           Send →
                         </button>
                       )}
@@ -103,9 +136,9 @@ function ChurnDashboard() {
             <ChatCircle size={15} weight="regular" className="text-[#999]" />
             <h3 className="text-[15px] font-medium text-[#1A1A1A]">Sentiment Mining — Flagged Reviews</h3>
           </div>
-          <span className="text-[11px] text-[#ACACAC]">{sentimentFlags.filter((s) => !s.resolved).length} unresolved</span>
+          <span className="text-[11px] text-[#ACACAC]">{flags.filter((s) => !s.resolved).length} unresolved</span>
         </div>
-        {sentimentFlags.map((s, i) => (
+        {flags.map((s, i) => (
           <div key={s.id} className={`px-7 py-4 hover:bg-[#FAFAFA] transition-colors ${i > 0 ? "border-t border-[#F5F5F5]" : "border-t border-[#F5F5F5]"}`}>
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1 min-w-0">
@@ -125,7 +158,7 @@ function ChurnDashboard() {
                 <span className="text-[10px] text-[#CACACA] mt-1 block">{s.flaggedAt}</span>
               </div>
               {!s.resolved && (
-                <button className="text-[11px] font-medium text-[#1A1A1A] hover:text-[#E08A3C] bg-transparent border-none cursor-pointer shrink-0 flex items-center gap-0.5">
+                <button onClick={() => resolveFlag(s.id, s.userName)} className="text-[11px] font-medium text-[#1A1A1A] hover:text-[#E08A3C] bg-transparent border-none cursor-pointer shrink-0 flex items-center gap-0.5">
                   Follow up <CaretRight size={10} weight="bold" />
                 </button>
               )}
@@ -133,6 +166,7 @@ function ChurnDashboard() {
           </div>
         ))}
       </div>
+      {toast && <Toast msg={toast} onClose={() => setToast(null)} />}
     </div>
   );
 }

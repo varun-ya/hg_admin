@@ -18,15 +18,15 @@ export const platformHealth: PlatformHealthStatus = {
 };
 
 export const opsMetrics: OpsMetric[] = [
-  { id: "live-classes", label: "Active Live Classes", value: 342, change: "+18 vs last hour", changeType: "up", icon: "VideoCamera" },
-  { id: "escrow", label: "Escrow Balance Held", value: "$2.4M", change: "+$124K today", changeType: "up", icon: "Vault" },
-  { id: "kyc", label: "Pending KYC Approvals", value: 89, change: "12 urgent", changeType: "neutral", icon: "IdentificationBadge" },
-  { id: "disputes", label: "Unresolved Disputes", value: 23, change: "-4 vs yesterday", changeType: "down", icon: "Scales" },
+  { id: "live-classes", label: "Active Live Classes", value: 342, change: "+18 vs last hour", changeType: "up", icon: "VideoCamera", sparkline: [280, 295, 310, 318, 326, 334, 342] },
+  { id: "escrow", label: "Escrow Balance Held", value: "$2.4M", change: "+$124K today", changeType: "up", icon: "Vault", sparkline: [1.9, 2.0, 2.1, 2.15, 2.25, 2.32, 2.4] },
+  { id: "kyc", label: "Pending KYC Approvals", value: 89, change: "12 urgent", changeType: "neutral", icon: "IdentificationBadge", sparkline: [112, 104, 98, 95, 92, 91, 89] },
+  { id: "disputes", label: "Unresolved Disputes", value: 23, change: "-4 vs yesterday", changeType: "down", icon: "Scales", sparkline: [38, 35, 31, 29, 27, 27, 23] },
 ];
 
 export const aiMediaHealth: AIMediaHealth = {
-  osmiumLLM: { label: "Osmium LLM Tokens", current: 14_200_000, limit: 20_000_000, unit: "tokens" },
-  lmlensAPI: { label: "LMlens Extraction API", current: 8_740, limit: 15_000, unit: "calls" },
+  osmiumLLM: { label: "Osmium LLM Tokens", current: 14_200_000, limit: 20_000_000, unit: "tokens", dailyTrend: [1.6, 1.8, 1.9, 2.1, 2.0, 2.3, 2.5] },
+  lmlensAPI: { label: "LMlens Extraction API", current: 8_740, limit: 15_000, unit: "calls", dailyTrend: [1100, 1250, 1180, 1320, 1280, 1400, 1210] },
   videoMeetStatus: "healthy",
   videoMeetActiveSessions: 342,
 };

@@ -15,6 +15,7 @@ export interface OpsMetric {
   change: string;
   changeType: "up" | "down" | "neutral";
   icon: string;
+  sparkline?: number[];
 }
 
 // ─── AI & Media Health ───
@@ -23,6 +24,7 @@ export interface UsageQuota {
   current: number;
   limit: number;
   unit: string;
+  dailyTrend?: number[];
 }
 
 export interface AIMediaHealth {
