@@ -131,12 +131,12 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
 
   return (
     <aside
-      className={`bg-[#FAFAFA] border-r border-[#EAEAEA] flex flex-col shrink-0 h-screen sticky top-0 overflow-y-auto custom-scrollbar font-matter transition-all duration-[220ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${
+      className={`bg-[#F7F7F8] border-r border-[#EBEBEB] flex flex-col shrink-0 h-screen sticky top-0 overflow-y-auto custom-scrollbar font-matter transition-all duration-[220ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${
         isOpen ? "w-[260px]" : "w-[68px]"
       }`}
     >
       {/* Header / Logo Area */}
-      <div className={`flex items-center shrink-0 sticky top-0 bg-[#FAFAFA] z-10 border-b border-transparent ${
+      <div className={`flex items-center shrink-0 sticky top-0 bg-[#F7F7F8] z-10 border-b border-[#EBEBEB] ${
         isOpen ? "justify-between pl-6 pr-4 pt-[22px] pb-[16px]" : "flex-col items-center pt-[22px] pb-[16px] gap-3"
       }`}>
         {isOpen ? (
@@ -160,7 +160,7 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
         )}
         <button
           onClick={toggleSidebar}
-          className="text-[#999] hover:text-[#111] p-1.5 rounded-full transition-colors flex cursor-pointer border-none bg-transparent hover:bg-[#EAEAEA]"
+          className="text-[#ACACAC] hover:text-[#555] p-1.5 rounded-full transition-colors flex cursor-pointer border-none bg-transparent hover:bg-[#EBEBEB]"
           title="Toggle Sidebar"
         >
           {isOpen ? <CaretLeft size={16} weight="regular" /> : <CaretRight size={16} weight="regular" />}
@@ -176,12 +176,12 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
               {isOpen && (
                 <button
                   onClick={() => toggleGroup(group.label)}
-                  className="w-full flex items-center justify-between px-6 py-1.5 border-none bg-transparent cursor-pointer group"
+                  className="w-full flex items-center justify-between px-4 py-1.5 border-none bg-transparent cursor-pointer group"
                 >
-                  <span className="text-[11px] font-bold text-[#Abaab5] uppercase tracking-[0.05em] group-hover:text-[#5A607F] transition-colors">
+                  <span className="text-[10px] font-semibold text-[#BCBCC4] uppercase tracking-[0.1em] group-hover:text-[#888] transition-colors">
                     {group.label}
                   </span>
-                  <span className={`inline-flex transition-transform duration-200 text-[#Abaab5] ${isExpanded ? "rotate-0" : "-rotate-90"}`}>
+                  <span className={`inline-flex transition-transform duration-200 text-[#BCBCC4] ${isExpanded ? "rotate-0" : "-rotate-90"}`}>
                     <CaretDown size={14} weight="regular" />
                   </span>
                 </button>
@@ -199,19 +199,19 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
                       <li key={itemIdx}>
                         <Link
                           href={item.href}
-                          className={`flex items-center rounded-xl transition-colors duration-150 border-none select-none text-left font-matter mx-4 my-0.5 relative ${
+                          className={`flex items-center rounded-lg transition-all duration-150 select-none text-left font-matter mx-2 my-[2px] relative ${
                             isOpen
-                              ? "gap-3 px-3 py-2.5 min-h-[42px]"
+                              ? "gap-3 px-3 py-2.5 min-h-[40px]"
                               : "gap-0 p-2 mx-2 justify-center min-h-[40px] w-[40px]"
                           } ${
                             isActive
-                              ? "bg-[#EEF2FF] text-[#4F46E5] font-medium"
-                              : "text-[#555] font-normal hover:bg-[#EAEAEA] hover:text-[#111] bg-transparent"
+                              ? "bg-[#EEF2FF] text-[#4F46E5] font-medium border-l-[2px] border-[#4F46E5] pl-[11px]"
+                              : "text-[#666] font-normal hover:bg-[#EBEBEB] hover:text-[#111] bg-transparent border-l-[2px] border-transparent"
                           }`}
                           title={!isOpen ? item.name : ""}
                         >
-                          <span className={`inline-flex shrink-0 ${isActive ? "text-[#4F46E5]" : "text-[#777] group-hover:text-[#333]"}`}>
-                            <Icon size={20} weight="regular" />
+                          <span className={`inline-flex shrink-0 ${isActive ? "text-[#4F46E5]" : "text-[#ACACAC]"}`}>
+                            <Icon size={18} weight="regular" />
                           </span>
                           {isOpen && (
                             <span className="overflow-hidden text-ellipsis whitespace-nowrap flex-1 text-[13px]">
@@ -219,10 +219,10 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
                             </span>
                           )}
                           {isOpen && item.badge && (
-                            <span className={`absolute right-3 pl-1.5 pr-1.5 py-0.5 rounded-full text-[10px] font-bold ${
+                            <span className={`absolute right-3 pl-1.5 pr-1.5 py-0.5 rounded-md text-[10px] font-bold ${
                               item.badgeColor === "red" ? "bg-[#FEE2E2] text-[#DC2626]" :
                               item.badgeColor === "amber" ? "bg-[#FEF3C7] text-[#D97706]" :
-                              "bg-[#F3F4F6] text-[#4B5563]"
+                              "bg-[#F3F4F6] text-[#6B7280]"
                             }`}>
                               {item.badge}
                             </span>
@@ -239,17 +239,18 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
       </nav>
 
       {/* Footer Profile */}
-      <div className={`mt-auto shrink-0 flex items-center gap-3 transition-all ${
-        isOpen ? "px-6 py-6 cursor-pointer hover:bg-[#EAEAEA]" : "justify-center py-6 px-0 flex-col"
+      <div className={`mt-auto shrink-0 border-t border-[#EBEBEB] flex items-center gap-3 transition-all ${
+        isOpen ? "px-4 py-4 cursor-pointer hover:bg-[#EBEBEB]" : "justify-center py-4 px-0 flex-col"
       }`}>
-        <div className="w-9 h-9 rounded-full bg-[#111] text-white flex items-center justify-center shrink-0">
-           <span className="text-[14px] font-medium">N</span>
+        <div className="w-8 h-8 rounded-lg bg-[#111] text-white flex items-center justify-center shrink-0">
+           <span className="text-[13px] font-semibold">N</span>
         </div>
         {isOpen && (
           <div className="flex flex-col min-w-0 flex-1">
-             <span className="text-[14px] font-medium text-[#111] leading-tight transition-colors whitespace-nowrap overflow-hidden text-ellipsis">
+             <span className="text-[13px] font-medium text-[#111] leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
                Admin Portal
              </span>
+             <span className="text-[11px] text-[#999] font-normal">Super Admin</span>
           </div>
         )}
       </div>

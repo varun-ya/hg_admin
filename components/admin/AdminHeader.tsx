@@ -51,10 +51,10 @@ export default memo(function AdminHeader() {
   const unreadCount = adminNotifications.filter((n) => !n.isRead).length;
 
   const NOTIF_ICONS: Record<string, React.ReactNode> = {
-    security: <Warning weight="fill" className="text-[#999]" />,
-    financial: <CheckCircle weight="fill" className="text-[#999]" />,
-    alert: <Warning weight="fill" className="text-[#999]" />,
-    system: <Info weight="fill" className="text-[#CACACA]" />,
+    security: <Warning weight="fill" className="text-[#DC2626]" />,
+    financial: <CheckCircle weight="fill" className="text-[#059669]" />,
+    alert: <Warning weight="fill" className="text-[#D97706]" />,
+    system: <Info weight="fill" className="text-[#6B7280]" />,
   };
 
   const today = new Date();
