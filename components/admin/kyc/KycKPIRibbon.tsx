@@ -18,7 +18,7 @@ const SPARKLINES: number[][] = [
   [82, 80, 79, 78, 80, 79, 78],
 ];
 
-function Sparkline({ data, color = "#1A1A1A" }: { data: number[]; color?: string }) {
+function Sparkline({ data, color = "#1A1A1A", idx = 0 }: { data: number[]; color?: string; idx?: number }) {
   const h = 28, w = 56, pad = 2;
   const min = Math.min(...data), max = Math.max(...data);
   const range = max - min || 1;
@@ -29,7 +29,7 @@ function Sparkline({ data, color = "#1A1A1A" }: { data: number[]; color?: string
     d += ` C ${cpx} ${points[i].y}, ${cpx} ${points[i + 1].y}, ${points[i + 1].x} ${points[i + 1].y}`;
   }
   const area = `${d} L ${points[points.length - 1].x} ${h} L ${points[0].x} ${h} Z`;
-  const gId = `kyc-sp-${color.replace("#", "")}`;
+  const gId = `kyc-sp-${idx}-${color.replace("#", "")}`;
   return (
     <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} className="shrink-0">
       <defs><linearGradient id={gId} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={color} stopOpacity="0.08" /><stop offset="100%" stopColor={color} stopOpacity="0" /></linearGradient></defs>
@@ -65,7 +65,7 @@ function KycKPIRibbon() {
               <p className="text-[26px] font-normal text-[#1A1A1A] tracking-tight leading-none mb-2">{m.value}</p>
               <TrendBadge type={m.changeType} text={m.change} />
             </div>
-            <Sparkline data={SPARKLINES[i]} color={m.isCritical ? "#E08A3C" : "#1A1A1A"} />
+            <Sparkline data={SPARKLINES[i]} color={m.isCritical ? "#E08A3C" : "#1A1A1A"} idx={i} />
           </div>
         </div>
       ))}

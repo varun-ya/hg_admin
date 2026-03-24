@@ -64,7 +64,7 @@ function KycWorkspace({ applicant, onClose }: Props) {
 
   return (
     <>
-      <div className="fixed inset-0 z-[100] bg-[#FAFAFA] flex flex-col font-matter animate-fadeIn">
+      <div className="fixed inset-0 z-[100] bg-white flex flex-col font-matter animate-fadeIn">
         {/* Top bar */}
         <div className="flex items-center justify-between px-8 py-4 bg-white border-b border-[#F0F0F0] shrink-0">
           <div className="flex items-center gap-4">
@@ -84,7 +84,7 @@ function KycWorkspace({ applicant, onClose }: Props) {
         {/* Split panes */}
         <div className="flex-1 flex overflow-hidden">
           {/* ── LEFT PANE: Teacher's Pitch ── */}
-          <div className="w-1/2 border-r border-[#F0F0F0] overflow-y-auto custom-scrollbar p-8 space-y-6">
+          <div className="flex-1 min-w-0 border-r border-[#F0F0F0] overflow-y-auto custom-scrollbar p-8 space-y-6">
             {/* Video */}
             <div>
               <p className="text-[10px] font-medium text-[#CACACA] uppercase tracking-[0.12em] mb-3">Intro Video</p>
@@ -135,7 +135,7 @@ function KycWorkspace({ applicant, onClose }: Props) {
           </div>
 
           {/* ── RIGHT PANE: Document Vault ── */}
-          <div className="w-1/2 overflow-y-auto custom-scrollbar p-8 space-y-6">
+          <div className="flex-1 min-w-0 overflow-y-auto custom-scrollbar p-8 space-y-6">
             {/* Document Viewer */}
             <div>
               <div className="flex items-center justify-between mb-3">
@@ -303,7 +303,7 @@ function ResubModal({ onClose, onSubmit }: { onClose: () => void; onSubmit: () =
               key={r}
               onClick={() => setSelected(r)}
               className={`w-full text-left px-3.5 py-2.5 rounded-lg text-[12px] border-none cursor-pointer transition-colors ${
-                selected === r ? "bg-[#293763]/8 text-[#293763] font-medium" : "bg-transparent text-[#666] hover:bg-[#FAFAFA]"
+                selected === r ? "bg-[#EEF0F7] text-[#293763] font-medium" : "bg-transparent text-[#666] hover:bg-[#FAFAFA]"
               }`}
             >
               {r}

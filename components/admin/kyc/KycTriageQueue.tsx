@@ -80,7 +80,7 @@ function KycTriageQueue({ onBeginReview }: Props) {
     <div className="bg-white rounded-2xl border border-[#F0F0F0] overflow-hidden">
       {/* Toolbar */}
       <div className="px-7 pt-6 pb-5">
-        <div className="flex items-center justify-between mb-1">
+        <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="text-[15px] font-medium text-[#1A1A1A] font-season">Verification Triage Queue</h3>
             <p className="text-[12px] text-[#CACACA] mt-1">{filtered.length} application{filtered.length !== 1 ? "s" : ""}{activeFilterCount > 0 ? " (filtered)" : ""}</p>
