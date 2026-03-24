@@ -328,73 +328,102 @@ function CohortRetention() {
   );
 }
 
-/* ─── 4. Unit Economics + Revenue Trend (Recharts) ─── */
+/* ─── 4. Unit Economics + Revenue Trend ─── */
 function UnitEconomics() {
+  const peakRev = Math.max(...monthlyRevenue.map((m) => m.revenue));
+  const peakMonth = monthlyRevenue.find((m) => m.revenue === peakRev)?.month ?? "";
+  const totalRev = monthlyRevenue.reduce((a, m) => a + m.revenue, 0);
+  const avgCac = Math.round(monthlyRevenue.reduce((a, m) => a + m.cac, 0) / monthlyRevenue.length);
+  const lastRev = monthlyRevenue[monthlyRevenue.length - 1].revenue;
+  const prevRev = monthlyRevenue[monthlyRevenue.length - 2].revenue;
+  const momPct = (((lastRev - prevRev) / prevRev) * 100).toFixed(1);
+
+  const ecoRows = [
+    { label: "CAC", value: `$${unitEconomics.cac}`, sub: "cost to acquire" },
+    { label: "LTV", value: `$${unitEconomics.ltv}`, sub: "lifetime value" },
+    { label: "LTV : CAC", value: `${unitEconomics.ltvCacRatio}×`, sub: "efficiency ratio" },
+    { label: "ARPU — Student", value: `$${unitEconomics.arpuStudent.toFixed(2)}`, sub: "per month" },
+    { label: "ARPU — Teacher", value: `$${unitEconomics.arpuTeacher.toFixed(2)}`, sub: "per month" },
+    { label: "Promo Lift", value: `+${unitEconomics.promoLiftVolume}%`, sub: `-$${(unitEconomics.promoDiscountTotal / 1000).toFixed(0)}K discount` },
+  ];
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <div className="bg-white rounded-2xl border border-[#F0F0F0] p-7 flex flex-col">
-        <h3 className="text-[15px] font-medium text-[#1A1A1A] font-season mb-7">Unit Economics</h3>
-        <div className="flex flex-col gap-5">
-          <div className="flex items-center justify-between">
-            <span className="text-[13px] text-[#888]">CAC</span>
-            <span className="text-[15px] font-normal text-[#1A1A1A]">${unitEconomics.cac}</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-[13px] text-[#888]">LTV</span>
-            <span className="text-[15px] font-normal text-[#1A1A1A]">${unitEconomics.ltv}</span>
-          </div>
-          <div className="flex items-center justify-between pt-4 border-t border-[#F5F5F5]">
-            <span className="text-[13px] text-[#888]">LTV:CAC Ratio</span>
-            <span className="text-[15px] font-normal text-[#1A1A1A]">{unitEconomics.ltvCacRatio}:1</span>
-          </div>
+
+      {/* Unit Economics — table card */}
+      <div className="bg-white rounded-2xl border border-[#F0F0F0] overflow-hidden flex flex-col">
+        <div className="px-7 pt-7 pb-5 border-b border-[#F5F5F5]">
+          <h3 className="text-[15px] font-medium text-[#1A1A1A] font-season">Unit Economics</h3>
+          <p className="text-[12px] text-[#ACACAC] mt-0.5">Per-student acquisition &amp; value</p>
         </div>
-        <div className="mt-auto pt-5 border-t border-[#F5F5F5] flex flex-col gap-3">
-          <div className="flex items-center justify-between">
-            <span className="text-[13px] text-[#888]">ARPU (Student)</span>
-            <span className="text-[13px] text-[#1A1A1A]">${unitEconomics.arpuStudent.toFixed(2)}</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-[13px] text-[#888]">ARPU (Teacher)</span>
-            <span className="text-[13px] text-[#1A1A1A]">${unitEconomics.arpuTeacher.toFixed(2)}</span>
-          </div>
-          <div className="flex items-center justify-between pt-3 border-t border-[#F5F5F5]">
-            <span className="text-[12px] text-[#ACACAC]">Promo Discount</span>
-            <span className="text-[12px] text-[#ACACAC]">-${(unitEconomics.promoDiscountTotal / 1000).toFixed(0)}K → +{unitEconomics.promoLiftVolume}% vol</span>
-          </div>
+        {/* col headers */}
+        <div className="grid grid-cols-2 px-7 py-2.5 bg-[#FAFAFA] border-b border-[#F0F0F0]">
+          <span className="text-[10px] font-medium text-[#ACACAC] uppercase tracking-wider">Metric</span>
+          <span className="text-[10px] font-medium text-[#ACACAC] uppercase tracking-wider text-right">Value</span>
+        </div>
+        <div className="divide-y divide-[#F8F8F8] flex-1">
+          {ecoRows.map((r) => (
+            <div key={r.label} className="grid grid-cols-2 items-center px-7 py-3.5 hover:bg-[#FAFAFA] transition-colors">
+              <div>
+                <p className="text-[13px] font-medium text-[#1A1A1A]">{r.label}</p>
+                <p className="text-[11px] text-[#CACACA] mt-0.5">{r.sub}</p>
+              </div>
+              <p className="text-[15px] font-medium text-[#1A1A1A] text-right tabular-nums">{r.value}</p>
+            </div>
+          ))}
         </div>
       </div>
 
-      <div className="lg:col-span-2 bg-white rounded-2xl border border-[#F0F0F0] p-7 flex flex-col">
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-[15px] font-medium text-[#1A1A1A] font-season">Revenue Trend</h3>
-          <span className="text-[11px] text-[#CACACA]">{monthlyRevenue[0].month} — {monthlyRevenue[monthlyRevenue.length - 1].month}</span>
+      {/* Revenue Trend — chart card */}
+      <div className="lg:col-span-2 bg-white rounded-2xl border border-[#F0F0F0] overflow-hidden flex flex-col">
+        {/* Header */}
+        <div className="flex items-start justify-between px-7 pt-7 pb-5 border-b border-[#F5F5F5]">
+          <div>
+            <h3 className="text-[15px] font-medium text-[#1A1A1A] font-season">Revenue Trend</h3>
+            <p className="text-[12px] text-[#ACACAC] mt-0.5">{monthlyRevenue[0].month} – {monthlyRevenue[monthlyRevenue.length - 1].month} 2025</p>
+          </div>
+          <div className="flex flex-col items-end gap-1">
+            <span className="text-[22px] font-medium text-[#1A1A1A] tracking-tight leading-none">${(lastRev / 1000).toFixed(0)}K</span>
+            <span className="flex items-center gap-1 text-[11px] font-medium text-[#16A34A]">
+              <TrendUp size={11} weight="bold" />+{momPct}% vs last month
+            </span>
+          </div>
         </div>
-        <div className="flex-1" style={{ minHeight: 200 }}>
+        {/* Chart */}
+        <div className="flex-1 px-2 pt-5 pb-2" style={{ minHeight: 240 }}>
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={monthlyRevenue} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
+            <AreaChart data={monthlyRevenue} margin={{ top: 8, right: 16, left: 8, bottom: 0 }}>
               <defs>
                 <linearGradient id="aRevGrad2" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#1A1A1A" stopOpacity={0.06} />
-                  <stop offset="100%" stopColor="#1A1A1A" stopOpacity={0} />
+                  <stop offset="0%" stopColor="#293763" stopOpacity={0.15} />
+                  <stop offset="100%" stopColor="#293763" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#F5F5F5" vertical={false} />
-              <XAxis dataKey="month" tick={{ fontSize: 10, fill: "#CACACA" }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 10, fill: "#CACACA" }} axisLine={false} tickLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}K`} />
+              <XAxis dataKey="month" tick={{ fontSize: 11, fill: "#ACACAC" }} axisLine={false} tickLine={false} dy={6} />
+              <YAxis tick={{ fontSize: 11, fill: "#ACACAC" }} axisLine={false} tickLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}K`} width={48} domain={[150000, "auto"]} />
               <Tooltip content={<ChartTooltip />} />
-              <Area
-                type="monotone"
-                dataKey="revenue"
-                name="Net Revenue"
-                stroke="#1A1A1A"
-                fill="url(#aRevGrad2)"
-                strokeWidth={2}
-                dot={{ r: 3, fill: "#1A1A1A", strokeWidth: 0 }}
-                activeDot={{ r: 5, fill: "#1A1A1A", stroke: "#fff", strokeWidth: 2 }}
+              <Area type="monotone" dataKey="revenue" name="Net Revenue" stroke="#293763" fill="url(#aRevGrad2)" strokeWidth={2.5}
+                dot={{ r: 4, fill: "#293763", strokeWidth: 0 }}
+                activeDot={{ r: 6, fill: "#293763", stroke: "#fff", strokeWidth: 2 }}
                 animationDuration={800}
               />
             </AreaChart>
           </ResponsiveContainer>
+        </div>
+        {/* Footer KPI strip */}
+        <div className="grid grid-cols-3 divide-x divide-[#F0F0F0] border-t border-[#F0F0F0]">
+          {[
+            { label: "Peak Month", value: `$${(peakRev / 1000).toFixed(0)}K`, sub: peakMonth },
+            { label: "9-Month Total", value: `$${(totalRev / 1_000_000).toFixed(2)}M`, sub: "Jul – Mar" },
+            { label: "Avg CAC", value: `$${avgCac}`, sub: "per student" },
+          ].map((k) => (
+            <div key={k.label} className="px-6 py-4 hover:bg-[#FAFAFA] transition-colors">
+              <p className="text-[10px] text-[#ACACAC] uppercase tracking-wider mb-1">{k.label}</p>
+              <p className="text-[18px] font-medium text-[#1A1A1A] leading-none tabular-nums">{k.value}</p>
+              <p className="text-[11px] text-[#CACACA] mt-0.5">{k.sub}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
