@@ -56,7 +56,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         </div>
 
         {/* Content Canvas */}
-        <div className="px-6 md:px-10 lg:px-12 pb-12">
+        <div className="px-6 md:px-10 lg:px-12 pb-10 pt-5">
           <PageTransition>{children}</PageTransition>
         </div>
       </main>
