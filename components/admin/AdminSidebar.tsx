@@ -136,7 +136,7 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
       }`}
     >
       {/* Header / Logo Area */}
-      <div className={`flex items-center shrink-0 sticky top-0 bg-[#F7F7F8] z-10 border-b border-[#EBEBEB] ${
+      <div className={`flex items-center shrink-0 sticky top-0 bg-[#F7F7F8] z-10 border-b border-[#E4E4E7] ${
         isOpen ? "justify-between pl-6 pr-4 pt-[22px] pb-[16px]" : "flex-col items-center pt-[22px] pb-[16px] gap-3"
       }`}>
         {isOpen ? (
