@@ -261,3 +261,5 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
 }
 
 export default memo(AdminSidebar);
+
+// chore: UI cleanup pass 11
