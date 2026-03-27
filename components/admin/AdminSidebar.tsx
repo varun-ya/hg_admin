@@ -37,7 +37,7 @@ import {
   PaperPlaneTilt,
 } from "@phosphor-icons/react";
 
-interface AdminSidebarProps {
+export interface AdminSidebarProps {
   isOpen: boolean;
   setIsOpen: (v: boolean) => void;
 }
@@ -135,9 +135,9 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
         isOpen ? "w-[260px]" : "w-[68px]"
       }`}
     >
-      {/* Header / Logo Area */}
+      {/* Header & Logo Area */}
       <div className={`flex items-center shrink-0 sticky top-0 bg-[#F7F7F8] z-10 border-b border-[#E4E4E7] ${
-        isOpen ? "justify-between pl-6 pr-4 pt-[22px] pb-[16px]" : "flex-col items-center pt-[22px] pb-[16px] gap-3"
+        isOpen ? "justify-between pl-6 pr-4 pt-6 pb-4" : "flex-col items-center pt-6 pb-4 gap-3"
       }`}>
         {isOpen ? (
           <Image
@@ -161,13 +161,13 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
         <button
           onClick={toggleSidebar}
           className="text-[#ACACAC] hover:text-[#555] p-1.5 rounded-md transition-colors flex cursor-pointer border-none bg-transparent hover:bg-[#EBEBEB]"
-          title="Toggle Sidebar"
+          aria-label="Toggle Sidebar"
         >
           {isOpen ? <CaretLeft size={16} weight="regular" /> : <CaretRight size={16} weight="regular" />}
         </button>
       </div>
 
-      {/* Nav */}
+      {/* Primary Navigation */}
       <nav className="flex-1 w-full overflow-y-auto overflow-x-hidden pb-4 custom-scrollbar">
         {navGroups.map((group, index) => {
           const isExpanded = expandedGroups[group.label] !== false;
@@ -238,7 +238,7 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
         })}
       </nav>
 
-      {/* Footer Profile */}
+      {/* User Footer Profile */}
       <div className={`mt-auto shrink-0 border-t border-[#EBEBEB] flex items-center gap-3 transition-all ${
         isOpen ? "px-4 py-4 cursor-pointer hover:bg-[#EBEBEB]" : "justify-center py-4 px-0 flex-col"
       }`}>

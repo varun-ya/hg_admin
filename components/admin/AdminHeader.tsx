@@ -57,12 +57,12 @@ export default memo(function AdminHeader() {
     system: <Info weight="fill" className="text-[#6B7280]" />,
   };
 
-  const today = new Date();
+  // Format current date\n  const today = new Date();
   const dateStr = today.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
 
   return (
     <header className="flex items-center justify-between w-full flex-wrap gap-4 font-matter">
-      {/* Vercel-style Breadcrumb formatted nicely */}
+      {/* Vercel-style Breadcrumb */}
       <div className="flex items-center gap-2.5 text-[14px]">
         <div className="flex items-center gap-2 text-[#888]">
           <span className="hover:text-[#111] cursor-pointer transition-colors px-1 rounded hover:bg-[#EAEAEA]">HomeGuru</span>
@@ -76,7 +76,7 @@ export default memo(function AdminHeader() {
       </div>
 
       <div className="flex items-center gap-3">
-        {/* Search Toggle Styled exactly like screenshot */}
+        {/* Search Toggle Button */}
         <button
           onClick={() => setIsSearchOpen(true)}
           className="h-[38px] flex items-center gap-2 px-3 rounded-lg bg-white border border-[#EAEAEA] hover:bg-[#F9FAFB] hover:border-[#D0D0D0] transition-colors text-[#888] cursor-pointer shadow-sm"
@@ -86,7 +86,7 @@ export default memo(function AdminHeader() {
           <kbd className="hidden lg:inline-flex px-1.5 py-0.5 text-[10px] font-semibold bg-[#F4F4F5] border border-[#E4E4E7] rounded text-[#999] font-sans select-none ml-1">⌘K</kbd>
         </button>
 
-        {/* Notifications Styled exactly like screenshot */}
+        {/* Activity Notifications */}
         <div className="relative" ref={dropdownRef}>
           <button
             aria-label="Notifications"
@@ -102,8 +102,8 @@ export default memo(function AdminHeader() {
           {showNotifications && (
             <div className="absolute right-0 mt-2 w-[340px] bg-white rounded-xl shadow-[0_12px_44px_-12px_rgba(0,0,0,0.12)] border border-[#EAEAEA] z-[100] overflow-hidden">
               <div className="px-5 py-3.5 border-b border-[#F0F0F0] flex items-center justify-between">
-                <h3 className="text-[13px] font-medium text-[#111]">Inbox</h3>
-                <button className="text-[11px] font-medium text-[#888] hover:text-[#111] transition-colors border-none bg-transparent cursor-pointer">
+                <h3 className="text-[14px] font-medium text-[#111]">Inbox</h3>
+                <button className="text-[11px] font-medium text-[#999] hover:text-[#111] transition-colors border-none bg-transparent cursor-pointer">
                   Mark all read
                 </button>
               </div>
@@ -138,13 +138,13 @@ export default memo(function AdminHeader() {
           )}
         </div>
 
-        {/* Date Badge like Screenshot */}
+        {/* Current Date Badge */}
         <div className="hidden lg:flex items-center gap-2 px-3.5 py-1.5 bg-white border border-[#EAEAEA] shadow-sm rounded-lg text-[13px] font-medium text-[#555]">
           <CalendarBlank size={15} weight="regular" className="text-[#4F46E5]" />
           {dateStr}
         </div>
 
-        {/* Avatar Menu like Screenshot */}
+        {/* User Avatar Menu */}
         <button className="w-[42px] h-[42px] rounded-full overflow-hidden border border-[#EAEAEA] hover:opacity-90 transition-opacity cursor-pointer bg-transparent p-0 object-cover shadow-sm">
           <img
              src="https://i.pravatar.cc/150?img=47"
@@ -156,7 +156,7 @@ export default memo(function AdminHeader() {
 
       {/* Search Modal */}
       {isSearchOpen && (
-        <div className={`fixed inset-0 bg-white/60 backdrop-blur-sm z-[200] flex items-start justify-center pt-[10vh] transition-opacity duration-150 ${
+        <div className={`fixed inset-0 bg-[#000000]/20 backdrop-blur-sm z-[200] flex items-start justify-center pt-[10vh] transition-opacity duration-150 ${
           isSearchClosing ? "opacity-0" : "animate-[fadeIn_150ms_ease-out]"
         }`}>
           <div className={`w-full max-w-[600px] bg-white rounded-xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] border border-[#EAEAEA] overflow-hidden mx-4 flex flex-col transition-all duration-150 ${
