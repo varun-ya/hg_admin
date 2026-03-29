@@ -199,3 +199,5 @@ export default memo(function AdminHeader() {
     </header>
   );
 });
+
+// chore: UI cleanup pass 16
