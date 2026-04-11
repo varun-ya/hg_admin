@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo, useCallback, memo } from "react";
+import { useState, useMemo, useCallback, memo, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -35,9 +35,18 @@ import {
   Heartbeat,
   TreeStructure,
   PaperPlaneTilt,
+  ShieldWarning,
+  Browser,
+  SignOut,
+  Coins,
+  Check,
+  Gear,
+  CaretUp,
 } from "@phosphor-icons/react";
+import { useCurrency } from "./context/CurrencyContext";
+import { useAuth } from "./context/AuthContext";
 
-export interface AdminSidebarProps {
+interface AdminSidebarProps {
   isOpen: boolean;
   setIsOpen: (v: boolean) => void;
 }
@@ -51,8 +60,25 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
     "FINANCIAL": true,
     "AI GOVERNANCE": true,
     "ORCHESTRATION": true,
+    "WEBSITE": true,
     "SYSTEM & AUDIT": true,
   });
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showCurrencyPicker, setShowCurrencyPicker] = useState(false);
+  const { currency: activeCurrency, currencies, setCurrencyCode, isLive, lastUpdated } = useCurrency();
+  const { user, logout } = useAuth();
+  const profileRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function close(e: MouseEvent) {
+      if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
+        setShowProfileMenu(false);
+        setShowCurrencyPicker(false);
+      }
+    }
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, []);
 
   const toggleGroup = useCallback((label: string) => {
     setExpandedGroups((p) => ({ ...p, [label]: !p[label] }));
@@ -117,10 +143,17 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
         ],
       },
       {
+        label: "WEBSITE",
+        items: [
+          { name: "CMS Pages", href: "/dashboard/admin/cms", icon: Browser },
+        ],
+      },
+      {
         label: "SYSTEM & AUDIT",
         items: [
           { name: "Audit Logs", href: "/dashboard/admin/audit", icon: ListBullets },
           { name: "Feature Flags", href: "/dashboard/admin/flags", icon: Flag },
+          { name: "Security Center", href: "/dashboard/admin/security", icon: ShieldWarning },
           { name: "Emergency Controls", href: "/dashboard/admin/emergency", icon: Lightning },
           { name: "Overrides", href: "/dashboard/admin/overrides", icon: Wrench },
         ],
@@ -135,9 +168,9 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
         isOpen ? "w-[260px]" : "w-[68px]"
       }`}
     >
-      {/* Header & Logo Area */}
+      {/* Header / Logo Area */}
       <div className={`flex items-center shrink-0 sticky top-0 bg-[#F7F7F8] z-10 border-b border-[#E4E4E7] ${
-        isOpen ? "justify-between pl-6 pr-4 pt-6 pb-4" : "flex-col items-center pt-6 pb-4 gap-3"
+        isOpen ? "justify-between pl-6 pr-4 pt-[22px] pb-[16px]" : "flex-col items-center pt-[22px] pb-[16px] gap-3"
       }`}>
         {isOpen ? (
           <Image
@@ -161,13 +194,13 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
         <button
           onClick={toggleSidebar}
           className="text-[#ACACAC] hover:text-[#555] p-1.5 rounded-md transition-colors flex cursor-pointer border-none bg-transparent hover:bg-[#EBEBEB]"
-          aria-label="Toggle Sidebar"
+          title="Toggle Sidebar"
         >
           {isOpen ? <CaretLeft size={16} weight="regular" /> : <CaretRight size={16} weight="regular" />}
         </button>
       </div>
 
-      {/* Primary Navigation */}
+      {/* Nav */}
       <nav className="flex-1 w-full overflow-y-auto overflow-x-hidden pb-4 custom-scrollbar">
         {navGroups.map((group, index) => {
           const isExpanded = expandedGroups[group.label] !== false;
@@ -205,12 +238,12 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
                               : "gap-0 p-2 mx-2 justify-center min-h-[40px] w-[40px]"
                           } ${
                             isActive
-                              ? "bg-[#EEF2FF] text-[#4F46E5] font-medium border-l-[2px] border-[#4F46E5] pl-[11px]"
+                              ? "bg-[#FFF7ED] text-[#E08A3C] font-medium border-l-[2px] border-[#E08A3C] pl-[11px]"
                               : "text-[#666] font-normal hover:bg-[#EBEBEB] hover:text-[#111] bg-transparent border-l-[2px] border-transparent"
                           }`}
                           title={!isOpen ? item.name : ""}
                         >
-                          <span className={`inline-flex shrink-0 ${isActive ? "text-[#4F46E5]" : "text-[#ACACAC]"}`}>
+                          <span className={`inline-flex shrink-0 ${isActive ? "text-[#E08A3C]" : "text-[#ACACAC]"}`}>
                             <Icon size={18} weight={isActive ? "duotone" : "regular"} />
                           </span>
                           {isOpen && (
@@ -220,8 +253,8 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
                           )}
                           {isOpen && item.badge && (
                             <span className={`absolute right-3 pl-1.5 pr-1.5 py-0.5 rounded-md text-[10px] font-bold ${
-                              item.badgeColor === "red" ? "bg-[#FEE2E2] text-[#DC2626]" :
-                              item.badgeColor === "amber" ? "bg-[#FEF3C7] text-[#D97706]" :
+                              item.badgeColor === "red" ? "bg-[#FFF1E6] text-[#C2571A]" :
+                              item.badgeColor === "amber" ? "bg-[#FFF7ED] text-[#B45309]" :
                               "bg-[#F3F4F6] text-[#6B7280]"
                             }`}>
                               {item.badge}
@@ -238,21 +271,98 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
         })}
       </nav>
 
-      {/* User Footer Profile */}
-      <div className={`mt-auto shrink-0 border-t border-[#EBEBEB] flex items-center gap-3 transition-all ${
-        isOpen ? "px-4 py-4 cursor-pointer hover:bg-[#EBEBEB]" : "justify-center py-4 px-0 flex-col"
-      }`}>
-        <div className="w-8 h-8 rounded-xl bg-[#111] text-white flex items-center justify-center shrink-0 ring-2 ring-[#E4E4E7]">
-           <span className="text-[13px] font-semibold">N</span>
+      {/* Footer Profile */}
+      <div className="mt-auto shrink-0 border-t border-[#EBEBEB] relative" ref={profileRef}>
+        <div
+          onClick={() => { if (isOpen) setShowProfileMenu((p) => !p); }}
+          className={`flex items-center gap-3 transition-all ${
+            isOpen ? "px-4 py-4 cursor-pointer hover:bg-[#EBEBEB]" : "justify-center py-4 px-0 flex-col"
+          }`}
+        >
+          <img
+            src={user?.avatar || "https://api.dicebear.com/9.x/glass/svg?seed=admin@homeguruworld.com"}
+            alt="Admin"
+            className="w-8 h-8 rounded-xl shrink-0 ring-2 ring-[#E4E4E7] object-cover"
+          />
+          {isOpen && (
+            <>
+              <div className="flex flex-col min-w-0 flex-1">
+                <span className="text-[13px] font-medium text-[#111] leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
+                  {user?.name || "Admin Portal"}
+                </span>
+                <span className="text-[11px] text-[#999] font-normal flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E08A3C] shrink-0" />{user?.role === "super_admin" ? "Super Admin" : user?.role === "finance" ? "Finance" : "Admin"}
+                </span>
+              </div>
+              <CaretUp size={12} className={`text-[#CACACA] transition-transform duration-200 shrink-0 ${showProfileMenu ? "rotate-0" : "rotate-180"}`} />
+            </>
+          )}
         </div>
-        {isOpen && (
-          <div className="flex flex-col min-w-0 flex-1">
-             <span className="text-[13px] font-medium text-[#111] leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
-               Admin Portal
-             </span>
-             <span className="text-[11px] text-[#999] font-normal flex items-center gap-1.5">
-               <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] shrink-0" />Super Admin
-             </span>
+
+        {/* Profile dropdown */}
+        {showProfileMenu && isOpen && (
+          <div className="absolute bottom-full left-2 right-2 mb-1.5 bg-white rounded-xl shadow-[0_-8px_40px_-12px_rgba(0,0,0,0.12)] border border-[#EAEAEA] z-50 overflow-hidden animate-contextIn">
+            {/* User info */}
+            <div className="px-4 py-3.5 border-b border-[#F5F5F5]">
+              <p className="text-[13px] font-medium text-[#111]">{user?.name || "Admin"}</p>
+              <p className="text-[11px] text-[#ACACAC] mt-0.5">{user?.email || "admin@homeguruworld.com"}</p>
+            </div>
+
+            {/* Currency selector */}
+            <div className="px-1.5 py-1.5 border-b border-[#F5F5F5]">
+              <button
+                onClick={(e) => { e.stopPropagation(); setShowCurrencyPicker((p) => !p); }}
+                className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#FAFAFA] transition-colors cursor-pointer border-none bg-transparent text-left"
+              >
+                <div className="flex items-center gap-2.5">
+                  <Coins size={14} className="text-[#ACACAC]" />
+                  <div>
+                    <p className="text-[12px] text-[#1A1A1A]">Currency</p>
+                    <p className="text-[10px] text-[#CACACA]">{activeCurrency.symbol} {activeCurrency.code} · {activeCurrency.rate !== 1 ? `1 USD = ${activeCurrency.rate.toFixed(2)}` : "Base"}</p>
+                  </div>
+                </div>
+                <CaretRight size={10} className={`text-[#DCDCDC] transition-transform duration-150 ${showCurrencyPicker ? "rotate-90" : ""}`} />
+              </button>
+
+              {showCurrencyPicker && (
+                <div className="mt-1 mx-1 mb-1 bg-[#FAFAFA] rounded-lg border border-[#F0F0F0] overflow-hidden">
+                  {isLive && lastUpdated && (
+                    <div className="px-3 py-1.5 border-b border-[#F0F0F0] flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#E08A3C] animate-pulse shrink-0" />
+                      <span className="text-[9px] text-[#ACACAC]">Live rates · {lastUpdated}</span>
+                    </div>
+                  )}
+                  {currencies.map((c) => (
+                    <button
+                      key={c.code}
+                      onClick={(e) => { e.stopPropagation(); setCurrencyCode(c.code); setShowCurrencyPicker(false); }}
+                      className={`w-full flex items-center justify-between px-3 py-2 text-left transition-colors cursor-pointer border-none ${
+                        activeCurrency.code === c.code ? "bg-[#FFF7ED]" : "bg-transparent hover:bg-white"
+                      }`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <span className="text-[12px] font-mono text-[#999] w-5">{c.symbol}</span>
+                        <span className={`text-[12px] ${activeCurrency.code === c.code ? "text-[#E08A3C] font-medium" : "text-[#555]"}`}>{c.code}</span>
+                        {c.code !== "USD" && <span className="text-[9px] font-mono text-[#DCDCDC]">{c.rate.toFixed(2)}</span>}
+                      </span>
+                      {activeCurrency.code === c.code && <Check size={12} weight="bold" className="text-[#E08A3C]" />}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Menu items */}
+            <div className="px-1.5 py-1.5">
+              <button className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-[#FAFAFA] transition-colors cursor-pointer border-none bg-transparent text-left">
+                <Gear size={14} className="text-[#ACACAC]" />
+                <span className="text-[12px] text-[#1A1A1A]">Account Settings</span>
+              </button>
+              <button onClick={logout} className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-[#FFF8F3] transition-colors cursor-pointer border-none bg-transparent text-left">
+                <SignOut size={14} className="text-[#C2571A]" />
+                <span className="text-[12px] text-[#C2571A]">Log Out</span>
+              </button>
+            </div>
           </div>
         )}
       </div>
@@ -261,13 +371,3 @@ function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
 }
 
 export default memo(AdminSidebar);
-
-// chore: UI cleanup pass 11
-
-// chore: UI cleanup pass 12
-
-// chore: UI cleanup pass 13
-
-// chore: UI cleanup pass 14
-
-// chore: UI cleanup pass 15

@@ -24,15 +24,15 @@ export const tenants: Tenant[] = [
 ];
 
 export const bulkInvites: BulkInvite[] = [
-  { id: "BI-001", tenantId: "TN-002", tenantName: "Infosys Learning Academy", method: "csv", totalUsers: 200, successCount: 198, failedCount: 2, status: "completed", initiatedBy: "admin@homeguru.in", initiatedAt: "Today, 09:30 AM" },
-  { id: "BI-002", tenantId: "TN-004", tenantName: "Ryan International Group", method: "csv", totalUsers: 150, successCount: 142, failedCount: 8, status: "completed", initiatedBy: "riya@homeguru.in", initiatedAt: "Yesterday, 03:15 PM" },
+  { id: "BI-001", tenantId: "TN-002", tenantName: "Infosys Learning Academy", method: "csv", totalUsers: 200, successCount: 198, failedCount: 2, status: "completed", initiatedBy: "admin@homeguruworld.com", initiatedAt: "Today, 09:30 AM" },
+  { id: "BI-002", tenantId: "TN-004", tenantName: "Ryan International Group", method: "csv", totalUsers: 150, successCount: 142, failedCount: 8, status: "completed", initiatedBy: "riya@homeguruworld.com", initiatedAt: "Yesterday, 03:15 PM" },
   { id: "BI-003", tenantId: "TN-001", tenantName: "Delhi Public School", method: "scim", totalUsers: 50, successCount: 50, failedCount: 0, status: "completed", initiatedBy: "system@scim", initiatedAt: "Yesterday, 12:00 AM" },
 ];
 
 export const creditAllocations: CreditAllocation[] = [
-  { id: "CA-001", tenantId: "TN-002", tenantName: "Infosys Learning Academy", department: "Engineering", totalCredits: 20000, usedCredits: 14200, allocatedBy: "admin@homeguru.in", allocatedAt: "Mar 1, 2024" },
-  { id: "CA-002", tenantId: "TN-002", tenantName: "Infosys Learning Academy", department: "Design", totalCredits: 10000, usedCredits: 6800, allocatedBy: "admin@homeguru.in", allocatedAt: "Mar 1, 2024" },
-  { id: "CA-003", tenantId: "TN-001", tenantName: "Delhi Public School", department: "Grade 10", totalCredits: 12000, usedCredits: 9400, allocatedBy: "riya@homeguru.in", allocatedAt: "Jan 20, 2024" },
-  { id: "CA-004", tenantId: "TN-001", tenantName: "Delhi Public School", department: "Grade 12", totalCredits: 13000, usedCredits: 8800, allocatedBy: "riya@homeguru.in", allocatedAt: "Jan 20, 2024" },
-  { id: "CA-005", tenantId: "TN-005", tenantName: "Wipro Talent Next", department: "Cloud Division", totalCredits: 15000, usedCredits: 11200, allocatedBy: "karan@homeguru.in", allocatedAt: "Feb 15, 2024" },
+  { id: "CA-001", tenantId: "TN-002", tenantName: "Infosys Learning Academy", department: "Engineering", totalCredits: 20000, usedCredits: 14200, allocatedBy: "admin@homeguruworld.com", allocatedAt: "Mar 1, 2024" },
+  { id: "CA-002", tenantId: "TN-002", tenantName: "Infosys Learning Academy", department: "Design", totalCredits: 10000, usedCredits: 6800, allocatedBy: "admin@homeguruworld.com", allocatedAt: "Mar 1, 2024" },
+  { id: "CA-003", tenantId: "TN-001", tenantName: "Delhi Public School", department: "Grade 10", totalCredits: 12000, usedCredits: 9400, allocatedBy: "riya@homeguruworld.com", allocatedAt: "Jan 20, 2024" },
+  { id: "CA-004", tenantId: "TN-001", tenantName: "Delhi Public School", department: "Grade 12", totalCredits: 13000, usedCredits: 8800, allocatedBy: "riya@homeguruworld.com", allocatedAt: "Jan 20, 2024" },
+  { id: "CA-005", tenantId: "TN-005", tenantName: "Wipro Talent Next", department: "Cloud Division", totalCredits: 15000, usedCredits: 11200, allocatedBy: "karan@homeguruworld.com", allocatedAt: "Feb 15, 2024" },
 ];

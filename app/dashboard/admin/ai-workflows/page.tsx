@@ -6,10 +6,10 @@ import WorkflowPipelines from "@/components/admin/ai/WorkflowPipelines";
 import { workflowKPIs, workflowSparklines } from "@/components/admin/ai/aiMockData";
 
 const ICONS = [
-  <GitBranch size={20} weight="regular" className="text-[#8B5CF6]" />,
+  <GitBranch size={20} weight="regular" className="text-[#293763]" />,
   <Lightning size={20} weight="regular" className="text-[#999]" />,
   <Timer size={20} weight="regular" className="text-[#999]" />,
-  <Warning size={20} weight="regular" className="text-[#E11D48]" />,
+  <Warning size={20} weight="regular" className="text-[#C2571A]" />,
 ];
 
 export default function AIWorkflowsPage() {

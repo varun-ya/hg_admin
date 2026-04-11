@@ -12,7 +12,7 @@ const PAGE_SIZE = 8;
 const STATUS_STYLE: Record<DisputeStatus, string> = {
   open: "bg-[#F0F0F0] text-[#1A1A1A]",
   resolved: "bg-[#F5F5F5] text-[#999]",
-  escalated: "bg-[#FEF2F2] text-[#DC2626]",
+  escalated: "bg-[#FFF1E6] text-[#C2571A]",
 };
 
 interface Props { onSelectDispute: (d: Dispute) => void }
@@ -112,8 +112,8 @@ function DisputeTable({ onSelectDispute }: Props) {
                   <td className="py-4 px-3"><span className={`inline-flex px-2.5 py-[3px] rounded-full text-[10.5px] font-medium capitalize ${STATUS_STYLE[d.status]}`}>{d.status}</span></td>
                   <td className="py-4 px-3">
                     <div className="flex items-center gap-2">
-                      <span className={`text-[13px] font-normal tabular-nums ${isOverdue ? "text-[#DC2626]" : "text-[#1A1A1A]"}`}>{d.ticketAge}</span>
-                      {isOverdue && <span className="text-[9px] font-medium text-[#DC2626] bg-[#FEF2F2] px-1.5 py-[1px] rounded-full">SLA</span>}
+                      <span className={`text-[13px] font-normal tabular-nums ${isOverdue ? "text-[#C2571A]" : "text-[#1A1A1A]"}`}>{d.ticketAge}</span>
+                      {isOverdue && <span className="text-[9px] font-medium text-[#C2571A] bg-[#FFF1E6] px-1.5 py-[1px] rounded-full">SLA</span>}
                     </div>
                   </td>
                   <td className="py-4 pr-7 pl-3 text-right relative">

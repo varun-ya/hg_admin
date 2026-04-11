@@ -45,7 +45,7 @@ function EthicsControls() {
       <div className="bg-white rounded-2xl border border-[#F0F0F0] overflow-hidden">
         <div className="px-7 pt-6 pb-5">
           <div className="flex items-center gap-2">
-            <ShieldCheck size={16} className="text-[#8B5CF6]" />
+            <ShieldCheck size={16} className="text-[#293763]" />
             <h3 className="text-[15px] font-medium text-[#1A1A1A] font-season">Human-in-the-Loop Safeguards</h3>
           </div>
           <p className="text-[12px] text-[#CACACA] mt-1">Controls that enforce human oversight on AI decisions</p>
@@ -65,7 +65,7 @@ function EthicsControls() {
                         <p className="text-[13px] text-[#1A1A1A]">{s.label}</p>
                         {s.locked && (
                           <div className="group relative">
-                            <Lock size={12} className="text-[#E11D48] cursor-help" />
+                            <Lock size={12} className="text-[#C2571A] cursor-help" />
                             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-[260px] bg-[#1A1A1A] text-white text-[11px] px-3 py-2 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all pointer-events-none z-10">
                               {s.lockReason}
                               <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-r-[5px] border-t-[5px] border-transparent border-t-[#1A1A1A]" />
@@ -80,7 +80,7 @@ function EthicsControls() {
                       disabled={s.locked}
                       className={`relative w-11 h-6 rounded-full transition-all shrink-0 mt-0.5 border-none cursor-pointer ${
                         s.locked ? "cursor-not-allowed" : ""
-                      } ${s.enabled ? "bg-[#10B981]" : "bg-[#DCDCDC]"}`}
+                      } ${s.enabled ? "bg-[#E08A3C]" : "bg-[#DCDCDC]"}`}
                     >
                       <span className={`absolute top-[2px] w-5 h-5 rounded-full bg-white shadow-sm transition-all ${
                         s.enabled ? "left-[22px]" : "left-[2px]"
@@ -98,7 +98,7 @@ function EthicsControls() {
       <div className="bg-white rounded-2xl border border-[#F0F0F0] overflow-hidden">
         <div className="px-7 pt-6 pb-5">
           <div className="flex items-center gap-2">
-            <Globe size={16} className="text-[#06B6D4]" />
+            <Globe size={16} className="text-[#3D4D7A]" />
             <h3 className="text-[15px] font-medium text-[#1A1A1A] font-season">Regional Scoping Matrix</h3>
           </div>
           <p className="text-[12px] text-[#CACACA] mt-1">Disable Osmium features per region for regulatory compliance</p>
@@ -162,7 +162,7 @@ function EthicsControls() {
             </div>
             <button
               onClick={() => setAuditPromptLogging(!auditPromptLogging)}
-              className={`relative w-11 h-6 rounded-full transition-all shrink-0 mt-0.5 border-none cursor-pointer ${auditPromptLogging ? "bg-[#10B981]" : "bg-[#DCDCDC]"}`}
+              className={`relative w-11 h-6 rounded-full transition-all shrink-0 mt-0.5 border-none cursor-pointer ${auditPromptLogging ? "bg-[#E08A3C]" : "bg-[#DCDCDC]"}`}
             >
               <span className={`absolute top-[2px] w-5 h-5 rounded-full bg-white shadow-sm transition-all ${auditPromptLogging ? "left-[22px]" : "left-[2px]"}`} />
             </button>
@@ -201,8 +201,8 @@ function MatrixToggle({ enabled, onClick }: { enabled: boolean; onClick: () => v
       onClick={onClick}
       className={`w-7 h-7 rounded-lg border flex items-center justify-center cursor-pointer transition-all mx-auto ${
         enabled
-          ? "bg-[#ECFDF5] border-[#10B981]/20 text-[#10B981]"
-          : "bg-[#FEF2F2] border-[#E11D48]/10 text-[#E11D48]"
+          ? "bg-[#FFF7ED] border-[#E08A3C]/20 text-[#E08A3C]"
+          : "bg-[#FFF1E6] border-[#C2571A]/10 text-[#C2571A]"
       }`}
     >
       {enabled ? <Check size={12} weight="bold" /> : <XIcon size={12} weight="bold" />}

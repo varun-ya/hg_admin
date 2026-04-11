@@ -7,7 +7,7 @@ import { churnKPIs, churnSparklines } from "@/components/admin/churn/churnMockDa
 const ICONS = [
   <Warning size={20} weight="regular" className="text-[#E08A3C]" />,
   <Heartbeat size={20} weight="regular" className="text-[#999]" />,
-  <WhatsappLogo size={20} weight="regular" className="text-[#22C55E]" />,
+  <WhatsappLogo size={20} weight="regular" className="text-[#E08A3C]" />,
   <ArrowUUpLeft size={20} weight="regular" className="text-[#999]" />,
 ];
 

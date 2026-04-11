@@ -8,14 +8,14 @@ import type { ApiKey, ApiKeyDetail, KeyStatus } from "./aiTypes";
 import ConfirmModal from "@/components/admin/ConfirmModal";
 
 const STATUS_STYLE: Record<KeyStatus, string> = {
-  active: "bg-[#ECFDF5] text-[#10B981]",
-  revoked: "bg-[#FEF2F2] text-[#E11D48]",
-  rate_limited: "bg-[#FEF3C7] text-[#F59E0B]",
+  active: "bg-[#FFF7ED] text-[#E08A3C]",
+  revoked: "bg-[#FFF1E6] text-[#C2571A]",
+  rate_limited: "bg-[#FFF7ED] text-[#D4956A]",
 };
 
 const ENGINE_BADGE: Record<string, string> = {
-  osmium_llm: "bg-[#F3F0FF] text-[#8B5CF6]",
-  lmlens: "bg-[#ECFEFF] text-[#06B6D4]",
+  osmium_llm: "bg-[#F3F0FF] text-[#293763]",
+  lmlens: "bg-[#ECFEFF] text-[#3D4D7A]",
   videomeet: "bg-[#F0F0F0] text-[#1A1A1A]",
 };
 
@@ -92,7 +92,7 @@ function KeyDrawer({ apiKey, onClose }: Props) {
               </div>
               <div className="bg-[#FAFAFA] rounded-xl border border-[#F0F0F0] p-4">
                 <p className="text-[11px] text-[#ACACAC] mb-1">Utilization</p>
-                <p className={`text-[17px] font-normal tabular-nums tracking-tight ${apiKey.usagePercent >= 90 ? "text-[#E11D48]" : apiKey.usagePercent >= 75 ? "text-[#F59E0B]" : "text-[#10B981]"}`}>{apiKey.usagePercent}%</p>
+                <p className={`text-[17px] font-normal tabular-nums tracking-tight ${apiKey.usagePercent >= 90 ? "text-[#C2571A]" : apiKey.usagePercent >= 75 ? "text-[#D4956A]" : "text-[#E08A3C]"}`}>{apiKey.usagePercent}%</p>
               </div>
             </div>
 
@@ -106,10 +106,10 @@ function KeyDrawer({ apiKey, onClose }: Props) {
                     style={{
                       width: `${apiKey.usagePercent}%`,
                       background: apiKey.usagePercent >= 90
-                        ? "linear-gradient(90deg, #E11D48, #F43F5E)"
+                        ? "linear-gradient(90deg, #C2571A, #F43F5E)"
                         : apiKey.usagePercent >= 75
-                        ? "linear-gradient(90deg, #F59E0B, #FBBF24)"
-                        : "linear-gradient(90deg, #8B5CF6, #A78BFA)",
+                        ? "linear-gradient(90deg, #D4956A, #FBBF24)"
+                        : "linear-gradient(90deg, #293763, #A78BFA)",
                     }}
                   />
                 </div>
@@ -161,11 +161,11 @@ function KeyDrawer({ apiKey, onClose }: Props) {
                   step={quotaStep}
                   value={quotaValue}
                   onChange={(e) => setQuotaValue(Number(e.target.value))}
-                  className="w-full h-1.5 bg-[#F0F0F0] rounded-full appearance-none cursor-pointer accent-[#8B5CF6]"
+                  className="w-full h-1.5 bg-[#F0F0F0] rounded-full appearance-none cursor-pointer accent-[#293763]"
                 />
                 <div className="flex items-center justify-between mt-2">
                   <span className="text-[11px] text-[#ACACAC]">0</span>
-                  <span className="text-[13px] font-medium text-[#8B5CF6] tabular-nums">{formatTokens(quotaValue)}</span>
+                  <span className="text-[13px] font-medium text-[#293763] tabular-nums">{formatTokens(quotaValue)}</span>
                   <span className="text-[11px] text-[#ACACAC]">{formatTokens(maxQuota)}</span>
                 </div>
               </div>
@@ -182,7 +182,7 @@ function KeyDrawer({ apiKey, onClose }: Props) {
               <button
                 onClick={() => setRevokeModal(true)}
                 disabled={apiKey.status === "revoked"}
-                className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] font-medium text-[#E11D48] bg-transparent border border-[#F0F0F0] rounded-lg hover:bg-[#FEF2F2] hover:border-[#E11D48]/20 transition-all cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] font-medium text-[#C2571A] bg-transparent border border-[#F0F0F0] rounded-lg hover:bg-[#FFF1E6] hover:border-[#C2571A]/20 transition-all cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <Prohibit size={13} /> Revoke
               </button>

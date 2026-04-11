@@ -12,16 +12,16 @@ const CHANNEL_ICON: Record<BroadcastChannel, React.ReactNode> = {
 };
 
 const CATEGORY_STYLE: Record<string, string> = {
-  emergency: "bg-[#FEE2E2] text-[#DC2626]",
-  marketing: "bg-[#EEF2FF] text-[#4F46E5]",
+  emergency: "bg-[#FFF1E6] text-[#C2571A]",
+  marketing: "bg-[#FFF7ED] text-[#E08A3C]",
   transactional: "bg-[#F0F0F0] text-[#1A1A1A]",
-  system: "bg-[#FEF3C7] text-[#92400E]",
+  system: "bg-[#FFF7ED] text-[#9A3412]",
 };
 
 function Toast({ msg, onClose }: { msg: string; onClose: () => void }) {
   return (
     <div className="fixed bottom-6 right-6 z-[300] flex items-center gap-3 bg-[#1A1A1A] text-white px-4 py-3 rounded-xl shadow-lg animate-fadeIn">
-      <CheckCircle size={14} weight="fill" className="text-[#22C55E] shrink-0" />
+      <CheckCircle size={14} weight="fill" className="text-[#E08A3C] shrink-0" />
       <span className="text-[13px]">{msg}</span>
       <button onClick={onClose} className="ml-2 text-white/50 hover:text-white bg-transparent border-none cursor-pointer"><X size={12} weight="bold" /></button>
     </div>
@@ -164,7 +164,7 @@ function BroadcastHub() {
                 <tr key={t.id} className={`hover:bg-[#FAFAFA] transition-colors cursor-pointer ${i > 0 ? "border-t border-[#F8F8F8]" : ""}`}>
                   <td className="py-4 px-4 pl-7">
                     <div className="flex items-center gap-2">
-                      {t.category === "emergency" && <Warning size={12} className="text-[#DC2626]" />}
+                      {t.category === "emergency" && <Warning size={12} className="text-[#C2571A]" />}
                       <span className="text-[13px] text-[#1A1A1A]">{t.name}</span>
                     </div>
                   </td>
@@ -227,7 +227,7 @@ function BroadcastHub() {
                   </td>
                   <td className="py-4 px-4">
                     <span className="flex items-center gap-1.5 text-[11px] text-[#666]">
-                      <span className={`w-[5px] h-[5px] rounded-full ${b.status === "sent" ? "bg-[#22C55E]" : b.status === "failed" ? "bg-[#EF4444]" : "bg-[#F59E0B]"}`} />
+                      <span className={`w-[5px] h-[5px] rounded-full ${b.status === "sent" ? "bg-[#E08A3C]" : b.status === "failed" ? "bg-[#C2571A]" : "bg-[#D4956A]"}`} />
                       {b.status}
                     </span>
                   </td>
@@ -243,7 +243,7 @@ function BroadcastHub() {
         <NewTemplateModal
           onClose={() => setShowNewTemplate(false)}
           onSave={(name) => {
-            setTemplates((prev) => [{ id: `tpl-${Date.now()}`, name, category: "transactional", channels: ["email"], mergeFields: ["{{first_name}}"], lastUsed: null, createdBy: "admin@homeguru.in" }, ...prev]);
+            setTemplates((prev) => [{ id: `tpl-${Date.now()}`, name, category: "transactional", channels: ["email"], mergeFields: ["{{first_name}}"], lastUsed: null, createdBy: "admin@homeguruworld.com" }, ...prev]);
             showToast(`Template "${name}" created`);
           }}
         />

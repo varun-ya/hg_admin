@@ -40,7 +40,7 @@ function EmergencyKillSwitches() {
               key={sw.id}
               className={`rounded-2xl border-2 p-6 transition-all duration-300 ${
                 sw.active
-                  ? "border-[#E11D48] bg-[#FEF2F2]"
+                  ? "border-[#C2571A] bg-[#FFF1E6]"
                   : "border-[#F0F0F0] bg-white hover:border-[#DCDCDC]"
               }`}
             >
@@ -48,21 +48,21 @@ function EmergencyKillSwitches() {
               {sw.active && (
                 <div className="flex items-center gap-2 mb-4">
                   <span className="relative flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E11D48] opacity-50" />
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#E11D48]" />
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C2571A] opacity-50" />
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#C2571A]" />
                   </span>
-                  <span className="text-[11px] font-medium text-[#E11D48] uppercase tracking-[0.08em]">Active</span>
+                  <span className="text-[11px] font-medium text-[#C2571A] uppercase tracking-[0.08em]">Active</span>
                 </div>
               )}
 
               <div className="flex items-start gap-4">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-                  sw.active ? "bg-[#E11D48]/10 text-[#E11D48]" : "bg-[#F7F7F7] text-[#999]"
+                  sw.active ? "bg-[#C2571A]/10 text-[#C2571A]" : "bg-[#F7F7F7] text-[#999]"
                 }`}>
                   {SWITCH_ICONS[i]}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className={`text-[14px] font-medium ${sw.active ? "text-[#E11D48]" : "text-[#1A1A1A]"}`}>{sw.name}</h4>
+                  <h4 className={`text-[14px] font-medium ${sw.active ? "text-[#C2571A]" : "text-[#1A1A1A]"}`}>{sw.name}</h4>
                   <p className="text-[12px] text-[#999] mt-1 leading-relaxed">{sw.description}</p>
                 </div>
               </div>
@@ -88,7 +88,7 @@ function EmergencyKillSwitches() {
                   className={`flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-[12px] font-medium transition-all cursor-pointer active:scale-95 ${
                     sw.active
                       ? "bg-white border border-[#F0F0F0] text-[#1A1A1A] hover:border-[#DCDCDC]"
-                      : "bg-[#FEF2F2] border border-[#E11D48]/10 text-[#E11D48] hover:bg-[#FEE2E2]"
+                      : "bg-[#FFF1E6] border border-[#C2571A]/10 text-[#C2571A] hover:bg-[#FFF1E6]"
                   }`}
                 >
                   <Warning size={13} weight="fill" />

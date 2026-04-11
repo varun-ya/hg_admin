@@ -6,10 +6,10 @@ import EthicsControls from "@/components/admin/ai/EthicsControls";
 import { ethicsKPIs, ethicsSparklines } from "@/components/admin/ai/aiMockData";
 
 const ICONS = [
-  <ShieldCheck size={20} weight="regular" className="text-[#8B5CF6]" />,
-  <Prohibit size={20} weight="regular" className="text-[#10B981]" />,
+  <ShieldCheck size={20} weight="regular" className="text-[#293763]" />,
+  <Prohibit size={20} weight="regular" className="text-[#E08A3C]" />,
   <ListBullets size={20} weight="regular" className="text-[#999]" />,
-  <Globe size={20} weight="regular" className="text-[#06B6D4]" />,
+  <Globe size={20} weight="regular" className="text-[#3D4D7A]" />,
 ];
 
 export default function AIEthicsPage() {

@@ -284,7 +284,7 @@ function TeacherDrawer({ teacher, onClose }: Props) {
       </div>
       {toast && (
         <div className="fixed bottom-6 right-6 z-[300] flex items-center gap-3 bg-[#1A1A1A] text-white px-4 py-3 rounded-xl shadow-lg animate-fadeIn">
-          <CheckCircle size={14} weight="fill" className="text-[#22C55E] shrink-0" />
+          <CheckCircle size={14} weight="fill" className="text-[#E08A3C] shrink-0" />
           <span className="text-[13px]">{toast}</span>
           <button onClick={() => setToast(null)} className="ml-2 text-white/50 hover:text-white bg-transparent border-none cursor-pointer"><X size={12} weight="bold" /></button>
         </div>

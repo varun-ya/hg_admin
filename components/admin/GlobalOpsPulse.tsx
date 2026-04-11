@@ -2,9 +2,10 @@
 import { memo } from "react";
 import Link from "next/link";
 import { VideoCamera, Vault, IdentificationBadge, Scales, TrendUp, TrendDown, Minus } from "@phosphor-icons/react";
-import { AreaChart, Area, ResponsiveContainer } from "recharts";
+import { AreaChart, Area, ResponsiveContainer, Tooltip } from "recharts";
 import { opsMetrics } from "./mockData";
 import type { OpsMetric } from "./types";
+import { useCurrency } from "./context/CurrencyContext";
 
 const ICON_MAP: Record<string, React.ReactNode> = {
   VideoCamera: <VideoCamera size={20} weight="regular" className="text-[#999]" />,
@@ -21,9 +22,9 @@ const HREF_MAP: Record<string, string> = {
 };
 
 const SPARK_COLOR: Record<string, string> = {
-  up: "#22C55E",
-  down: "#22C55E",
-  neutral: "#F59E0B",
+  up: "#E08A3C",
+  down: "#293763",
+  neutral: "#D4956A",
 };
 
 function TrendBadge({ type, text }: { type: OpsMetric["changeType"]; text: string }) {
@@ -51,6 +52,17 @@ function MiniSparkline({ data, color }: { data: number[]; color: string }) {
               <stop offset="100%" stopColor={color} stopOpacity={0} />
             </linearGradient>
           </defs>
+          <Tooltip
+            content={({ active, payload }) => {
+              if (!active || !payload?.length) return null;
+              return (
+                <div className="bg-white rounded-lg border border-[#F0F0F0] shadow-[0_6px_20px_-6px_rgba(0,0,0,0.12)] px-3 py-2 font-matter">
+                  <span className="text-[12px] font-medium text-[#1A1A1A] tabular-nums">{payload[0].value}</span>
+                </div>
+              );
+            }}
+            cursor={false}
+          />
           <Area
             type="monotone"
             dataKey="v"
@@ -67,10 +79,18 @@ function MiniSparkline({ data, color }: { data: number[]; color: string }) {
 }
 
 function GlobalOpsPulse() {
+  const { formatCurrency } = useCurrency();
+
+  // Map raw USD amounts to formatted currency for money metrics
+  const USD_VALUES: Record<string, number> = { escrow: 2_400_000 };
+  const USD_CHANGES: Record<string, number> = { escrow: 124_000 };
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
       {opsMetrics.map((m) => {
         const sparkColor = SPARK_COLOR[m.changeType] || "#1A1A1A";
+        const displayValue = USD_VALUES[m.id] ? formatCurrency(USD_VALUES[m.id], { compact: true }) : m.value;
+        const displayChange = USD_CHANGES[m.id] ? `+${formatCurrency(USD_CHANGES[m.id], { compact: true })} today` : m.change;
         return (
           <Link
             key={m.id}
@@ -81,11 +101,11 @@ function GlobalOpsPulse() {
               <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-[#F7F7F7]">
                 {ICON_MAP[m.icon]}
               </div>
-              <TrendBadge type={m.changeType} text={m.change} />
+              <TrendBadge type={m.changeType} text={displayChange} />
             </div>
             <p className="text-[13px] text-[#ACACAC] font-normal mb-1.5">{m.label}</p>
             <div className="flex items-end justify-between gap-3">
-              <p className="text-[26px] font-normal text-[#1A1A1A] tracking-tight leading-none">{m.value}</p>
+              <p className="text-[26px] font-normal text-[#1A1A1A] tracking-tight leading-none">{displayValue}</p>
               {m.sparkline && <MiniSparkline data={m.sparkline} color={sparkColor} />}
             </div>
           </Link>

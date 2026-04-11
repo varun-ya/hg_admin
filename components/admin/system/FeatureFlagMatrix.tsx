@@ -10,13 +10,13 @@ import FlagDrawer from "./FlagDrawer";
 const PAGE_SIZE = 8;
 
 const STATUS_STYLE: Record<FlagStatus, string> = {
-  enabled: "bg-[#ECFDF5] text-[#10B981]",
+  enabled: "bg-[#FFF7ED] text-[#E08A3C]",
   disabled: "bg-[#F5F5F5] text-[#999]",
-  partial: "bg-[#FEF3C7] text-[#F59E0B]",
+  partial: "bg-[#FFF7ED] text-[#D4956A]",
 };
 
 const ENV_STYLE: Record<FlagEnvironment, string> = {
-  production: "bg-[#FEF2F2] text-[#E11D48]",
+  production: "bg-[#FFF1E6] text-[#C2571A]",
   staging: "bg-[#F0F0F0] text-[#777]",
 };
 
@@ -113,7 +113,7 @@ function FeatureFlagMatrix() {
                   <td className="py-4 px-3">
                     <div className="flex items-center gap-2 min-w-[130px]">
                       <div className="flex-1 h-[6px] bg-[#F5F5F5] rounded-full overflow-hidden">
-                        <div className="h-full rounded-full transition-all" style={{ width: `${f.rolloutPercent}%`, backgroundColor: f.rolloutPercent === 100 ? "#10B981" : f.rolloutPercent > 0 ? "#F59E0B" : "#DCDCDC" }} />
+                        <div className="h-full rounded-full transition-all" style={{ width: `${f.rolloutPercent}%`, backgroundColor: f.rolloutPercent === 100 ? "#E08A3C" : f.rolloutPercent > 0 ? "#D4956A" : "#DCDCDC" }} />
                       </div>
                       <span className="text-[11px] font-medium text-[#ACACAC] tabular-nums w-8 text-right">{f.rolloutPercent}%</span>
                     </div>
@@ -122,7 +122,7 @@ function FeatureFlagMatrix() {
                   <td className="py-4 pr-7 px-3 text-right">
                     <button
                       onClick={(e) => { e.stopPropagation(); handleToggle(f.id); }}
-                      className={`relative w-11 h-6 rounded-full transition-all shrink-0 border-none cursor-pointer ${f.status !== "disabled" ? "bg-[#10B981]" : "bg-[#DCDCDC]"}`}
+                      className={`relative w-11 h-6 rounded-full transition-all shrink-0 border-none cursor-pointer ${f.status !== "disabled" ? "bg-[#E08A3C]" : "bg-[#DCDCDC]"}`}
                     >
                       <span className={`absolute top-[2px] w-5 h-5 rounded-full bg-white shadow-sm transition-all ${f.status !== "disabled" ? "left-[22px]" : "left-[2px]"}`} />
                     </button>

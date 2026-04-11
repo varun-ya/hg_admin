@@ -1,6 +1,7 @@
 "use client";
-import { memo } from "react";
+import { memo, useId } from "react";
 import { TrendUp, TrendDown, Minus } from "@phosphor-icons/react";
+import { useCurrency } from "./context/CurrencyContext";
 
 export interface KPIItem {
   label: string;
@@ -9,10 +10,19 @@ export interface KPIItem {
   changeType: "up" | "down" | "neutral";
   icon: React.ReactNode;
   isCritical?: boolean;
-  pulseColor?: string; // defaults to #E08A3C
+  pulseColor?: string;
+  /** If set, the value is auto-converted from USD to the active currency */
+  usdValue?: number;
+  /** If set, the change text contains a USD amount that should be converted */
+  usdChange?: number;
+  /** Prefix for the converted change amount (e.g. "+") */
+  usdChangePrefix?: string;
+  /** Suffix for the converted change amount (e.g. " today") */
+  usdChangeSuffix?: string;
 }
 
 function Sparkline({ data, color = "#1A1A1A" }: { data: number[]; color?: string }) {
+  const uid = useId();
   const h = 28, w = 56, pad = 2;
   const min = Math.min(...data), max = Math.max(...data);
   const range = max - min || 1;
@@ -26,7 +36,7 @@ function Sparkline({ data, color = "#1A1A1A" }: { data: number[]; color?: string
     d += ` C ${cpx} ${points[i].y}, ${cpx} ${points[i + 1].y}, ${points[i + 1].x} ${points[i + 1].y}`;
   }
   const area = `${d} L ${points[points.length - 1].x} ${h} L ${points[0].x} ${h} Z`;
-  const id = `spark-${color.replace("#", "")}-${Math.random().toString(36).slice(2, 6)}`;
+  const id = `spark-${color.replace("#", "")}-${uid.replace(/:/g, "")}`;
   return (
     <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} className="shrink-0">
       <defs>
@@ -57,10 +67,16 @@ interface Props {
 }
 
 function LiveOpsKPIRibbon({ items, sparklines }: Props) {
+  const { formatCurrency } = useCurrency();
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
       {items.map((m, i) => {
         const pulseColor = m.pulseColor || "#E08A3C";
+        const displayValue = m.usdValue != null ? formatCurrency(m.usdValue, { compact: true }) : m.value;
+        const displayChange = m.usdChange != null
+          ? `${m.usdChangePrefix || ""}${formatCurrency(m.usdChange, { compact: true })}${m.usdChangeSuffix || ""}`
+          : m.change;
         return (
           <div key={i} className="bg-white rounded-2xl p-6 border border-[#F0F0F0] hover:border-[#DCDCDC] hover:shadow-md transition-all duration-200">
             <div className="flex items-start justify-between mb-5">
@@ -77,8 +93,8 @@ function LiveOpsKPIRibbon({ items, sparklines }: Props) {
             <p className="text-[13px] text-[#ACACAC] font-normal mb-1.5">{m.label}</p>
             <div className="flex items-end justify-between gap-3">
               <div>
-                <p className="text-[26px] font-normal text-[#1A1A1A] tracking-tight leading-none mb-2">{m.value}</p>
-                <TrendBadge type={m.changeType} text={m.change} />
+                <p className="text-[26px] font-normal text-[#1A1A1A] tracking-tight leading-none mb-2">{displayValue}</p>
+                <TrendBadge type={m.changeType} text={displayChange} />
               </div>
               <Sparkline data={sparklines[i] || []} color={m.isCritical ? pulseColor : "#1A1A1A"} />
             </div>

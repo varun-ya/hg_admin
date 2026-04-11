@@ -9,9 +9,9 @@ import { refundKPIs, refundSparklines } from "@/components/admin/financial/finan
 import type { Refund } from "@/components/admin/financial/financialTypes";
 
 const ICONS = [
-  <ArrowsClockwise size={20} weight="regular" className="text-[#E11D48]" />,
+  <ArrowsClockwise size={20} weight="regular" className="text-[#C2571A]" />,
   <CurrencyDollar size={20} weight="regular" className="text-[#999]" />,
-  <ShieldCheck size={20} weight="regular" className="text-[#F59E0B]" />,
+  <ShieldCheck size={20} weight="regular" className="text-[#D4956A]" />,
   <Percent size={20} weight="regular" className="text-[#999]" />,
 ];
 

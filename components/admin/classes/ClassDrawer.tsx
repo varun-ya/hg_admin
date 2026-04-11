@@ -1,16 +1,31 @@
 "use client";
 import { useState, useEffect, memo } from "react";
 import {
-  X, Eye, Megaphone, Prohibit, CaretRight, ChartLine, ChatText, FileText, Copy,
+  X, Eye, Megaphone, Prohibit, CaretRight, ChartLine, ChatText, FileText,
+  Star, VideoCamera, CheckCircle, Clock, XCircle,
 } from "@phosphor-icons/react";
 import { getSessionProfile } from "./classMockData";
-import type { LiveSession, SessionProfile, ConnectionHealth } from "./classTypes";
+import type { LiveSession, PastClass, SessionProfile, ConnectionHealth, PastClassOutcome } from "./classTypes";
 import ConfirmModal from "@/components/admin/ConfirmModal";
 
-const HEALTH_DOT: Record<ConnectionHealth, string> = { green: "bg-[#1A1A1A]", yellow: "bg-[#E08A3C]", red: "bg-[#DC2626]" };
+const HEALTH_DOT: Record<ConnectionHealth, string> = { green: "bg-[#1A1A1A]", yellow: "bg-[#E08A3C]", red: "bg-[#C2571A]" };
 const HEALTH_LABEL: Record<ConnectionHealth, string> = { green: "Healthy", yellow: "Degraded", red: "Critical" };
 
-interface Props { session: LiveSession | null; onClose: () => void }
+const OUTCOME_STYLE: Record<PastClassOutcome, { bg: string; text: string; label: string; icon: React.ReactNode }> = {
+  completed:       { bg: "bg-[#F0F3FA]", text: "text-[#293763]", label: "Completed", icon: <CheckCircle size={11} weight="fill" /> },
+  no_show_student: { bg: "bg-[#FFF7ED]", text: "text-[#E08A3C]", label: "No-show (Student)", icon: <Clock size={11} weight="fill" /> },
+  no_show_teacher: { bg: "bg-[#FFF1E6]", text: "text-[#C2571A]", label: "No-show (Teacher)", icon: <Clock size={11} weight="fill" /> },
+  terminated:      { bg: "bg-[#FFF1E6]", text: "text-[#C2571A]", label: "Terminated", icon: <Prohibit size={11} weight="fill" /> },
+  cancelled:       { bg: "bg-[#F5F5F5]", text: "text-[#999]", label: "Cancelled", icon: <XCircle size={11} weight="fill" /> },
+};
+
+type DrawerSession = LiveSession | PastClass | null;
+
+function isLive(s: LiveSession | PastClass): s is LiveSession {
+  return "health" in s;
+}
+
+interface Props { session: DrawerSession; onClose: () => void }
 
 function TelemetryChart({ label, data, unit, color }: { label: string; data: number[]; unit: string; color: string }) {
   const w = 200, h = 48, pad = 2;
@@ -60,6 +75,9 @@ function ClassDrawer({ session, onClose }: Props) {
 
   if (!session) return null;
 
+  const live = isLive(session);
+  const past = !live ? (session as PastClass) : null;
+
   return (
     <>
       <div className="fixed inset-0 bg-black/15 backdrop-blur-[2px] z-40 animate-fadeIn" onClick={onClose} />
@@ -68,30 +86,77 @@ function ClassDrawer({ session, onClose }: Props) {
         {/* Hero */}
         <div className="px-8 pt-7 pb-6 border-b border-[#F5F5F5] shrink-0 bg-[#FAFAFA]/50">
           <div className="flex items-center justify-between mb-6">
-            <span className="text-[10px] font-medium text-[#CACACA] uppercase tracking-[0.12em]">Session Intervention</span>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-medium text-[#CACACA] uppercase tracking-[0.12em]">
+                {live ? "Session Intervention" : "Past Session Review"}
+              </span>
+              {!live && past && (
+                <span className={`inline-flex items-center gap-1 text-[10px] font-medium px-2 py-[1px] rounded-full ${OUTCOME_STYLE[past.outcome].bg} ${OUTCOME_STYLE[past.outcome].text}`}>
+                  {OUTCOME_STYLE[past.outcome].icon} {OUTCOME_STYLE[past.outcome].label}
+                </span>
+              )}
+            </div>
             <button onClick={onClose} className="w-7 h-7 rounded-lg bg-white border border-[#F0F0F0] flex items-center justify-center text-[#CACACA] hover:text-[#999] hover:border-[#DCDCDC] cursor-pointer transition-all"><X size={13} weight="bold" /></button>
           </div>
+
           <div className="flex items-center gap-3 mb-4">
-            <span className="relative flex h-2.5 w-2.5 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-40" style={{ backgroundColor: session.health === "green" ? "#1A1A1A" : session.health === "yellow" ? "#E08A3C" : "#DC2626" }} />
-              <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${HEALTH_DOT[session.health]}`} />
-            </span>
+            {live ? (
+              <span className="relative flex h-2.5 w-2.5 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-40" style={{ backgroundColor: session.health === "green" ? "#1A1A1A" : session.health === "yellow" ? "#E08A3C" : "#C2571A" }} />
+                <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${HEALTH_DOT[(session as LiveSession).health]}`} />
+              </span>
+            ) : (
+              <span className="w-2.5 h-2.5 rounded-full bg-[#DCDCDC] shrink-0" />
+            )}
             <h2 className="text-[18px] font-medium text-[#1A1A1A] font-season">{session.sessionId}</h2>
-            <span className="text-[11px] text-[#ACACAC]">· {HEALTH_LABEL[session.health]}</span>
+            {live && <span className="text-[11px] text-[#ACACAC]">· {HEALTH_LABEL[(session as LiveSession).health]}</span>}
+            {past && <span className="text-[11px] text-[#ACACAC]">· {past.date}</span>}
           </div>
-          <div className="grid grid-cols-4 gap-3">
-            <QS label="Teacher" value={session.teacher.split(" ")[0]} />
-            <QS label="Student" value={session.student.split(" ")[0]} />
-            <QS label="Duration" value={`${session.durationMin}m`} />
-            <QS label="Latency" value={`${session.latencyMs}ms`} />
-          </div>
+
+          {/* Quick stats */}
+          {live ? (
+            <div className="grid grid-cols-4 gap-3">
+              <QS label="Teacher" value={(session as LiveSession).teacher.split(" ")[0]} />
+              <QS label="Student" value={(session as LiveSession).student.split(" ")[0]} />
+              <QS label="Duration" value={`${(session as LiveSession).durationMin}m`} />
+              <QS label="Latency" value={`${(session as LiveSession).latencyMs}ms`} />
+            </div>
+          ) : past && (
+            <div className="grid grid-cols-4 gap-3">
+              <QS label="Teacher" value={past.teacher.split(" ")[0]} />
+              <QS label="Student" value={past.student.split(" ")[0]} />
+              <QS label="Duration" value={past.durationMin > 0 ? `${past.durationMin}m` : "—"} />
+              <QS label="Rating" value={past.rating ? `${past.rating.toFixed(1)} ★` : "—"} />
+            </div>
+          )}
+
+          {/* Past class extra info */}
+          {past && (
+            <div className="flex items-center gap-4 mt-4 pt-3 border-t border-[#F0F0F0]">
+              <div className="flex items-center gap-1.5 text-[11px] text-[#ACACAC]">
+                <Clock size={11} /> {past.startedAt} → {past.endedAt}
+              </div>
+              <span className="text-[11px] text-[#DCDCDC]">·</span>
+              <span className="text-[11px] text-[#ACACAC]">{past.subject}</span>
+              <span className="text-[11px] text-[#DCDCDC]">·</span>
+              <span className="text-[11px] text-[#ACACAC]">{past.region}</span>
+              {past.rating && (
+                <>
+                  <span className="text-[11px] text-[#DCDCDC]">·</span>
+                  <span className="flex items-center gap-0.5 text-[11px] text-[#E08A3C]">
+                    <Star size={10} weight="fill" /> {past.rating.toFixed(1)}
+                  </span>
+                </>
+              )}
+            </div>
+          )}
         </div>
 
-        {/* Scrollable */}
+        {/* Scrollable content */}
         <div className="flex-1 overflow-y-auto custom-scrollbar">
 
           {/* Telemetry */}
-          <Section icon={<ChartLine size={14} />} title="Live Telemetry">
+          <Section icon={<ChartLine size={14} />} title={live ? "Live Telemetry" : "Session Telemetry"}>
             {profile ? (
               <div className="space-y-5">
                 <div className="grid grid-cols-2 gap-4">
@@ -148,17 +213,39 @@ function ClassDrawer({ session, onClose }: Props) {
 
           {/* Actions */}
           <div className="px-8 py-6">
-            <p className="text-[10px] font-medium text-[#DCDCDC] uppercase tracking-[0.12em] mb-3">Super Admin Actions</p>
+            <p className="text-[10px] font-medium text-[#DCDCDC] uppercase tracking-[0.12em] mb-3">
+              {live ? "Super Admin Actions" : "Review Actions"}
+            </p>
             <div className="border border-[#F0F0F0] rounded-xl overflow-hidden divide-y divide-[#F5F5F5]">
-              <ActionRow icon={<Eye size={13} />} label="Observe (Silent Mode)" sub="Connect to Osmium stream without notifying participants" />
-              <ActionRow icon={<Megaphone size={13} />} label="Send System Alert" sub="Push toast notification to the room" />
-              <ActionRow icon={<Prohibit size={13} />} label="Force Terminate" sub="Kill session — status set to 'Failed - Tech Issue'" danger onClick={() => setTerminateModal(true)} />
+              {live ? (
+                <>
+                  <ActionRow icon={<Eye size={13} />} label="Observe (Silent Mode)" sub="Connect to Osmium stream without notifying participants" />
+                  <ActionRow icon={<Megaphone size={13} />} label="Send System Alert" sub="Push toast notification to the room" />
+                  <ActionRow icon={<Prohibit size={13} />} label="Force Terminate" sub="Kill session — status set to 'Failed - Tech Issue'" danger onClick={() => setTerminateModal(true)} />
+                </>
+              ) : (
+                <>
+                  {past?.recordingAvailable && (
+                    <ActionRow icon={<VideoCamera size={13} />} label="Watch Recording" sub="Full session recording with timestamps" />
+                  )}
+                  <ActionRow icon={<ChatText size={13} />} label="Export Chat Transcript" sub="Download full chat log as PDF" />
+                  <ActionRow icon={<ChartLine size={13} />} label="Download Telemetry Report" sub="Connection quality data for this session" />
+                  {past?.outcome === "no_show_teacher" && (
+                    <ActionRow icon={<Prohibit size={13} />} label="Issue Teacher Warning" sub="Flag teacher for no-show — affects trust score" danger />
+                  )}
+                  {past?.outcome === "terminated" && (
+                    <ActionRow icon={<Eye size={13} />} label="Review Termination Reason" sub="View admin override log for this session" />
+                  )}
+                </>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      <ConfirmModal isOpen={terminateModal} onClose={() => setTerminateModal(false)} title="Force Terminate Session" description={`This will immediately kill session ${session.sessionId} and update the database status to "Failed - Tech Issue". Both participants will be disconnected.`} confirmString="TERMINATE-SESSION" onConfirm={() => { setTerminateModal(false); onClose(); }} variant="danger" />
+      {live && (
+        <ConfirmModal isOpen={terminateModal} onClose={() => setTerminateModal(false)} title="Force Terminate Session" description={`This will immediately kill session ${session.sessionId} and update the database status to "Failed - Tech Issue". Both participants will be disconnected.`} confirmString="TERMINATE-SESSION" onConfirm={() => { setTerminateModal(false); onClose(); }} variant="danger" />
+      )}
     </>
   );
 }

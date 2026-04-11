@@ -10,10 +10,10 @@ import type { Payout, PayoutStatus } from "./financialTypes";
 const PAGE_SIZE = 8;
 
 const STATUS_STYLE: Record<PayoutStatus, string> = {
-  ready: "bg-[#ECFDF5] text-[#10B981]",
-  locked: "bg-[#EEF2FF] text-[#4F46E5]",
+  ready: "bg-[#FFF7ED] text-[#E08A3C]",
+  locked: "bg-[#FFF7ED] text-[#E08A3C]",
   processing: "bg-[#F0F0F0] text-[#1A1A1A]",
-  failed: "bg-[#FEF2F2] text-[#E11D48]",
+  failed: "bg-[#FFF1E6] text-[#C2571A]",
   completed: "bg-[#F5F5F5] text-[#999]",
 };
 

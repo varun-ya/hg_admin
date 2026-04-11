@@ -8,10 +8,10 @@ import type { KPIItem } from "../LiveOpsKPIRibbon";
 // Usage Metrics
 // ═══════════════════════════════════════════
 export const usageKPIs: KPIItem[] = [
-  { label: "Osmium LLM Tokens (MTD)", value: "14.2M", change: "68% of 21M quota", changeType: "up", icon: null, pulseColor: "#8B5CF6" },
+  { label: "Osmium LLM Tokens (MTD)", value: "14.2M", change: "68% of 21M quota", changeType: "up", icon: null, pulseColor: "#293763" },
   { label: "LMlens API Calls", value: "8,742", change: "+312 today", changeType: "up", icon: null },
   { label: "VideoMeet Ingestion", value: "4,280 min", change: "+186 min today", changeType: "up", icon: null },
-  { label: "Estimated AI Cost", value: "$3,847", change: "Burn rate: $128/day", changeType: "up", icon: null, isCritical: true, pulseColor: "#F59E0B" },
+  { label: "Estimated AI Cost", value: "$3,847", usdValue: 3847, change: "Burn rate: $128/day", changeType: "up", icon: null, isCritical: true, pulseColor: "#D4956A" },
 ];
 export const usageSparklines = [
   [9.1, 10.2, 11.0, 11.8, 12.6, 13.4, 14.2],
@@ -57,7 +57,7 @@ export const topConsumers: TopConsumer[] = [
 export const keysKPIs: KPIItem[] = [
   { label: "Active Keys", value: 24, change: "3 near quota", changeType: "neutral", icon: null },
   { label: "Total Quota Allocated", value: "42M tokens", change: "Across all tenants", changeType: "neutral", icon: null },
-  { label: "Rate-Limited Keys", value: 2, change: "Throttled this hour", changeType: "up", icon: null, isCritical: true, pulseColor: "#F59E0B" },
+  { label: "Rate-Limited Keys", value: 2, change: "Throttled this hour", changeType: "up", icon: null, isCritical: true, pulseColor: "#D4956A" },
   { label: "Revoked (30d)", value: 5, change: "Security rotations", changeType: "neutral", icon: null },
 ];
 export const keysSparklines = [

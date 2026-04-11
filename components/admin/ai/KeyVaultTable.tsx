@@ -10,21 +10,21 @@ import type { ApiKey, KeyStatus } from "./aiTypes";
 const PAGE_SIZE = 8;
 
 const STATUS_STYLE: Record<KeyStatus, string> = {
-  active: "bg-[#ECFDF5] text-[#10B981]",
-  revoked: "bg-[#FEF2F2] text-[#E11D48]",
-  rate_limited: "bg-[#FEF3C7] text-[#F59E0B]",
+  active: "bg-[#FFF7ED] text-[#E08A3C]",
+  revoked: "bg-[#FFF1E6] text-[#C2571A]",
+  rate_limited: "bg-[#FFF7ED] text-[#D4956A]",
 };
 
 const ENGINE_BADGE: Record<string, string> = {
-  osmium_llm: "bg-[#F3F0FF] text-[#8B5CF6]",
-  lmlens: "bg-[#ECFEFF] text-[#06B6D4]",
+  osmium_llm: "bg-[#F3F0FF] text-[#293763]",
+  lmlens: "bg-[#ECFEFF] text-[#3D4D7A]",
   videomeet: "bg-[#F0F0F0] text-[#1A1A1A]",
 };
 
 function usageBarColor(pct: number) {
-  if (pct >= 90) return "#E11D48";
-  if (pct >= 75) return "#F59E0B";
-  return "#10B981";
+  if (pct >= 90) return "#C2571A";
+  if (pct >= 75) return "#D4956A";
+  return "#E08A3C";
 }
 
 interface Props { onSelect: (k: ApiKey) => void }
@@ -126,7 +126,7 @@ function KeyVaultTable({ onSelect }: Props) {
                     <div className="flex-1 h-[6px] bg-[#F5F5F5] rounded-full overflow-hidden">
                       <div className="h-full rounded-full transition-all" style={{ width: `${k.usagePercent}%`, backgroundColor: usageBarColor(k.usagePercent) }} />
                     </div>
-                    <span className={`text-[11px] font-medium tabular-nums ${k.usagePercent >= 90 ? "text-[#E11D48]" : k.usagePercent >= 75 ? "text-[#F59E0B]" : "text-[#999]"}`}>{k.usagePercent}%</span>
+                    <span className={`text-[11px] font-medium tabular-nums ${k.usagePercent >= 90 ? "text-[#C2571A]" : k.usagePercent >= 75 ? "text-[#D4956A]" : "text-[#999]"}`}>{k.usagePercent}%</span>
                   </div>
                 </td>
                 <td className="py-4 px-3">
@@ -169,7 +169,7 @@ function FilterSelect({ value, options, onChange }: { value: string; options: { 
 }
 
 function CtxItem({ icon, label, onClick, danger }: { icon: React.ReactNode; label: string; onClick: () => void; danger?: boolean }) {
-  return (<button onClick={onClick} className={`w-full flex items-center gap-2.5 px-4 py-2 text-[12px] font-normal bg-transparent border-none cursor-pointer transition-colors text-left rounded-lg mx-0 hover:bg-[#FAFAFA] ${danger ? "text-[#E11D48]" : "text-[#666]"}`}>{icon} {label}</button>);
+  return (<button onClick={onClick} className={`w-full flex items-center gap-2.5 px-4 py-2 text-[12px] font-normal bg-transparent border-none cursor-pointer transition-colors text-left rounded-lg mx-0 hover:bg-[#FAFAFA] ${danger ? "text-[#C2571A]" : "text-[#666]"}`}>{icon} {label}</button>);
 }
 
 export default memo(KeyVaultTable);

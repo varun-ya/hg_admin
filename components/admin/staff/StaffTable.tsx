@@ -36,13 +36,13 @@ const STATUS_STYLE: Record<StaffStatus, string> = {
 const MFA_ICON: Record<MfaStatus, React.ReactNode> = {
   enabled: <ShieldCheck size={14} weight="fill" className="text-[#1A1A1A]" />,
   pending: <ClockIcon size={14} weight="regular" className="text-[#E08A3C]" />,
-  disabled: <ShieldWarning size={14} weight="fill" className="text-[#DC2626]" />,
+  disabled: <ShieldWarning size={14} weight="fill" className="text-[#C2571A]" />,
 };
 
 const MFA_LABEL: Record<MfaStatus, { text: string; color: string }> = {
   enabled: { text: "Enabled", color: "text-[#1A1A1A]" },
   pending: { text: "Pending", color: "text-[#E08A3C]" },
-  disabled: { text: "Disabled", color: "text-[#DC2626]" },
+  disabled: { text: "Disabled", color: "text-[#C2571A]" },
 };
 
 interface Props {

@@ -1,5 +1,5 @@
 "use client";
-import { memo } from "react";
+import { memo, Fragment } from "react";
 import { Check, X, ShieldCheck, Crown } from "@phosphor-icons/react";
 import { rbacPermissions, rbacMatrix } from "./staffMockData";
 import type { AegisRole } from "./staffTypes";
@@ -37,8 +37,8 @@ function RBACMatrix() {
           </thead>
           <tbody>
             {categories.map((cat) => (
-              <>
-                <tr key={`cat-${cat}`}>
+              <Fragment key={cat}>
+                <tr>
                   <td colSpan={5} className="pt-5 pb-2 pl-7 text-[10px] font-medium text-[#DCDCDC] uppercase tracking-[0.12em]">{cat}</td>
                 </tr>
                 {rbacPermissions.filter((p) => p.category === cat).map((perm, pi) => (
@@ -62,7 +62,7 @@ function RBACMatrix() {
                     })}
                   </tr>
                 ))}
-              </>
+              </Fragment>
             ))}
           </tbody>
         </table>

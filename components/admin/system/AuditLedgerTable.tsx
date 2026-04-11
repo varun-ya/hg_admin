@@ -12,16 +12,16 @@ const PAGE_SIZE = 10;
 
 const CATEGORY_STYLE: Record<AuditCategory, string> = {
   auth: "bg-[#F0F0F0] text-[#1A1A1A]",
-  financial: "bg-[#ECFDF5] text-[#10B981]",
-  liveops: "bg-[#EEF2FF] text-[#4F46E5]",
+  financial: "bg-[#FFF7ED] text-[#E08A3C]",
+  liveops: "bg-[#FFF7ED] text-[#E08A3C]",
   system: "bg-[#F5F5F5] text-[#999]",
-  ai: "bg-[#F3F0FF] text-[#8B5CF6]",
+  ai: "bg-[#F3F0FF] text-[#293763]",
 };
 
 const SEVERITY_DOT: Record<string, string> = {
   info: "bg-[#DCDCDC]",
-  warning: "bg-[#F59E0B]",
-  critical: "bg-[#E11D48]",
+  warning: "bg-[#D4956A]",
+  critical: "bg-[#C2571A]",
 };
 
 function AuditLedgerTable() {

@@ -12,9 +12,9 @@ const PAGE_SIZE = 8;
 
 const APPROVAL_STYLE: Record<ApprovalStatus, string> = {
   pending: "bg-[#F0F0F0] text-[#1A1A1A]",
-  approved_1of2: "bg-[#FEF3C7] text-[#F59E0B]",
-  approved_2of2: "bg-[#ECFDF5] text-[#10B981]",
-  rejected: "bg-[#FEF2F2] text-[#E11D48]",
+  approved_1of2: "bg-[#FFF7ED] text-[#D4956A]",
+  approved_2of2: "bg-[#FFF7ED] text-[#E08A3C]",
+  rejected: "bg-[#FFF1E6] text-[#C2571A]",
   auto_approved: "bg-[#F5F5F5] text-[#999]",
 };
 
@@ -108,8 +108,8 @@ function RefundTable({ onSelect }: Props) {
                   <td className="py-4 px-3"><span className="text-[12px] font-mono text-[#ACACAC]">{r.originalTxnId}</span></td>
                   <td className="py-4 px-3">
                     <div className="flex items-center gap-2">
-                      <span className={`text-[13px] font-normal tabular-nums ${isHighValue ? "text-[#E11D48]" : "text-[#1A1A1A]"}`}>${r.amount.toLocaleString()}</span>
-                      {isHighValue && <span className="text-[9px] font-medium text-[#F59E0B] bg-[#FEF3C7] px-1.5 py-[1px] rounded-full">HIGH</span>}
+                      <span className={`text-[13px] font-normal tabular-nums ${isHighValue ? "text-[#C2571A]" : "text-[#1A1A1A]"}`}>${r.amount.toLocaleString()}</span>
+                      {isHighValue && <span className="text-[9px] font-medium text-[#D4956A] bg-[#FFF7ED] px-1.5 py-[1px] rounded-full">HIGH</span>}
                     </div>
                   </td>
                   <td className="py-4 px-3"><span className="text-[12px] text-[#777]">{REFUND_REASON_LABELS[r.reason]}</span></td>

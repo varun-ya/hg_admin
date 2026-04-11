@@ -6,10 +6,10 @@ import type { Payout, PayoutBooking, PayoutStatus } from "./financialTypes";
 import ConfirmModal from "@/components/admin/ConfirmModal";
 
 const STATUS_STYLE: Record<PayoutStatus, string> = {
-  ready: "bg-[#ECFDF5] text-[#10B981]",
-  locked: "bg-[#EEF2FF] text-[#4F46E5]",
+  ready: "bg-[#FFF7ED] text-[#E08A3C]",
+  locked: "bg-[#FFF7ED] text-[#E08A3C]",
   processing: "bg-[#F0F0F0] text-[#1A1A1A]",
-  failed: "bg-[#FEF2F2] text-[#E11D48]",
+  failed: "bg-[#FFF1E6] text-[#C2571A]",
   completed: "bg-[#F5F5F5] text-[#999]",
 };
 
@@ -61,7 +61,7 @@ function PayoutDrawer({ payout, onClose }: Props) {
             <div className="grid grid-cols-3 gap-4">
               <div className="bg-[#FAFAFA] rounded-xl border border-[#F0F0F0] p-4">
                 <p className="text-[11px] text-[#ACACAC] mb-1">Payout Amount</p>
-                <p className="text-[17px] font-normal text-[#10B981] tabular-nums tracking-tight">${payout.clearedAmount.toLocaleString()}</p>
+                <p className="text-[17px] font-normal text-[#E08A3C] tabular-nums tracking-tight">${payout.clearedAmount.toLocaleString()}</p>
               </div>
               <div className="bg-[#FAFAFA] rounded-xl border border-[#F0F0F0] p-4">
                 <p className="text-[11px] text-[#ACACAC] mb-1">Classes</p>
@@ -117,7 +117,7 @@ function PayoutDrawer({ payout, onClose }: Props) {
               <button
                 onClick={() => setHoldModal(true)}
                 disabled={payout.status === "locked" || payout.status === "completed"}
-                className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] font-medium text-[#E11D48] bg-transparent border border-[#F0F0F0] rounded-lg hover:bg-[#FEF2F2] hover:border-[#E11D48]/20 transition-all cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] font-medium text-[#C2571A] bg-transparent border border-[#F0F0F0] rounded-lg hover:bg-[#FFF1E6] hover:border-[#C2571A]/20 transition-all cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <HandPalm size={13} /> Hold Funds
               </button>

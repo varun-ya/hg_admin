@@ -8,10 +8,10 @@ import TopConsumersTable from "@/components/admin/ai/TopConsumersTable";
 import { usageKPIs, usageSparklines } from "@/components/admin/ai/aiMockData";
 
 const ICONS = [
-  <Brain size={20} weight="regular" className="text-[#8B5CF6]" />,
-  <Cpu size={20} weight="regular" className="text-[#06B6D4]" />,
+  <Brain size={20} weight="regular" className="text-[#293763]" />,
+  <Cpu size={20} weight="regular" className="text-[#3D4D7A]" />,
   <VideoCamera size={20} weight="regular" className="text-[#999]" />,
-  <CurrencyDollar size={20} weight="regular" className="text-[#F59E0B]" />,
+  <CurrencyDollar size={20} weight="regular" className="text-[#D4956A]" />,
 ];
 
 function TableSkeleton() {

@@ -6,7 +6,7 @@ import { PIPELINE_STAGES } from "./leadTypes";
 import type { Lead, LeadScore, PipelineStage } from "./leadTypes";
 
 const SCORE_STYLE: Record<LeadScore, { bg: string; text: string }> = {
-  hot: { bg: "bg-[#FEF2F2]", text: "text-[#DC2626]" },
+  hot: { bg: "bg-[#FFF1E6]", text: "text-[#C2571A]" },
   warm: { bg: "bg-[#FFF8F3]", text: "text-[#E08A3C]" },
   cold: { bg: "bg-[#F0F0F0]", text: "text-[#999]" },
 };

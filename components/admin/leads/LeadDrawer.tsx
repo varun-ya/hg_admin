@@ -8,7 +8,7 @@ import { getLeadProfile } from "./leadMockData";
 import type { Lead, LeadProfile, LeadScore, LeadSource } from "./leadTypes";
 
 const SCORE_STYLE: Record<LeadScore, string> = {
-  hot: "bg-[#FEF2F2] text-[#DC2626]",
+  hot: "bg-[#FFF1E6] text-[#C2571A]",
   warm: "bg-[#FFF8F3] text-[#E08A3C]",
   cold: "bg-[#F0F0F0] text-[#999]",
 };

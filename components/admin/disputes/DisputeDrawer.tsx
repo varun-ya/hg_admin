@@ -7,7 +7,7 @@ import { getDisputeProfile } from "./disputeMockData";
 import type { Dispute, DisputeProfile, DisputeStatus } from "./disputeTypes";
 import ConfirmModal from "@/components/admin/ConfirmModal";
 
-const STATUS_STYLE: Record<DisputeStatus, string> = { open: "bg-[#F0F0F0] text-[#1A1A1A]", resolved: "bg-[#F5F5F5] text-[#999]", escalated: "bg-[#FEF2F2] text-[#DC2626]" };
+const STATUS_STYLE: Record<DisputeStatus, string> = { open: "bg-[#F0F0F0] text-[#1A1A1A]", resolved: "bg-[#F5F5F5] text-[#999]", escalated: "bg-[#FFF1E6] text-[#C2571A]" };
 
 interface Props { dispute: Dispute | null; onClose: () => void }
 
@@ -88,8 +88,8 @@ function DisputeDrawer({ dispute, onClose }: Props) {
                     <Row label="Session Duration" value={profile.sessionDurationMin > 0 ? `${profile.sessionDurationMin} min` : "0 min (no session)"} />
                     <div className="flex items-center justify-between pt-2 border-t border-[#F8F8F8]">
                       <span className="text-[12px] text-[#999]">Teaching Occurred</span>
-                      <span className={`flex items-center gap-1.5 text-[12px] font-medium ${profile.teachingOccurred ? "text-[#1A1A1A]" : "text-[#DC2626]"}`}>
-                        <span className={`w-[6px] h-[6px] rounded-full ${profile.teachingOccurred ? "bg-[#1A1A1A]" : "bg-[#DC2626]"}`} />
+                      <span className={`flex items-center gap-1.5 text-[12px] font-medium ${profile.teachingOccurred ? "text-[#1A1A1A]" : "text-[#C2571A]"}`}>
+                        <span className={`w-[6px] h-[6px] rounded-full ${profile.teachingOccurred ? "bg-[#1A1A1A]" : "bg-[#C2571A]"}`} />
                         {profile.teachingOccurred ? "Yes" : "No"}
                       </span>
                     </div>

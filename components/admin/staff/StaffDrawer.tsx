@@ -32,13 +32,13 @@ const ROLE_STYLE: Record<AegisRole, { bg: string; text: string; label: string }>
 const MFA_DISPLAY: Record<MfaStatus, { icon: React.ReactNode; label: string; color: string }> = {
   enabled: { icon: <ShieldCheck size={12} weight="fill" />, label: "2FA Enabled", color: "text-[#1A1A1A]" },
   pending: { icon: <Clock size={12} />, label: "2FA Pending", color: "text-[#E08A3C]" },
-  disabled: { icon: <ShieldWarning size={12} weight="fill" />, label: "2FA Disabled", color: "text-[#DC2626]" },
+  disabled: { icon: <ShieldWarning size={12} weight="fill" />, label: "2FA Disabled", color: "text-[#C2571A]" },
 };
 
 const SEVERITY_DOT: Record<string, string> = {
   info: "bg-[#CACACA]",
   warning: "bg-[#E08A3C]",
-  critical: "bg-[#DC2626]",
+  critical: "bg-[#C2571A]",
 };
 
 interface Props {

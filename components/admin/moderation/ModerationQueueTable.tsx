@@ -10,7 +10,7 @@ import type { FlaggedItem, FlagSeverity, AssetType } from "./moderationTypes";
 const PAGE_SIZE = 8;
 
 const SEVERITY_STYLE: Record<FlagSeverity, string> = {
-  critical: "bg-[#FEF2F2] text-[#DC2626]",
+  critical: "bg-[#FFF1E6] text-[#C2571A]",
   medium: "bg-[#FFF8F3] text-[#E08A3C]",
   low: "bg-[#F0F0F0] text-[#777]",
 };

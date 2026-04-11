@@ -72,8 +72,8 @@ function WorkflowRuleModal({ workflow, onClose, onSave }: Props) {
           <div>
             <p className="text-[10px] font-medium text-[#CACACA] uppercase tracking-[0.12em] mb-3">Trigger Event</p>
             <div className="relative">
-              <div className="flex items-center gap-2 px-4 py-3 bg-[#FEF3C7]/30 border border-[#F59E0B]/20 rounded-xl">
-                <Lightning size={14} weight="fill" className="text-[#F59E0B] shrink-0" />
+              <div className="flex items-center gap-2 px-4 py-3 bg-[#FFF7ED]/30 border border-[#D4956A]/20 rounded-xl">
+                <Lightning size={14} weight="fill" className="text-[#D4956A] shrink-0" />
                 <select
                   value={trigger}
                   onChange={(e) => setTrigger(e.target.value as TriggerEvent)}
@@ -81,7 +81,7 @@ function WorkflowRuleModal({ workflow, onClose, onSave }: Props) {
                 >
                   {TRIGGERS.map((t) => <option key={t} value={t}>{TRIGGER_LABELS[t]}</option>)}
                 </select>
-                <CaretDown size={12} className="text-[#F59E0B] shrink-0" />
+                <CaretDown size={12} className="text-[#D4956A] shrink-0" />
               </div>
             </div>
           </div>
@@ -92,7 +92,7 @@ function WorkflowRuleModal({ workflow, onClose, onSave }: Props) {
               <p className="text-[10px] font-medium text-[#CACACA] uppercase tracking-[0.12em]">Actions Pipeline</p>
               <button
                 onClick={addStep}
-                className="flex items-center gap-1 text-[11px] font-medium text-[#8B5CF6] bg-transparent border-none cursor-pointer hover:text-[#7C3AED] transition-colors"
+                className="flex items-center gap-1 text-[11px] font-medium text-[#293763] bg-transparent border-none cursor-pointer hover:text-[#7C3AED] transition-colors"
               >
                 <Plus size={11} weight="bold" /> Add Step
               </button>
@@ -127,7 +127,7 @@ function WorkflowRuleModal({ workflow, onClose, onSave }: Props) {
                       </div>
                       <button
                         onClick={() => removeStep(i)}
-                        className="w-6 h-6 rounded-md flex items-center justify-center text-[#DCDCDC] hover:text-[#E11D48] hover:bg-[#FEF2F2] bg-transparent border-none cursor-pointer transition-all"
+                        className="w-6 h-6 rounded-md flex items-center justify-center text-[#DCDCDC] hover:text-[#C2571A] hover:bg-[#FFF1E6] bg-transparent border-none cursor-pointer transition-all"
                       >
                         <Trash size={12} />
                       </button>

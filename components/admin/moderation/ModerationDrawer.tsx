@@ -7,7 +7,7 @@ import { getFlagProfile } from "./moderationMockData";
 import type { FlaggedItem, FlagProfile, FlagSeverity } from "./moderationTypes";
 import ConfirmModal from "@/components/admin/ConfirmModal";
 
-const SEV_STYLE: Record<FlagSeverity, string> = { critical: "bg-[#FEF2F2] text-[#DC2626]", medium: "bg-[#FFF8F3] text-[#E08A3C]", low: "bg-[#F0F0F0] text-[#777]" };
+const SEV_STYLE: Record<FlagSeverity, string> = { critical: "bg-[#FFF1E6] text-[#C2571A]", medium: "bg-[#FFF8F3] text-[#E08A3C]", low: "bg-[#F0F0F0] text-[#777]" };
 
 interface Props { item: FlaggedItem | null; onClose: () => void }
 

@@ -9,8 +9,8 @@ import { revenueKPIs, revenueSparklines } from "@/components/admin/financial/fin
 import type { Transaction } from "@/components/admin/financial/financialTypes";
 
 const ICONS = [
-  <Vault size={20} weight="regular" className="text-[#4F46E5]" />,
-  <ChartLineUp size={20} weight="regular" className="text-[#10B981]" />,
+  <Vault size={20} weight="regular" className="text-[#E08A3C]" />,
+  <ChartLineUp size={20} weight="regular" className="text-[#E08A3C]" />,
   <Percent size={20} weight="regular" className="text-[#999]" />,
   <WifiHigh size={20} weight="regular" className="text-[#999]" />,
 ];

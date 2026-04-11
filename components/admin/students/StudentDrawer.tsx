@@ -10,22 +10,22 @@ import { getStudentProfile } from "./studentMockData";
 import type { Student, StudentProfile, RiskLevel } from "./studentTypes";
 
 const STATUS_CFG: Record<string, { bg: string; text: string; dot: string }> = {
-  active:           { bg: "#F0FDF4", text: "#16A34A", dot: "#22C55E" },
+  active:           { bg: "#F0F3FA", text: "#293763", dot: "#E08A3C" },
   inactive:         { bg: "#F5F5F5", text: "#999",    dot: "#CACACA" },
-  suspended:        { bg: "#FFF7ED", text: "#B45309", dot: "#F59E0B" },
-  pending_deletion: { bg: "#FEF2F2", text: "#DC2626", dot: "#EF4444" },
+  suspended:        { bg: "#FFF7ED", text: "#B45309", dot: "#D4956A" },
+  pending_deletion: { bg: "#FFF1E6", text: "#C2571A", dot: "#C2571A" },
 };
 
 const RISK_CFG: Record<RiskLevel, { bg: string; text: string; dot: string; label: string }> = {
   low:    { bg: "#F5F5F5", text: "#888",    dot: "#CACACA", label: "Low Risk" },
-  medium: { bg: "#FFF7ED", text: "#B45309", dot: "#F59E0B", label: "Medium Risk" },
-  high:   { bg: "#FEF2F2", text: "#DC2626", dot: "#EF4444", label: "High Risk" },
+  medium: { bg: "#FFF7ED", text: "#B45309", dot: "#D4956A", label: "Medium Risk" },
+  high:   { bg: "#FFF1E6", text: "#C2571A", dot: "#C2571A", label: "High Risk" },
 };
 
 const TXN_CFG: Record<string, { dot: string; amtColor: string }> = {
-  success: { dot: "#22C55E", amtColor: "#1A1A1A" },
-  failed:  { dot: "#EF4444", amtColor: "#DC2626" },
-  pending: { dot: "#F59E0B", amtColor: "#888"    },
+  success: { dot: "#E08A3C", amtColor: "#1A1A1A" },
+  failed:  { dot: "#C2571A", amtColor: "#C2571A" },
+  pending: { dot: "#D4956A", amtColor: "#888"    },
 };
 
 interface Props { student: Student | null; onClose: () => void; inline?: boolean; }
@@ -169,7 +169,7 @@ function StudentDrawer({ student, onClose, inline }: Props) {
                 </div>
                 <div className="flex items-center justify-between py-3">
                   <span className="text-[12px] text-[#888]">MFA</span>
-                  <span className={`inline-flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-1 rounded-full ${profile.mfaEnabled ? "bg-[#F0FDF4] text-[#16A34A]" : "bg-[#FFF7ED] text-[#B45309]"}`}>
+                  <span className={`inline-flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-1 rounded-full ${profile.mfaEnabled ? "bg-[#F0F3FA] text-[#293763]" : "bg-[#FFF7ED] text-[#B45309]"}`}>
                     {profile.mfaEnabled ? <Lock size={10} weight="fill" /> : <LockOpen size={10} />}
                     {profile.mfaEnabled ? "Enabled" : "Disabled"}
                   </span>
@@ -231,7 +231,7 @@ function StudentDrawer({ student, onClose, inline }: Props) {
                     <p className={`text-[22px] font-semibold leading-none tabular-nums ${profile.missedClasses > 2 ? "text-[#B45309]" : "text-[#1A1A1A]"}`}>
                       {profile.missedClasses}
                     </p>
-                    {profile.missedClasses > 2 && <p className="text-[10px] text-[#F59E0B] mt-1 flex items-center gap-1"><Warning size={9} weight="fill" />Above threshold</p>}
+                    {profile.missedClasses > 2 && <p className="text-[10px] text-[#D4956A] mt-1 flex items-center gap-1"><Warning size={9} weight="fill" />Above threshold</p>}
                   </div>
                   <div className="rounded-xl border border-[#F0F0F0] bg-[#FAFAFA] px-4 py-3.5">
                     <p className="text-[10px] text-[#CACACA] uppercase tracking-wider mb-1.5">Avg. Feedback</p>
@@ -294,7 +294,7 @@ function StudentDrawer({ student, onClose, inline }: Props) {
       {/* Toast */}
       {toast && (
         <div className={`${inline ? "absolute" : "fixed"} bottom-6 right-6 z-[300] flex items-center gap-3 bg-[#1A1A1A] text-white px-4 py-3 rounded-xl shadow-xl animate-fadeIn`}>
-          <CheckCircle size={14} weight="fill" className="text-[#22C55E] shrink-0" />
+          <CheckCircle size={14} weight="fill" className="text-[#E08A3C] shrink-0" />
           <span className="text-[13px]">{toast}</span>
           <button onClick={() => setToast(null)} className="ml-1 text-white/40 hover:text-white bg-transparent border-none cursor-pointer"><X size={11} weight="bold" /></button>
         </div>

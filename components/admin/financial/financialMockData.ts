@@ -8,8 +8,8 @@ import type { KPIItem } from "../LiveOpsKPIRibbon";
 // Revenue & Escrow
 // ═══════════════════════════════════════════
 export const revenueKPIs: KPIItem[] = [
-  { label: "Current Escrow Balance", value: "$284,920", change: "+$12.4k today", changeType: "up", icon: null, pulseColor: "#4F46E5" },
-  { label: "Platform Revenue (MTD)", value: "$67,340", change: "+18.2% vs last month", changeType: "up", icon: null },
+  { label: "Current Escrow Balance", value: "$284,920", change: "+$12.4k today", changeType: "up", icon: null, pulseColor: "#E08A3C", usdValue: 284920, usdChange: 12400, usdChangePrefix: "+", usdChangeSuffix: " today" },
+  { label: "Platform Revenue (MTD)", value: "$67,340", change: "+18.2% vs last month", changeType: "up", icon: null, usdValue: 67340 },
   { label: "Effective Take-Rate", value: "18.2%", change: "+0.3pp", changeType: "up", icon: null },
   { label: "Gateway Health", value: "3/3 Live", change: "All operational", changeType: "neutral", icon: null },
 ];
@@ -39,9 +39,9 @@ export const transactions: Transaction[] = [
 // Payouts
 // ═══════════════════════════════════════════
 export const payoutKPIs: KPIItem[] = [
-  { label: "Ready for Payout", value: "$142,680", change: "38 teachers", changeType: "neutral", icon: null },
-  { label: "Pending Escrow (Locked)", value: "$84,240", change: "24hr dispute window", changeType: "neutral", icon: null, pulseColor: "#4F46E5" },
-  { label: "Failed Transfers", value: 4, change: "+2 since yesterday", changeType: "up", icon: null, isCritical: true, pulseColor: "#E11D48" },
+  { label: "Ready for Payout", value: "$142,680", change: "38 teachers", changeType: "neutral", icon: null, usdValue: 142680 },
+  { label: "Pending Escrow (Locked)", value: "$84,240", change: "24hr dispute window", changeType: "neutral", icon: null, pulseColor: "#E08A3C", usdValue: 84240 },
+  { label: "Failed Transfers", value: 4, change: "+2 since yesterday", changeType: "up", icon: null, isCritical: true, pulseColor: "#C2571A" },
   { label: "Next Auto-Batch", value: "02:14:38", change: "Daily at 6:00 PM IST", changeType: "neutral", icon: null },
 ];
 export const payoutSparklines = [
@@ -78,9 +78,9 @@ export function getPayoutBookings(_id: string): PayoutBooking[] {
 // Refunds
 // ═══════════════════════════════════════════
 export const refundKPIs: KPIItem[] = [
-  { label: "Pending Requests", value: 14, change: "+3 today", changeType: "up", icon: null, isCritical: true, pulseColor: "#E11D48" },
-  { label: "Total Refunded (30d)", value: "$23,840", change: "42 refunds processed", changeType: "neutral", icon: null },
-  { label: "Awaiting 2nd Approval", value: 3, change: "High-value queue", changeType: "neutral", icon: null, pulseColor: "#F59E0B" },
+  { label: "Pending Requests", value: 14, change: "+3 today", changeType: "up", icon: null, isCritical: true, pulseColor: "#C2571A" },
+  { label: "Total Refunded (30d)", value: "$23,840", change: "42 refunds processed", changeType: "neutral", icon: null, usdValue: 23840 },
+  { label: "Awaiting 2nd Approval", value: 3, change: "High-value queue", changeType: "neutral", icon: null, pulseColor: "#D4956A" },
   { label: "Overall Refund Rate", value: "2.4%", change: "Target: < 3%", changeType: "down", icon: null },
 ];
 export const refundSparklines = [
@@ -121,9 +121,9 @@ export function getRefundEvidence(_id: string): RefundEvidence {
 // Invoices & Taxes
 // ═══════════════════════════════════════════
 export const invoiceKPIs: KPIItem[] = [
-  { label: "Tax Collected (MTD)", value: "$12,108", change: "+$840 today", changeType: "up", icon: null },
+  { label: "Tax Collected (MTD)", value: "$12,108", change: "+$840 today", changeType: "up", icon: null, usdValue: 12108, usdChange: 840, usdChangePrefix: "+", usdChangeSuffix: " today" },
   { label: "Invoices Generated", value: "1,247", change: "+38 today", changeType: "up", icon: null },
-  { label: "Generation Errors", value: 3, change: "Pipeline failures", changeType: "up", icon: null, isCritical: true, pulseColor: "#E11D48" },
+  { label: "Generation Errors", value: 3, change: "Pipeline failures", changeType: "up", icon: null, isCritical: true, pulseColor: "#C2571A" },
 ];
 export const invoiceSparklines = [
   [8200, 9100, 9800, 10400, 11000, 11600, 12108],

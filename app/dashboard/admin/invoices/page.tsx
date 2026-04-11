@@ -11,7 +11,7 @@ import type { Invoice } from "@/components/admin/financial/financialTypes";
 const ICONS = [
   <Receipt size={20} weight="regular" className="text-[#999]" />,
   <FileText size={20} weight="regular" className="text-[#999]" />,
-  <Warning size={20} weight="regular" className="text-[#E11D48]" />,
+  <Warning size={20} weight="regular" className="text-[#C2571A]" />,
 ];
 
 export default function InvoicesPage() {

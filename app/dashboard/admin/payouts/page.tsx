@@ -9,9 +9,9 @@ import { payoutKPIs, payoutSparklines } from "@/components/admin/financial/finan
 import type { Payout } from "@/components/admin/financial/financialTypes";
 
 const ICONS = [
-  <Wallet size={20} weight="regular" className="text-[#10B981]" />,
-  <Lock size={20} weight="regular" className="text-[#4F46E5]" />,
-  <Warning size={20} weight="regular" className="text-[#E11D48]" />,
+  <Wallet size={20} weight="regular" className="text-[#E08A3C]" />,
+  <Lock size={20} weight="regular" className="text-[#E08A3C]" />,
+  <Warning size={20} weight="regular" className="text-[#C2571A]" />,
   <Timer size={20} weight="regular" className="text-[#999]" />,
 ];
 

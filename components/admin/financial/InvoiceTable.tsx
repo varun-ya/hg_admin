@@ -10,10 +10,10 @@ import type { Invoice, InvoiceType, InvoiceStatus } from "./financialTypes";
 const PAGE_SIZE = 8;
 
 const STATUS_STYLE: Record<InvoiceStatus, string> = {
-  generated: "bg-[#ECFDF5] text-[#10B981]",
+  generated: "bg-[#FFF7ED] text-[#E08A3C]",
   sent: "bg-[#F5F5F5] text-[#999]",
-  failed: "bg-[#FEF2F2] text-[#E11D48]",
-  regenerating: "bg-[#FEF3C7] text-[#F59E0B]",
+  failed: "bg-[#FFF1E6] text-[#C2571A]",
+  regenerating: "bg-[#FFF7ED] text-[#D4956A]",
 };
 
 const TYPE_LABEL: Record<InvoiceType, string> = {
@@ -108,7 +108,7 @@ function InvoiceTable({ onSelect }: Props) {
                 <td className="py-4 pl-7 pr-3"><span className="text-[12px] font-mono text-[#ACACAC]">{inv.invoiceId}</span></td>
                 <td className="py-4 px-3"><span className="text-[12px] text-[#777]">{inv.date}</span></td>
                 <td className="py-4 px-3"><span className="text-[13px] text-[#1A1A1A]">{inv.billTo}</span></td>
-                <td className="py-4 px-3"><span className={`text-[12px] ${inv.type === "platform_invoice" ? "text-[#4F46E5]" : "text-[#777]"}`}>{TYPE_LABEL[inv.type]}</span></td>
+                <td className="py-4 px-3"><span className={`text-[12px] ${inv.type === "platform_invoice" ? "text-[#E08A3C]" : "text-[#777]"}`}>{TYPE_LABEL[inv.type]}</span></td>
                 <td className="py-4 px-3"><span className="text-[13px] font-normal text-[#1A1A1A] tabular-nums">${inv.total.toLocaleString()}</span></td>
                 <td className="py-4 px-3"><span className="text-[12px] text-[#777] tabular-nums">${inv.taxComponent.toLocaleString()}</span></td>
                 <td className="py-4 px-3"><span className={`inline-flex px-2.5 py-[3px] rounded-full text-[10.5px] font-medium capitalize ${STATUS_STYLE[inv.status]}`}>{inv.status}</span></td>

@@ -21,7 +21,7 @@ function ImpersonationTable() {
             <div>
               <p className="text-[13px] font-medium text-[#1A1A1A]">Active impersonation session</p>
               <p className="text-[11px] text-[#999] mt-0.5">
-                admin@homeguru.in → Rohan Mehta (STU-8842) · Started 10:42 AM
+                admin@homeguruworld.com → Rohan Mehta (STU-8842) · Started 10:42 AM
               </p>
             </div>
           </div>
@@ -72,7 +72,7 @@ function ImpersonationTable() {
                   </td>
                   <td className="py-4 px-4">
                     <span className={`text-[10px] font-medium px-2 py-[2px] rounded-full ${
-                      s.targetType === "student" ? "bg-[#F0F0F0] text-[#666]" : "bg-[#EEF2FF] text-[#4F46E5]"
+                      s.targetType === "student" ? "bg-[#F0F0F0] text-[#666]" : "bg-[#FFF7ED] text-[#E08A3C]"
                     }`}>
                       {s.targetType}
                     </span>

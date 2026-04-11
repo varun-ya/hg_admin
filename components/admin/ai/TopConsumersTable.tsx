@@ -32,9 +32,9 @@ function TopConsumersTable() {
               <tr key={c.id} className={`hover:bg-[#FAFAFA]/60 transition-colors duration-100 ${i > 0 ? "border-t border-[#F8F8F8]" : ""}`}>
                 <td className="py-4 pl-7 pr-3">
                   <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${c.type === "institution" ? "bg-[#EEF2FF]" : "bg-[#F7F7F7]"}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${c.type === "institution" ? "bg-[#FFF7ED]" : "bg-[#F7F7F7]"}`}>
                       {c.type === "institution"
-                        ? <Buildings size={14} className="text-[#4F46E5]" />
+                        ? <Buildings size={14} className="text-[#E08A3C]" />
                         : <ChalkboardTeacher size={14} className="text-[#999]" />
                       }
                     </div>

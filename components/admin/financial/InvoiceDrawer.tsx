@@ -6,10 +6,10 @@ import {
 import type { Invoice, InvoiceStatus } from "./financialTypes";
 
 const STATUS_STYLE: Record<InvoiceStatus, string> = {
-  generated: "bg-[#ECFDF5] text-[#10B981]",
+  generated: "bg-[#FFF7ED] text-[#E08A3C]",
   sent: "bg-[#F5F5F5] text-[#999]",
-  failed: "bg-[#FEF2F2] text-[#E11D48]",
-  regenerating: "bg-[#FEF3C7] text-[#F59E0B]",
+  failed: "bg-[#FFF1E6] text-[#C2571A]",
+  regenerating: "bg-[#FFF7ED] text-[#D4956A]",
 };
 
 interface Props { invoice: Invoice | null; onClose: () => void }

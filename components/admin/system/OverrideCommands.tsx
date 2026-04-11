@@ -15,23 +15,23 @@ const ICONS = [
 
 const DANGER_BORDER: Record<string, string> = {
   low: "border-[#F0F0F0]",
-  medium: "border-[#F59E0B]/20",
-  high: "border-[#E11D48]/15",
-  critical: "border-[#E11D48]/30",
+  medium: "border-[#D4956A]/20",
+  high: "border-[#C2571A]/15",
+  critical: "border-[#C2571A]/30",
 };
 
 const DANGER_BADGE: Record<string, string> = {
   low: "bg-[#F5F5F5] text-[#999]",
-  medium: "bg-[#FEF3C7] text-[#F59E0B]",
-  high: "bg-[#FEF2F2] text-[#E11D48]",
-  critical: "bg-[#FEF2F2] text-[#E11D48]",
+  medium: "bg-[#FFF7ED] text-[#D4956A]",
+  high: "bg-[#FFF1E6] text-[#C2571A]",
+  critical: "bg-[#FFF1E6] text-[#C2571A]",
 };
 
 const STATUS_ICON: Record<OverrideStatus, React.ReactNode> = {
   idle: <Clock size={12} className="text-[#CACACA]" />,
-  running: <Spinner size={12} className="text-[#F59E0B] animate-spin" />,
-  completed: <CheckCircle size={12} className="text-[#10B981]" />,
-  failed: <Warning size={12} className="text-[#E11D48]" />,
+  running: <Spinner size={12} className="text-[#D4956A] animate-spin" />,
+  completed: <CheckCircle size={12} className="text-[#E08A3C]" />,
+  failed: <Warning size={12} className="text-[#C2571A]" />,
 };
 
 function OverrideCommands() {

@@ -5,13 +5,13 @@ import {
   Eye, Megaphone, Prohibit, X, Command, Warning as WarningIcon,
 } from "@phosphor-icons/react";
 import { liveSessions } from "./classMockData";
-import type { LiveSession, ConnectionHealth } from "./classTypes";
+import type { LiveSession, ConnectionHealth, ClassType } from "./classTypes";
 
 const PAGE_SIZE = 8;
 
-const HEALTH_COLOR: Record<ConnectionHealth, string> = { green: "#1A1A1A", yellow: "#E08A3C", red: "#DC2626" };
+const HEALTH_COLOR: Record<ConnectionHealth, string> = { green: "#1A1A1A", yellow: "#E08A3C", red: "#C2571A" };
 const HEALTH_LABEL: Record<ConnectionHealth, string> = { green: "Healthy", yellow: "Degraded", red: "Critical" };
-const HEALTH_BG: Record<ConnectionHealth, string> = { green: "bg-[#F0F0F0] text-[#1A1A1A]", yellow: "bg-[#FFF8F3] text-[#E08A3C]", red: "bg-[#FEF2F2] text-[#DC2626]" };
+const HEALTH_BG: Record<ConnectionHealth, string> = { green: "bg-[#F0F0F0] text-[#1A1A1A]", yellow: "bg-[#FFF8F3] text-[#E08A3C]", red: "bg-[#FFF1E6] text-[#C2571A]" };
 
 interface Props { onSelectSession: (s: LiveSession) => void }
 
@@ -36,6 +36,7 @@ function MiniHealthLine({ data, color }: { data: number[]; color: string }) {
 function ClassRadarTable({ onSelectSession }: Props) {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
+  const [classTab, setClassTab] = useState<ClassType>("live");
   const [showFilters, setShowFilters] = useState(false);
   const [warningsOnly, setWarningsOnly] = useState(false);
   const [regionFilter, setRegionFilter] = useState("all");
@@ -43,8 +44,11 @@ function ClassRadarTable({ onSelectSession }: Props) {
   const [contextMenu, setContextMenu] = useState<string | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
 
-  const regions = useMemo(() => [...new Set(liveSessions.map((s) => s.region))], []);
-  const subjects = useMemo(() => [...new Set(liveSessions.map((s) => s.subject))], []);
+  const byType = useMemo(() => liveSessions.filter((s) => s.classType === classTab), [classTab]);
+  const liveCount = liveSessions.filter((s) => s.classType === "live").length;
+  const demoCount = liveSessions.filter((s) => s.classType === "demo").length;
+  const regions = useMemo(() => [...new Set(byType.map((s) => s.region))], [byType]);
+  const subjects = useMemo(() => [...new Set(byType.map((s) => s.subject))], [byType]);
 
   useEffect(() => {
     const h = (e: KeyboardEvent) => { if ((e.metaKey || e.ctrlKey) && e.key === "k") { e.preventDefault(); searchRef.current?.focus(); } };
@@ -59,14 +63,14 @@ function ClassRadarTable({ onSelectSession }: Props) {
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
-    return liveSessions.filter((s) => {
+    return byType.filter((s) => {
       if (q && !s.teacher.toLowerCase().includes(q) && !s.student.toLowerCase().includes(q) && !s.sessionId.toLowerCase().includes(q) && !s.subject.toLowerCase().includes(q)) return false;
       if (warningsOnly && s.health === "green") return false;
       if (regionFilter !== "all" && s.region !== regionFilter) return false;
       if (subjectFilter !== "all" && s.subject !== subjectFilter) return false;
       return true;
     });
-  }, [search, warningsOnly, regionFilter, subjectFilter]);
+  }, [search, warningsOnly, regionFilter, subjectFilter, byType]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const paged = filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
@@ -75,7 +79,7 @@ function ClassRadarTable({ onSelectSession }: Props) {
   return (
     <div className="bg-white rounded-2xl border border-[#F0F0F0] overflow-hidden">
       <div className="px-7 pt-6 pb-5">
-        <div className="flex items-center justify-between mb-1">
+        <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="text-[15px] font-medium text-[#1A1A1A] font-season">Live Classroom Radar</h3>
             <p className="text-[12px] text-[#CACACA] mt-1">{filtered.length} session{filtered.length !== 1 ? "s" : ""}{activeFilterCount > 0 ? " (filtered)" : ""}</p>
@@ -91,6 +95,33 @@ function ClassRadarTable({ onSelectSession }: Props) {
               Filters{activeFilterCount > 0 && <span className="ml-0.5 w-4 h-4 rounded-full bg-[#1A1A1A] text-white text-[9px] flex items-center justify-center">{activeFilterCount}</span>}
             </button>
           </div>
+        </div>
+
+        {/* Live / Demo tab switcher */}
+        <div className="flex items-center gap-1 bg-[#F5F5F5] rounded-xl p-[3px] w-fit">
+          <button
+            onClick={() => { setClassTab("live"); setPage(0); setSearch(""); setWarningsOnly(false); setRegionFilter("all"); setSubjectFilter("all"); }}
+            className={`flex items-center gap-1.5 px-4 py-[7px] rounded-lg text-[12px] font-medium transition-all cursor-pointer border-none ${
+              classTab === "live" ? "bg-white text-[#1A1A1A] shadow-sm" : "bg-transparent text-[#ACACAC] hover:text-[#777]"
+            }`}
+          >
+            <span className="relative flex h-1.5 w-1.5 shrink-0">
+              {classTab === "live" && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E08A3C] opacity-50" />}
+              <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${classTab === "live" ? "bg-[#E08A3C]" : "bg-[#DCDCDC]"}`} />
+            </span>
+            Live Classes
+            <span className={`text-[10px] font-medium px-1.5 py-[1px] rounded-full ${classTab === "live" ? "bg-[#FFF7ED] text-[#E08A3C]" : "bg-[#F0F0F0] text-[#ACACAC]"}`}>{liveCount}</span>
+          </button>
+          <button
+            onClick={() => { setClassTab("demo"); setPage(0); setSearch(""); setWarningsOnly(false); setRegionFilter("all"); setSubjectFilter("all"); }}
+            className={`flex items-center gap-1.5 px-4 py-[7px] rounded-lg text-[12px] font-medium transition-all cursor-pointer border-none ${
+              classTab === "demo" ? "bg-white text-[#1A1A1A] shadow-sm" : "bg-transparent text-[#ACACAC] hover:text-[#777]"
+            }`}
+          >
+            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${classTab === "demo" ? "bg-[#293763]" : "bg-[#DCDCDC]"}`} />
+            Demo Classes
+            <span className={`text-[10px] font-medium px-1.5 py-[1px] rounded-full ${classTab === "demo" ? "bg-[#F0F3FA] text-[#293763]" : "bg-[#F0F0F0] text-[#ACACAC]"}`}>{demoCount}</span>
+          </button>
         </div>
       </div>
 

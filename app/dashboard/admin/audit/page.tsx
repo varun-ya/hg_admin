@@ -7,7 +7,7 @@ import { auditKPIs, auditSparklines } from "@/components/admin/system/systemMock
 
 const ICONS = [
   <ListBullets size={20} weight="regular" className="text-[#999]" />,
-  <ShieldCheck size={20} weight="regular" className="text-[#E11D48]" />,
+  <ShieldCheck size={20} weight="regular" className="text-[#C2571A]" />,
   <Lightning size={20} weight="regular" className="text-[#999]" />,
 ];
 

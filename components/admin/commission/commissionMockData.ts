@@ -4,8 +4,8 @@ import type { KPIItem } from "../LiveOpsKPIRibbon";
 export const commissionKPIs: KPIItem[] = [
   { label: "Active Rules", value: "8", change: "2 tiered, 6 subject", changeType: "neutral", icon: null },
   { label: "Avg. Commission", value: "16.4%", change: "−0.8% vs last month", changeType: "down", icon: null },
-  { label: "Commission Revenue (30d)", value: "$138K", change: "+12% MoM", changeType: "up", icon: null },
-  { label: "FX Exposure", value: "$84K", change: "3 currencies locked", changeType: "neutral", icon: null },
+  { label: "Commission Revenue (30d)", value: "$138K", usdValue: 138000, change: "+12% MoM", changeType: "up", icon: null },
+  { label: "FX Exposure", value: "$84K", usdValue: 84000, change: "3 currencies locked", changeType: "neutral", icon: null },
 ];
 export const commissionSparklines = [
   [6, 7, 7, 8, 8, 8, 8],
@@ -15,14 +15,14 @@ export const commissionSparklines = [
 ];
 
 export const commissionRules: CommissionRule[] = [
-  { id: "CR-001", name: "Default Platform Rate", trigger: "flat", conditions: "All subjects, all regions", rate: "20%", status: "active", appliedTo: 8420, revenue30d: "$98,200", createdBy: "admin@homeguru.in", createdAt: "Jan 1, 2024" },
-  { id: "CR-002", name: "STEM Talent Attraction", trigger: "subject", conditions: "Advanced Calculus, Quantum Physics, Organic Chemistry", rate: "12%", status: "active", appliedTo: 340, revenue30d: "$8,400", createdBy: "admin@homeguru.in", createdAt: "Feb 15, 2024" },
-  { id: "CR-003", name: "High-Volume Teacher Reward", trigger: "volume", conditions: "First $500/mo → 20%, $500–$2K → 15%, $2K+ → 10%", rate: "Tiered", status: "active", appliedTo: 1200, revenue30d: "$22,100", createdBy: "karan@homeguru.in", createdAt: "Mar 1, 2024" },
-  { id: "CR-004", name: "New Teacher Onboarding", trigger: "tiered", conditions: "First 30 days: 10%, Days 31–90: 15%, After: standard", rate: "Tiered", status: "active", appliedTo: 180, revenue30d: "$3,200", createdBy: "riya@homeguru.in", createdAt: "Feb 20, 2024" },
-  { id: "CR-005", name: "Language Premium", trigger: "subject", conditions: "Japanese, Mandarin, Korean", rate: "15%", status: "active", appliedTo: 95, revenue30d: "$2,800", createdBy: "admin@homeguru.in", createdAt: "Jan 10, 2024" },
-  { id: "CR-006", name: "Corporate B2B Override", trigger: "flat", conditions: "All B2B tenant bookings", rate: "8%", status: "active", appliedTo: 620, revenue30d: "$4,100", createdBy: "admin@homeguru.in", createdAt: "Dec 1, 2023" },
-  { id: "CR-007", name: "Holiday Promo Rate", trigger: "flat", conditions: "Dec 20 – Jan 5 bookings", rate: "25%", status: "archived", appliedTo: 0, revenue30d: "$0", createdBy: "admin@homeguru.in", createdAt: "Dec 18, 2023" },
-  { id: "CR-008", name: "Test Arts Discount", trigger: "subject", conditions: "Music, Drawing, Dance", rate: "18%", status: "draft", appliedTo: 0, revenue30d: "$0", createdBy: "riya@homeguru.in", createdAt: "Mar 10, 2024" },
+  { id: "CR-001", name: "Default Platform Rate", trigger: "flat", conditions: "All subjects, all regions", rate: "20%", status: "active", appliedTo: 8420, revenue30d: "$98,200", createdBy: "admin@homeguruworld.com", createdAt: "Jan 1, 2024" },
+  { id: "CR-002", name: "STEM Talent Attraction", trigger: "subject", conditions: "Advanced Calculus, Quantum Physics, Organic Chemistry", rate: "12%", status: "active", appliedTo: 340, revenue30d: "$8,400", createdBy: "admin@homeguruworld.com", createdAt: "Feb 15, 2024" },
+  { id: "CR-003", name: "High-Volume Teacher Reward", trigger: "volume", conditions: "First $500/mo → 20%, $500–$2K → 15%, $2K+ → 10%", rate: "Tiered", status: "active", appliedTo: 1200, revenue30d: "$22,100", createdBy: "karan@homeguruworld.com", createdAt: "Mar 1, 2024" },
+  { id: "CR-004", name: "New Teacher Onboarding", trigger: "tiered", conditions: "First 30 days: 10%, Days 31–90: 15%, After: standard", rate: "Tiered", status: "active", appliedTo: 180, revenue30d: "$3,200", createdBy: "riya@homeguruworld.com", createdAt: "Feb 20, 2024" },
+  { id: "CR-005", name: "Language Premium", trigger: "subject", conditions: "Japanese, Mandarin, Korean", rate: "15%", status: "active", appliedTo: 95, revenue30d: "$2,800", createdBy: "admin@homeguruworld.com", createdAt: "Jan 10, 2024" },
+  { id: "CR-006", name: "Corporate B2B Override", trigger: "flat", conditions: "All B2B tenant bookings", rate: "8%", status: "active", appliedTo: 620, revenue30d: "$4,100", createdBy: "admin@homeguruworld.com", createdAt: "Dec 1, 2023" },
+  { id: "CR-007", name: "Holiday Promo Rate", trigger: "flat", conditions: "Dec 20 – Jan 5 bookings", rate: "25%", status: "archived", appliedTo: 0, revenue30d: "$0", createdBy: "admin@homeguruworld.com", createdAt: "Dec 18, 2023" },
+  { id: "CR-008", name: "Test Arts Discount", trigger: "subject", conditions: "Music, Drawing, Dance", rate: "18%", status: "draft", appliedTo: 0, revenue30d: "$0", createdBy: "riya@homeguruworld.com", createdAt: "Mar 10, 2024" },
 ];
 
 export const fxRates: FxRate[] = [

@@ -9,9 +9,9 @@ import { keysKPIs, keysSparklines } from "@/components/admin/ai/aiMockData";
 import type { ApiKey } from "@/components/admin/ai/aiTypes";
 
 const ICONS = [
-  <Key size={20} weight="regular" className="text-[#10B981]" />,
+  <Key size={20} weight="regular" className="text-[#E08A3C]" />,
   <Database size={20} weight="regular" className="text-[#999]" />,
-  <Warning size={20} weight="regular" className="text-[#F59E0B]" />,
+  <Warning size={20} weight="regular" className="text-[#D4956A]" />,
   <Prohibit size={20} weight="regular" className="text-[#999]" />,
 ];
 

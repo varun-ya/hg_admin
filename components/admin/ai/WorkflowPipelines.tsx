@@ -9,8 +9,8 @@ import { TRIGGER_LABELS, ENGINE_LABELS, ENGINE_COLORS } from "./aiTypes";
 import WorkflowRuleModal from "./WorkflowRuleModal";
 
 const STATUS_STYLE: Record<WorkflowStatus, string> = {
-  active: "bg-[#ECFDF5] text-[#10B981]",
-  paused: "bg-[#FEF3C7] text-[#F59E0B]",
+  active: "bg-[#FFF7ED] text-[#E08A3C]",
+  paused: "bg-[#FFF7ED] text-[#D4956A]",
   draft: "bg-[#F0F0F0] text-[#999]",
 };
 
@@ -51,7 +51,7 @@ function WorkflowPipelines() {
                   {/* Pipeline Steps — Visual */}
                   <div className="flex items-center gap-0 flex-wrap">
                     <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#F7F7F7] rounded-lg text-[10px] font-medium text-[#777] border border-[#F0F0F0]">
-                      <Lightning size={10} weight="fill" className="text-[#F59E0B]" />
+                      <Lightning size={10} weight="fill" className="text-[#D4956A]" />
                       {TRIGGER_LABELS[w.trigger]}
                     </span>
                     {w.steps.map((step, i) => (
@@ -97,7 +97,7 @@ function WorkflowPipelines() {
                     disabled={w.status === "draft"}
                     className={`w-8 h-8 rounded-lg border flex items-center justify-center cursor-pointer transition-all disabled:opacity-30 disabled:cursor-not-allowed ${
                       w.status === "active"
-                        ? "border-[#10B981]/20 bg-[#ECFDF5] text-[#10B981] hover:bg-[#D1FAE5]"
+                        ? "border-[#E08A3C]/20 bg-[#FFF7ED] text-[#E08A3C] hover:bg-[#D1FAE5]"
                         : "border-[#F0F0F0] bg-white text-[#ACACAC] hover:text-[#1A1A1A] hover:border-[#DCDCDC]"
                     }`}
                     title={w.status === "active" ? "Pause pipeline" : "Activate pipeline"}

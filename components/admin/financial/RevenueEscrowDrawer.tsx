@@ -4,9 +4,9 @@ import { X, Export, ArrowRight } from "@phosphor-icons/react";
 import type { Transaction, TxnStatus } from "./financialTypes";
 
 const STATUS_STYLE: Record<TxnStatus, string> = {
-  cleared: "bg-[#ECFDF5] text-[#10B981]",
+  cleared: "bg-[#FFF7ED] text-[#E08A3C]",
   pending: "bg-[#F0F0F0] text-[#1A1A1A]",
-  failed: "bg-[#FEF2F2] text-[#E11D48]",
+  failed: "bg-[#FFF1E6] text-[#C2571A]",
 };
 
 interface Props { txn: Transaction | null; onClose: () => void }
@@ -22,8 +22,8 @@ function RevenueEscrowDrawer({ txn, onClose }: Props) {
 
   const flowSteps = [
     { label: "Student Payment", value: `$${txn.totalAmount.toLocaleString()}`, sub: txn.studentName, color: "#1A1A1A" },
-    { label: txn.destination === "escrow" ? "Held in Escrow" : "Cleared to Revenue", value: `$${txn.totalAmount.toLocaleString()}`, sub: `via ${txn.gateway.charAt(0).toUpperCase() + txn.gateway.slice(1)}`, color: txn.destination === "escrow" ? "#4F46E5" : "#10B981" },
-    { label: "Platform Commission", value: `$${txn.platformCut.toLocaleString()}`, sub: `${((txn.platformCut / txn.totalAmount) * 100).toFixed(1)}% take-rate`, color: "#10B981" },
+    { label: txn.destination === "escrow" ? "Held in Escrow" : "Cleared to Revenue", value: `$${txn.totalAmount.toLocaleString()}`, sub: `via ${txn.gateway.charAt(0).toUpperCase() + txn.gateway.slice(1)}`, color: txn.destination === "escrow" ? "#E08A3C" : "#E08A3C" },
+    { label: "Platform Commission", value: `$${txn.platformCut.toLocaleString()}`, sub: `${((txn.platformCut / txn.totalAmount) * 100).toFixed(1)}% take-rate`, color: "#E08A3C" },
     { label: "Teacher Payout", value: `$${txn.teacherPayout.toLocaleString()}`, sub: txn.teacherName, color: "#1A1A1A" },
   ];
 
@@ -48,7 +48,7 @@ function RevenueEscrowDrawer({ txn, onClose }: Props) {
           {/* Quick Stats */}
           <div className="grid grid-cols-3 gap-4">
             <Stat label="Total" value={`$${txn.totalAmount.toLocaleString()}`} />
-            <Stat label="Platform Cut" value={`$${txn.platformCut.toLocaleString()}`} accent="#10B981" />
+            <Stat label="Platform Cut" value={`$${txn.platformCut.toLocaleString()}`} accent="#E08A3C" />
             <Stat label="Teacher Net" value={`$${txn.teacherPayout.toLocaleString()}`} />
           </div>
 

@@ -3,7 +3,7 @@ import { useState, useEffect, memo } from "react";
 import { X, Rocket, Clock, User } from "@phosphor-icons/react";
 import type { FeatureFlag, FlagStatus } from "./systemTypes";
 
-const STATUS_STYLE: Record<FlagStatus, string> = { enabled: "bg-[#ECFDF5] text-[#10B981]", disabled: "bg-[#F5F5F5] text-[#999]", partial: "bg-[#FEF3C7] text-[#F59E0B]" };
+const STATUS_STYLE: Record<FlagStatus, string> = { enabled: "bg-[#FFF7ED] text-[#E08A3C]", disabled: "bg-[#F5F5F5] text-[#999]", partial: "bg-[#FFF7ED] text-[#D4956A]" };
 
 interface Props { flag: FeatureFlag | null; onClose: () => void }
 
@@ -27,7 +27,7 @@ function FlagDrawer({ flag, onClose }: Props) {
           </div>
           <div className="flex items-center gap-2">
             <span className={`inline-flex px-2.5 py-[3px] rounded-full text-[10.5px] font-medium capitalize ${STATUS_STYLE[flag.status]}`}>{flag.status}</span>
-            <span className={`inline-flex px-2.5 py-[3px] rounded-full text-[10.5px] font-medium capitalize ${flag.environment === "production" ? "bg-[#FEF2F2] text-[#E11D48]" : "bg-[#F0F0F0] text-[#777]"}`}>{flag.environment}</span>
+            <span className={`inline-flex px-2.5 py-[3px] rounded-full text-[10.5px] font-medium capitalize ${flag.environment === "production" ? "bg-[#FFF1E6] text-[#C2571A]" : "bg-[#F0F0F0] text-[#777]"}`}>{flag.environment}</span>
           </div>
         </div>
 
@@ -39,7 +39,7 @@ function FlagDrawer({ flag, onClose }: Props) {
             <div className="bg-[#FAFAFA] rounded-xl border border-[#F0F0F0] p-5">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-[11px] text-[#ACACAC]">0%</span>
-                <span className={`text-[20px] font-normal tabular-nums tracking-tight ${rollout === 100 ? "text-[#10B981]" : rollout > 0 ? "text-[#F59E0B]" : "text-[#ACACAC]"}`}>{rollout}%</span>
+                <span className={`text-[20px] font-normal tabular-nums tracking-tight ${rollout === 100 ? "text-[#E08A3C]" : rollout > 0 ? "text-[#D4956A]" : "text-[#ACACAC]"}`}>{rollout}%</span>
                 <span className="text-[11px] text-[#ACACAC]">100%</span>
               </div>
               <input type="range" min={0} max={100} step={5} value={rollout} onChange={(e) => setRollout(Number(e.target.value))} className="w-full h-1.5 bg-[#F0F0F0] rounded-full appearance-none cursor-pointer accent-[#293763]" />
@@ -73,7 +73,7 @@ function FlagDrawer({ flag, onClose }: Props) {
             onClick={() => setDeployed(true)}
             disabled={deployed}
             className={`flex items-center gap-1.5 px-5 py-2.5 text-[12px] font-medium rounded-lg transition-all border-none cursor-pointer active:scale-95 ${
-              deployed ? "bg-[#ECFDF5] text-[#10B981] cursor-default" : "bg-[#293763] text-white hover:bg-[#1E2A4A]"
+              deployed ? "bg-[#FFF7ED] text-[#E08A3C] cursor-default" : "bg-[#293763] text-white hover:bg-[#1E2A4A]"
             }`}
           >
             <Rocket size={13} weight="bold" />

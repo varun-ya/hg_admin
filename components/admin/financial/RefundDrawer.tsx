@@ -10,9 +10,9 @@ import ConfirmModal from "@/components/admin/ConfirmModal";
 
 const APPROVAL_STYLE: Record<ApprovalStatus, string> = {
   pending: "bg-[#F0F0F0] text-[#1A1A1A]",
-  approved_1of2: "bg-[#FEF3C7] text-[#F59E0B]",
-  approved_2of2: "bg-[#ECFDF5] text-[#10B981]",
-  rejected: "bg-[#FEF2F2] text-[#E11D48]",
+  approved_1of2: "bg-[#FFF7ED] text-[#D4956A]",
+  approved_2of2: "bg-[#FFF7ED] text-[#E08A3C]",
+  rejected: "bg-[#FFF1E6] text-[#C2571A]",
   auto_approved: "bg-[#F5F5F5] text-[#999]",
 };
 
@@ -77,8 +77,8 @@ function RefundDrawer({ refund, onClose }: Props) {
                 {refund.approver1 && <Row label="1st Approver" value={refund.approver1} />}
                 {isHighValue && (
                   <div className="flex items-center gap-2 pt-2 border-t border-[#F8F8F8]">
-                    <Warning size={12} weight="fill" className="text-[#F59E0B]" />
-                    <span className="text-[11px] font-medium text-[#F59E0B]">High-value refund — Two-person approval required</span>
+                    <Warning size={12} weight="fill" className="text-[#D4956A]" />
+                    <span className="text-[11px] font-medium text-[#D4956A]">High-value refund — Two-person approval required</span>
                   </div>
                 )}
               </div>
@@ -135,8 +135,8 @@ function RefundDrawer({ refund, onClose }: Props) {
                     <Row label="Session Duration" value={evidence.sessionDurationMin > 0 ? `${evidence.sessionDurationMin} min` : "0 min (no session)"} />
                     <div className="flex items-center justify-between pt-2 border-t border-[#F8F8F8]">
                       <span className="text-[12px] text-[#999]">Teaching Occurred</span>
-                      <span className={`flex items-center gap-1.5 text-[12px] font-medium ${evidence.teachingOccurred ? "text-[#1A1A1A]" : "text-[#E11D48]"}`}>
-                        <span className={`w-[6px] h-[6px] rounded-full ${evidence.teachingOccurred ? "bg-[#1A1A1A]" : "bg-[#E11D48]"}`} />
+                      <span className={`flex items-center gap-1.5 text-[12px] font-medium ${evidence.teachingOccurred ? "text-[#1A1A1A]" : "text-[#C2571A]"}`}>
+                        <span className={`w-[6px] h-[6px] rounded-full ${evidence.teachingOccurred ? "bg-[#1A1A1A]" : "bg-[#C2571A]"}`} />
                         {evidence.teachingOccurred ? "Yes" : "No"}
                       </span>
                     </div>
@@ -153,12 +153,12 @@ function RefundDrawer({ refund, onClose }: Props) {
                   </div>
 
                   {/* System Recommendation */}
-                  <div className="bg-[#EEF2FF] rounded-xl border border-[#4F46E5]/10 p-5">
+                  <div className="bg-[#FFF7ED] rounded-xl border border-[#E08A3C]/10 p-5">
                     <div className="flex items-center gap-2 mb-2">
-                      <ShieldCheck size={14} className="text-[#4F46E5]" />
-                      <span className="text-[11px] font-medium text-[#4F46E5]">Osmium AI Recommendation</span>
+                      <ShieldCheck size={14} className="text-[#E08A3C]" />
+                      <span className="text-[11px] font-medium text-[#E08A3C]">Osmium AI Recommendation</span>
                     </div>
-                    <p className="text-[12px] text-[#4F46E5]/80 leading-relaxed">
+                    <p className="text-[12px] text-[#E08A3C]/80 leading-relaxed">
                       Based on VideoMeet telemetry: No teaching session occurred. Teacher never joined the room. Student waited the full 15-minute timeout. System recommends full refund.
                     </p>
                   </div>
@@ -172,9 +172,9 @@ function RefundDrawer({ refund, onClose }: Props) {
         <div className="bg-white border-t border-[#F0F0F0] px-8 py-4 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2">
             <span className="text-[11px] text-[#CACACA]">Refund:</span>
-            <span className={`text-[11px] font-medium tabular-nums ${isHighValue ? "text-[#E11D48]" : "text-[#1A1A1A]"}`}>${refund.amount.toLocaleString()}</span>
+            <span className={`text-[11px] font-medium tabular-nums ${isHighValue ? "text-[#C2571A]" : "text-[#1A1A1A]"}`}>${refund.amount.toLocaleString()}</span>
             {isPending2nd && (
-              <span className="flex items-center gap-1 text-[10px] font-medium text-[#F59E0B] bg-[#FEF3C7] px-2 py-[2px] rounded-full ml-2">
+              <span className="flex items-center gap-1 text-[10px] font-medium text-[#D4956A] bg-[#FFF7ED] px-2 py-[2px] rounded-full ml-2">
                 <Clock size={10} weight="fill" /> Pending 2nd Approval
               </span>
             )}
@@ -184,7 +184,7 @@ function RefundDrawer({ refund, onClose }: Props) {
               <button
                 onClick={() => setStandardModal(true)}
                 disabled={isPending2nd}
-                className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] font-medium text-white bg-[#10B981] rounded-lg hover:bg-[#059669] transition-all cursor-pointer border-none active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
+                className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] font-medium text-white bg-[#E08A3C] rounded-lg hover:bg-[#059669] transition-all cursor-pointer border-none active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <ArrowsClockwise size={13} /> Process Standard Refund
               </button>
@@ -199,8 +199,8 @@ function RefundDrawer({ refund, onClose }: Props) {
                 disabled={isPending2nd}
                 className={`flex items-center gap-1.5 px-4 py-2.5 text-[12px] font-medium rounded-lg transition-all border-none active:scale-95 ${
                   isPending2nd
-                    ? "bg-[#FEF3C7] text-[#F59E0B] cursor-not-allowed"
-                    : "bg-[#E11D48] text-white hover:bg-[#BE123C] cursor-pointer"
+                    ? "bg-[#FFF7ED] text-[#D4956A] cursor-not-allowed"
+                    : "bg-[#C2571A] text-white hover:bg-[#BE123C] cursor-pointer"
                 }`}
               >
                 <Warning size={13} weight="fill" />
@@ -247,7 +247,7 @@ function ApprovalStep({ step, label, status, isLast }: { step: number; label: st
     <div className="flex items-start gap-4">
       <div className="flex flex-col items-center">
         <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-medium shrink-0 ${
-          status === "approved" ? "bg-[#10B981] text-white" : "bg-[#FEF3C7] text-[#F59E0B]"
+          status === "approved" ? "bg-[#E08A3C] text-white" : "bg-[#FFF7ED] text-[#D4956A]"
         }`}>{step}</div>
         {!isLast && <div className="w-[1.5px] h-8 bg-[#F0F0F0]" />}
       </div>

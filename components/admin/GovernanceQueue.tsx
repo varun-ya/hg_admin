@@ -23,7 +23,7 @@ function GovernanceQueueWidget() {
 
   return (
     <>
-      <div className="bg-white rounded-2xl border border-[#F0F0F0] overflow-hidden h-full flex flex-col">
+      <div className="bg-white rounded-2xl border border-[#F0F0F0] overflow-hidden h-full flex flex-col max-h-[480px]">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 shrink-0">
           <h3 className="text-[15px] font-medium text-[#1A1A1A] font-season">Urgent Queue</h3>
@@ -33,7 +33,7 @@ function GovernanceQueueWidget() {
         </div>
 
         {/* Items */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto custom-scrollbar">
           {governanceQueue.map((g, i) => (
             <div key={g.id} className={`px-6 py-4 hover:bg-[#FAFAFA] transition-colors group cursor-pointer ${i > 0 ? "border-t border-[#F5F5F5]" : ""}`}>
               <div className="flex items-start gap-3">

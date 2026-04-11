@@ -1,7 +1,7 @@
 "use client";
 import { memo } from "react";
 import { Brain, Eye, VideoCamera } from "@phosphor-icons/react";
-import { AreaChart, Area, ResponsiveContainer } from "recharts";
+import { AreaChart, Area, ResponsiveContainer, Tooltip } from "recharts";
 import { aiMediaHealth } from "./mockData";
 
 function formatNumber(n: number): string {
@@ -47,6 +47,17 @@ function DailyTrendSpark({ data, color }: { data: number[]; color: string }) {
               <stop offset="100%" stopColor={color} stopOpacity={0} />
             </linearGradient>
           </defs>
+          <Tooltip
+            content={({ active, payload }) => {
+              if (!active || !payload?.length) return null;
+              return (
+                <div className="bg-white rounded-lg border border-[#F0F0F0] shadow-[0_6px_20px_-6px_rgba(0,0,0,0.12)] px-3 py-2 font-matter">
+                  <span className="text-[12px] font-medium text-[#1A1A1A] tabular-nums">{formatNumber(payload[0].value as number)}</span>
+                </div>
+              );
+            }}
+            cursor={false}
+          />
           <Area
             type="monotone" dataKey="v" stroke={color}
             fill={`url(#ai-spark-${color.replace("#", "")})`}
@@ -115,8 +126,8 @@ function AIMediaHealthWidget() {
           current={lmlensAPI.current}
           limit={lmlensAPI.limit}
           unit={lmlensAPI.unit}
-          icon={<Eye size={14} weight="regular" className="text-[#8B5CF6]" />}
-          color="#8B5CF6"
+          icon={<Eye size={14} weight="regular" className="text-[#293763]" />}
+          color="#293763"
           dailyTrend={lmlensAPI.dailyTrend}
         />
 
@@ -127,8 +138,8 @@ function AIMediaHealthWidget() {
           </div>
           <div className="flex items-center gap-2">
             <span className="relative flex h-1.5 w-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-[#22C55E]" />
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#22C55E]" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-[#E08A3C]" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#E08A3C]" />
             </span>
             <span className="text-[12px] font-normal text-[#555]">{videoMeetActiveSessions} active</span>
           </div>

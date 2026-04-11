@@ -10,13 +10,13 @@ import type { Transaction, TxnStatus, Gateway } from "./financialTypes";
 const PAGE_SIZE = 8;
 
 const STATUS_STYLE: Record<TxnStatus, string> = {
-  cleared: "bg-[#ECFDF5] text-[#10B981]",
+  cleared: "bg-[#FFF7ED] text-[#E08A3C]",
   pending: "bg-[#F0F0F0] text-[#1A1A1A]",
-  failed: "bg-[#FEF2F2] text-[#E11D48]",
+  failed: "bg-[#FFF1E6] text-[#C2571A]",
 };
 
 const GATEWAY_STYLE: Record<Gateway, string> = {
-  razorpay: "bg-[#EEF2FF] text-[#4F46E5]",
+  razorpay: "bg-[#FFF7ED] text-[#E08A3C]",
   stripe: "bg-[#F0F0F0] text-[#1A1A1A]",
   paypal: "bg-[#FFF8F3] text-[#E08A3C]",
 };
@@ -114,8 +114,8 @@ function RevenueEscrowTable({ onSelect }: Props) {
                 <td className="py-4 px-3"><span className="text-[13px] font-normal text-[#1A1A1A] tabular-nums">${t.totalAmount.toLocaleString()}</span></td>
                 <td className="py-4 px-3"><span className={`inline-flex px-2.5 py-[3px] rounded-full text-[10.5px] font-medium capitalize ${GATEWAY_STYLE[t.gateway]}`}>{t.gateway}</span></td>
                 <td className="py-4 px-3">
-                  <span className={`inline-flex items-center gap-1.5 text-[12px] font-medium ${t.destination === "escrow" ? "text-[#4F46E5]" : "text-[#10B981]"}`}>
-                    <span className={`w-[5px] h-[5px] rounded-full ${t.destination === "escrow" ? "bg-[#4F46E5]" : "bg-[#10B981]"}`} />
+                  <span className={`inline-flex items-center gap-1.5 text-[12px] font-medium ${t.destination === "escrow" ? "text-[#E08A3C]" : "text-[#E08A3C]"}`}>
+                    <span className={`w-[5px] h-[5px] rounded-full ${t.destination === "escrow" ? "bg-[#E08A3C]" : "bg-[#E08A3C]"}`} />
                     {t.destination === "escrow" ? "Escrow" : "Revenue"}
                   </span>
                 </td>

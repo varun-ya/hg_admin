@@ -103,8 +103,8 @@ export const ENGINE_LABELS: Record<WorkflowStep["engine"], string> = {
 };
 
 export const ENGINE_COLORS: Record<WorkflowStep["engine"], string> = {
-  osmium_videomeet: "#06B6D4",
-  osmium_llm: "#8B5CF6",
-  lmlens: "#06B6D4",
+  osmium_videomeet: "#3D4D7A",
+  osmium_llm: "#293763",
+  lmlens: "#3D4D7A",
   system: "#1A1A1A",
 };

@@ -53,8 +53,8 @@ export const subjectTree: SubjectNode[] = [
 ];
 
 export const featuredTutors: FeaturedTutor[] = [
-  { id: "FT-001", name: "Priya Mehta", avatar: "https://i.pravatar.cc/150?img=47", subject: "Physics", rating: 4.9, totalSessions: 1240, slot: "auto", reason: "Top rated in Physics, 98% completion rate", featuredSince: "Mar 1" },
-  { id: "FT-002", name: "Arjun Singh", avatar: "https://i.pravatar.cc/150?img=12", subject: "Python", rating: 4.8, totalSessions: 980, slot: "manual", reason: "Admin pick — excellent student feedback", featuredSince: "Feb 15" },
-  { id: "FT-003", name: "Léa Rousseau", avatar: "https://i.pravatar.cc/150?img=32", subject: "French", rating: 4.9, totalSessions: 620, slot: "auto", reason: "Trending in Languages, 100% show rate", featuredSince: "Mar 5" },
-  { id: "FT-004", name: "Sneha Reddy", avatar: "https://i.pravatar.cc/150?img=25", subject: "Calculus", rating: 4.7, totalSessions: 440, slot: "manual", reason: "Admin pick — STEM talent initiative", featuredSince: "Mar 8" },
+  { id: "FT-001", name: "Priya Mehta", avatar: "https://api.dicebear.com/9.x/glass/svg?seed=priya-mehta", subject: "Physics", rating: 4.9, totalSessions: 1240, slot: "auto", reason: "Top rated in Physics, 98% completion rate", featuredSince: "Mar 1" },
+  { id: "FT-002", name: "Arjun Singh", avatar: "https://api.dicebear.com/9.x/glass/svg?seed=arjun-singh", subject: "Python", rating: 4.8, totalSessions: 980, slot: "manual", reason: "Admin pick — excellent student feedback", featuredSince: "Feb 15" },
+  { id: "FT-003", name: "Léa Rousseau", avatar: "https://api.dicebear.com/9.x/glass/svg?seed=léa-rousseau", subject: "French", rating: 4.9, totalSessions: 620, slot: "auto", reason: "Trending in Languages, 100% show rate", featuredSince: "Mar 5" },
+  { id: "FT-004", name: "Sneha Reddy", avatar: "https://api.dicebear.com/9.x/glass/svg?seed=sneha-reddy", subject: "Calculus", rating: 4.7, totalSessions: 440, slot: "manual", reason: "Admin pick — STEM talent initiative", featuredSince: "Mar 8" },
 ];

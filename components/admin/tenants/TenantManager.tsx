@@ -7,7 +7,7 @@ import type { Tenant } from "./tenantTypes";
 function Toast({ msg, onClose }: { msg: string; onClose: () => void }) {
   return (
     <div className="fixed bottom-6 right-6 z-[300] flex items-center gap-3 bg-[#1A1A1A] text-white px-4 py-3 rounded-xl shadow-lg animate-fadeIn">
-      <CheckCircle size={14} weight="fill" className="text-[#22C55E] shrink-0" />
+      <CheckCircle size={14} weight="fill" className="text-[#E08A3C] shrink-0" />
       <span className="text-[13px]">{msg}</span>
       <button onClick={onClose} className="ml-2 text-white/50 hover:text-white bg-transparent border-none cursor-pointer"><X size={12} weight="bold" /></button>
     </div>
@@ -86,15 +86,15 @@ function AllocateCreditsModal({ onClose, onSave }: { onClose: () => void; onSave
 }
 
 const TYPE_BADGE: Record<string, string> = {
-  school: "bg-[#EEF2FF] text-[#4F46E5]",
+  school: "bg-[#FFF7ED] text-[#E08A3C]",
   corporation: "bg-[#F0F0F0] text-[#1A1A1A]",
   university: "bg-[#FFF8F3] text-[#E08A3C]",
 };
 
 const STATUS_DOT: Record<string, string> = {
-  active: "bg-[#22C55E]",
-  trial: "bg-[#F59E0B]",
-  suspended: "bg-[#EF4444]",
+  active: "bg-[#E08A3C]",
+  trial: "bg-[#D4956A]",
+  suspended: "bg-[#C2571A]",
   churned: "bg-[#DCDCDC]",
 };
 
@@ -186,7 +186,7 @@ function TenantManager() {
               <div className="flex items-center justify-between mb-1">
                 <span className="text-[13px] text-[#1A1A1A]">{b.tenantName}</span>
                 <span className={`text-[10px] font-medium px-2 py-[2px] rounded-full ${
-                  b.status === "completed" ? "bg-[#F0F0F0] text-[#1A1A1A]" : b.status === "processing" ? "bg-[#FEF3C7] text-[#92400E]" : "bg-[#FEE2E2] text-[#DC2626]"
+                  b.status === "completed" ? "bg-[#F0F0F0] text-[#1A1A1A]" : b.status === "processing" ? "bg-[#FFF7ED] text-[#9A3412]" : "bg-[#FFF1E6] text-[#C2571A]"
                 }`}>{b.status}</span>
               </div>
               <div className="flex items-center gap-3 text-[11px] text-[#ACACAC]">

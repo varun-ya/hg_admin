@@ -71,8 +71,8 @@ function StaffKPIRibbon() {
             </div>
             {m.isCritical && (
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#DC2626] opacity-50" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#DC2626]" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C2571A] opacity-50" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#C2571A]" />
               </span>
             )}
           </div>
@@ -80,11 +80,11 @@ function StaffKPIRibbon() {
           <div className="flex items-end justify-between gap-3">
             <div>
               <p className={`text-[26px] font-normal tracking-tight leading-none mb-2 ${
-                m.isCritical && String(m.value) !== "100%" ? "text-[#DC2626]" : "text-[#1A1A1A]"
+                m.isCritical && String(m.value) !== "100%" ? "text-[#C2571A]" : "text-[#1A1A1A]"
               }`}>{m.value}</p>
               <TrendBadge type={m.changeType} text={m.change} />
             </div>
-            <Sparkline data={SPARKLINES[i]} color={m.isCritical ? "#DC2626" : "#1A1A1A"} />
+            <Sparkline data={SPARKLINES[i]} color={m.isCritical ? "#C2571A" : "#1A1A1A"} />
           </div>
         </div>
       ))}

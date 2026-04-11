@@ -6,7 +6,7 @@ import { subjectTree, featuredTutors } from "./taxonomyMockData";
 function Toast({ msg, onClose }: { msg: string; onClose: () => void }) {
   return (
     <div className="fixed bottom-6 right-6 z-[300] flex items-center gap-3 bg-[#1A1A1A] text-white px-4 py-3 rounded-xl shadow-lg animate-fadeIn">
-      <CheckCircle size={14} weight="fill" className="text-[#22C55E] shrink-0" />
+      <CheckCircle size={14} weight="fill" className="text-[#E08A3C] shrink-0" />
       <span className="text-[13px]">{msg}</span>
       <button onClick={onClose} className="ml-2 text-white/50 hover:text-white bg-transparent border-none cursor-pointer"><X size={12} weight="bold" /></button>
     </div>
@@ -172,12 +172,12 @@ function TaxonomyCenter() {
                   <td className="py-4 px-4 text-[12px] text-[#666]">{t.subject}</td>
                   <td className="py-4 px-4">
                     <span className="flex items-center gap-1 text-[12px] text-[#1A1A1A]">
-                      <Star size={10} weight="fill" className="text-[#F59E0B]" /> {t.rating}
+                      <Star size={10} weight="fill" className="text-[#D4956A]" /> {t.rating}
                     </span>
                   </td>
                   <td className="py-4 px-4 text-[12px] text-[#666] tabular-nums">{t.totalSessions.toLocaleString()}</td>
                   <td className="py-4 px-4">
-                    <span className={`text-[10px] font-medium px-2 py-[2px] rounded-full ${t.slot === "auto" ? "bg-[#EEF2FF] text-[#4F46E5]" : "bg-[#F0F0F0] text-[#1A1A1A]"}`}>
+                    <span className={`text-[10px] font-medium px-2 py-[2px] rounded-full ${t.slot === "auto" ? "bg-[#FFF7ED] text-[#E08A3C]" : "bg-[#F0F0F0] text-[#1A1A1A]"}`}>
                       {t.slot}
                     </span>
                   </td>

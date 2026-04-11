@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { AuthProvider } from "@/components/admin/context/AuthContext";
 
 const seasonMix = localFont({
   src: "../public/fonts/seasonmix/SeasonMix-TRIAL-Light.otf",
@@ -30,7 +31,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${seasonMix.variable} ${matter.variable} antialiased`} suppressHydrationWarning>{children}</body>
+      <body className={`${seasonMix.variable} ${matter.variable} antialiased`} suppressHydrationWarning>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }

@@ -2,11 +2,12 @@
 import { memo } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { ListBullets, Flag, Lightning, Wrench } from "@phosphor-icons/react";
+import { ListBullets, Flag, Lightning, Wrench, ShieldCheck } from "@phosphor-icons/react";
 
 const TABS = [
   { label: "Audit Logs", href: "/dashboard/admin/audit", icon: ListBullets },
   { label: "Feature Flags", href: "/dashboard/admin/flags", icon: Flag },
+  { label: "Security", href: "/dashboard/admin/security", icon: ShieldCheck },
   { label: "Emergency", href: "/dashboard/admin/emergency", icon: Lightning },
   { label: "Overrides", href: "/dashboard/admin/overrides", icon: Wrench },
 ] as const;

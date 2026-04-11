@@ -45,11 +45,11 @@ export const financialSummary: FinancialSummary = {
 };
 
 export const liveSessions: LiveSession[] = [
-  { id: "LS-001", host: "Cersei Lannister", hostAvatar: "https://i.pravatar.cc/150?img=47", subject: "Advanced React", participants: 1, duration: "47m", status: "live", region: "IN" },
-  { id: "LS-002", host: "Jon Snow", hostAvatar: "https://i.pravatar.cc/150?img=12", subject: "Calculus II", participants: 1, duration: "1h 12m", status: "live", region: "US" },
-  { id: "LS-003", host: "Arya Stark", hostAvatar: "https://i.pravatar.cc/150?img=32", subject: "IELTS Speaking", participants: 1, duration: "23m", status: "live", region: "UK" },
-  { id: "LS-004", host: "Aarav Mehta", hostAvatar: "https://i.pravatar.cc/150?img=11", subject: "JEE Physics", participants: 1, duration: "5m", status: "starting", region: "IN" },
-  { id: "LS-005", host: "Priya Desai", hostAvatar: "https://i.pravatar.cc/150?img=25", subject: "Data Science", participants: 1, duration: "1h 58m", status: "ending", region: "IN" },
+  { id: "LS-001", host: "Cersei Lannister", hostAvatar: "https://api.dicebear.com/9.x/glass/svg?seed=cersei-lannister", subject: "Advanced React", participants: 1, duration: "47m", status: "live", region: "IN" },
+  { id: "LS-002", host: "Jon Snow", hostAvatar: "https://api.dicebear.com/9.x/glass/svg?seed=jon-snow", subject: "Calculus II", participants: 1, duration: "1h 12m", status: "live", region: "US" },
+  { id: "LS-003", host: "Arya Stark", hostAvatar: "https://api.dicebear.com/9.x/glass/svg?seed=arya-stark", subject: "IELTS Speaking", participants: 1, duration: "23m", status: "live", region: "UK" },
+  { id: "LS-004", host: "Aarav Mehta", hostAvatar: "https://api.dicebear.com/9.x/glass/svg?seed=aarav-mehta", subject: "JEE Physics", participants: 1, duration: "5m", status: "starting", region: "IN" },
+  { id: "LS-005", host: "Priya Desai", hostAvatar: "https://api.dicebear.com/9.x/glass/svg?seed=priya-desai", subject: "Data Science", participants: 1, duration: "1h 58m", status: "ending", region: "IN" },
 ];
 
 export const governanceQueue: GovernanceItem[] = [
@@ -61,16 +61,16 @@ export const governanceQueue: GovernanceItem[] = [
 ];
 
 export const auditTrail: AuditEvent[] = [
-  { id: "AE-001", timestamp: "2026-03-12 09:42:18", actor: "admin@homeguru.com", action: "Approved KYC", target: "Teacher #4421", category: "kyc", ip: "103.21.xx.xx", immutable: true },
-  { id: "AE-002", timestamp: "2026-03-12 09:38:05", actor: "superadmin@homeguru.com", action: "Rotated API Key", target: "Osmium Prod Key", category: "system", ip: "52.66.xx.xx", immutable: true },
-  { id: "AE-003", timestamp: "2026-03-12 09:31:44", actor: "finance@homeguru.com", action: "Initiated Batch Payout", target: "$48,200 — 34 teachers", category: "financial", ip: "103.21.xx.xx", immutable: true },
-  { id: "AE-004", timestamp: "2026-03-12 09:22:10", actor: "superadmin@homeguru.com", action: "Force Terminated Session", target: "LS-388", category: "override", ip: "52.66.xx.xx", immutable: true },
-  { id: "AE-005", timestamp: "2026-03-12 09:15:33", actor: "admin@homeguru.com", action: "Suspended Account", target: "Teacher #2201", category: "auth", ip: "103.21.xx.xx", immutable: true },
+  { id: "AE-001", timestamp: "2026-03-12 09:42:18", actor: "admin@homeguruworld.com", action: "Approved KYC", target: "Teacher #4421", category: "kyc", ip: "103.21.xx.xx", immutable: true },
+  { id: "AE-002", timestamp: "2026-03-12 09:38:05", actor: "superadmin@homeguruworld.com", action: "Rotated API Key", target: "Osmium Prod Key", category: "system", ip: "52.66.xx.xx", immutable: true },
+  { id: "AE-003", timestamp: "2026-03-12 09:31:44", actor: "finance@homeguruworld.com", action: "Initiated Batch Payout", target: "$48,200 — 34 teachers", category: "financial", ip: "103.21.xx.xx", immutable: true },
+  { id: "AE-004", timestamp: "2026-03-12 09:22:10", actor: "superadmin@homeguruworld.com", action: "Force Terminated Session", target: "LS-388", category: "override", ip: "52.66.xx.xx", immutable: true },
+  { id: "AE-005", timestamp: "2026-03-12 09:15:33", actor: "admin@homeguruworld.com", action: "Suspended Account", target: "Teacher #2201", category: "auth", ip: "103.21.xx.xx", immutable: true },
   { id: "AE-006", timestamp: "2026-03-12 09:02:01", actor: "system", action: "Auto-escalated Dispute", target: "Dispute #D-1192", category: "system", ip: "internal", immutable: true },
-  { id: "AE-007", timestamp: "2026-03-12 08:55:19", actor: "superadmin@homeguru.com", action: "Approved Refund ($1,240)", target: "Student #8842", category: "financial", ip: "52.66.xx.xx", immutable: true },
-  { id: "AE-008", timestamp: "2026-03-12 08:41:07", actor: "admin@homeguru.com", action: "Toggled Feature Flag", target: "ai_quiz_generation: ON", category: "system", ip: "103.21.xx.xx", immutable: true },
+  { id: "AE-007", timestamp: "2026-03-12 08:55:19", actor: "superadmin@homeguruworld.com", action: "Approved Refund ($1,240)", target: "Student #8842", category: "financial", ip: "52.66.xx.xx", immutable: true },
+  { id: "AE-008", timestamp: "2026-03-12 08:41:07", actor: "admin@homeguruworld.com", action: "Toggled Feature Flag", target: "ai_quiz_generation: ON", category: "system", ip: "103.21.xx.xx", immutable: true },
   { id: "AE-009", timestamp: "2026-03-12 08:30:00", actor: "system", action: "Scheduled Backup Complete", target: "PostgreSQL — Full Snapshot", category: "system", ip: "internal", immutable: true },
-  { id: "AE-010", timestamp: "2026-03-12 08:12:44", actor: "superadmin@homeguru.com", action: "Login (MFA Verified)", target: "Aegis Auth Gateway", category: "auth", ip: "52.66.xx.xx", immutable: true },
+  { id: "AE-010", timestamp: "2026-03-12 08:12:44", actor: "superadmin@homeguruworld.com", action: "Login (MFA Verified)", target: "Aegis Auth Gateway", category: "auth", ip: "52.66.xx.xx", immutable: true },
 ];
 
 export const adminNotifications: AdminNotification[] = [

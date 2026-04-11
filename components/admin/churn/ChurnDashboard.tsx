@@ -7,7 +7,7 @@ import type { AtRiskUser } from "./churnMockData";
 function Toast({ msg, onClose }: { msg: string; onClose: () => void }) {
   return (
     <div className="fixed bottom-6 right-6 z-[300] flex items-center gap-3 bg-[#1A1A1A] text-white px-4 py-3 rounded-xl shadow-lg animate-fadeIn">
-      <CheckCircle size={14} weight="fill" className="text-[#22C55E] shrink-0" />
+      <CheckCircle size={14} weight="fill" className="text-[#E08A3C] shrink-0" />
       <span className="text-[13px]">{msg}</span>
       <button onClick={onClose} className="ml-2 text-white/50 hover:text-white bg-transparent border-none cursor-pointer"><X size={12} weight="bold" /></button>
     </div>
@@ -15,9 +15,9 @@ function Toast({ msg, onClose }: { msg: string; onClose: () => void }) {
 }
 
 const RISK_STYLE: Record<string, { dot: string; bg: string; text: string }> = {
-  critical: { dot: "bg-[#EF4444]", bg: "bg-[#FEE2E2]", text: "text-[#DC2626]" },
+  critical: { dot: "bg-[#C2571A]", bg: "bg-[#FFF1E6]", text: "text-[#C2571A]" },
   high: { dot: "bg-[#E08A3C]", bg: "bg-[#FFF8F3]", text: "text-[#E08A3C]" },
-  medium: { dot: "bg-[#F59E0B]", bg: "bg-[#FEF3C7]", text: "text-[#92400E]" },
+  medium: { dot: "bg-[#D4956A]", bg: "bg-[#FFF7ED]", text: "text-[#9A3412]" },
   low: { dot: "bg-[#DCDCDC]", bg: "bg-[#F0F0F0]", text: "text-[#666]" },
 };
 
@@ -84,14 +84,14 @@ function ChurnDashboard() {
                       </div>
                     </td>
                     <td className="py-4 px-4">
-                      <span className={`text-[10px] font-medium px-2 py-[2px] rounded-full ${u.type === "student" ? "bg-[#F0F0F0] text-[#666]" : "bg-[#EEF2FF] text-[#4F46E5]"}`}>
+                      <span className={`text-[10px] font-medium px-2 py-[2px] rounded-full ${u.type === "student" ? "bg-[#F0F0F0] text-[#666]" : "bg-[#FFF7ED] text-[#E08A3C]"}`}>
                         {u.type}
                       </span>
                     </td>
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-2">
                         <div className="w-[40px] h-[4px] bg-[#F0F0F0] rounded-full overflow-hidden">
-                          <div className={`h-full rounded-full ${u.engagementScore < 40 ? "bg-[#EF4444]" : u.engagementScore < 60 ? "bg-[#E08A3C]" : "bg-[#1A1A1A]"}`} style={{ width: `${u.engagementScore}%` }} />
+                          <div className={`h-full rounded-full ${u.engagementScore < 40 ? "bg-[#C2571A]" : u.engagementScore < 60 ? "bg-[#E08A3C]" : "bg-[#1A1A1A]"}`} style={{ width: `${u.engagementScore}%` }} />
                         </div>
                         <span className="text-[11px] text-[#666] tabular-nums">{u.engagementScore}%</span>
                       </div>
@@ -110,7 +110,7 @@ function ChurnDashboard() {
                     </td>
                     <td className="py-4 px-4">
                       {u.nudgeSent ? (
-                        <span className="flex items-center gap-1 text-[10px] text-[#22C55E]">
+                        <span className="flex items-center gap-1 text-[10px] text-[#E08A3C]">
                           {u.nudgeChannel === "WhatsApp" ? <WhatsappLogo size={11} /> : <Envelope size={11} />}
                           Sent
                         </span>
@@ -144,15 +144,15 @@ function ChurnDashboard() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-[13px] text-[#1A1A1A]">{s.userName}</span>
-                  <span className={`text-[10px] font-medium px-2 py-[2px] rounded-full ${s.sentiment === "negative" ? "bg-[#FEE2E2] text-[#DC2626]" : "bg-[#FEF3C7] text-[#92400E]"}`}>
+                  <span className={`text-[10px] font-medium px-2 py-[2px] rounded-full ${s.sentiment === "negative" ? "bg-[#FFF1E6] text-[#C2571A]" : "bg-[#FFF7ED] text-[#9A3412]"}`}>
                     {s.sentiment}
                   </span>
                   <div className="flex items-center gap-0.5">
                     {[...Array(5)].map((_, si) => (
-                      <Star key={si} size={10} weight={si < s.rating ? "fill" : "regular"} className={si < s.rating ? "text-[#F59E0B]" : "text-[#DCDCDC]"} />
+                      <Star key={si} size={10} weight={si < s.rating ? "fill" : "regular"} className={si < s.rating ? "text-[#D4956A]" : "text-[#DCDCDC]"} />
                     ))}
                   </div>
-                  {s.resolved && <span className="text-[10px] text-[#22C55E]">Resolved</span>}
+                  {s.resolved && <span className="text-[10px] text-[#E08A3C]">Resolved</span>}
                 </div>
                 <p className="text-[12px] text-[#666] leading-relaxed">&ldquo;{s.reviewSnippet}&rdquo;</p>
                 <span className="text-[10px] text-[#CACACA] mt-1 block">{s.flaggedAt}</span>

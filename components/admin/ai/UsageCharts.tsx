@@ -44,16 +44,16 @@ function UsageCharts() {
           <AreaChart data={dailyTokenBurn} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
             <defs>
               <linearGradient id="gChatbot" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.15} />
-                <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0} />
+                <stop offset="0%" stopColor="#E08A3C" stopOpacity={0.15} />
+                <stop offset="100%" stopColor="#E08A3C" stopOpacity={0} />
               </linearGradient>
               <linearGradient id="gSummarization" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#06B6D4" stopOpacity={0.15} />
-                <stop offset="100%" stopColor="#06B6D4" stopOpacity={0} />
+                <stop offset="0%" stopColor="#293763" stopOpacity={0.15} />
+                <stop offset="100%" stopColor="#293763" stopOpacity={0} />
               </linearGradient>
               <linearGradient id="gQuizGen" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#F59E0B" stopOpacity={0.15} />
-                <stop offset="100%" stopColor="#F59E0B" stopOpacity={0} />
+                <stop offset="0%" stopColor="#D4956A" stopOpacity={0.15} />
+                <stop offset="100%" stopColor="#D4956A" stopOpacity={0} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#F5F5F5" vertical={false} />
@@ -67,9 +67,9 @@ function UsageCharts() {
               iconSize={6}
               wrapperStyle={{ fontSize: 11, color: "#999", paddingBottom: 8 }}
             />
-            <Area type="monotone" dataKey="chatbot" name="Chatbot" stackId="1" stroke="#8B5CF6" fill="url(#gChatbot)" strokeWidth={1.5} />
-            <Area type="monotone" dataKey="summarization" name="Summarization" stackId="1" stroke="#06B6D4" fill="url(#gSummarization)" strokeWidth={1.5} />
-            <Area type="monotone" dataKey="quizGen" name="Quiz Gen" stackId="1" stroke="#F59E0B" fill="url(#gQuizGen)" strokeWidth={1.5} />
+            <Area type="monotone" dataKey="chatbot" name="Chatbot" stackId="1" stroke="#E08A3C" fill="url(#gChatbot)" strokeWidth={1.5} />
+            <Area type="monotone" dataKey="summarization" name="Summarization" stackId="1" stroke="#293763" fill="url(#gSummarization)" strokeWidth={1.5} />
+            <Area type="monotone" dataKey="quizGen" name="Quiz Gen" stackId="1" stroke="#D4956A" fill="url(#gQuizGen)" strokeWidth={1.5} />
           </AreaChart>
         </ResponsiveContainer>
       </div>
@@ -94,8 +94,8 @@ function UsageCharts() {
               iconSize={6}
               wrapperStyle={{ fontSize: 11, color: "#999", paddingBottom: 8 }}
             />
-            <Line yAxisId="left" type="monotone" dataKey="p95" name="p95 Latency" stroke="#8B5CF6" strokeWidth={2} dot={{ r: 3, fill: "#8B5CF6" }} activeDot={{ r: 5 }} />
-            <Line yAxisId="right" type="monotone" dataKey="errorRate" name="Error Rate" stroke="#E11D48" strokeWidth={2} dot={{ r: 3, fill: "#E11D48" }} activeDot={{ r: 5 }} strokeDasharray="4 4" />
+            <Line yAxisId="left" type="monotone" dataKey="p95" name="p95 Latency" stroke="#293763" strokeWidth={2} dot={{ r: 3, fill: "#293763" }} activeDot={{ r: 5 }} />
+            <Line yAxisId="right" type="monotone" dataKey="errorRate" name="Error Rate" stroke="#E08A3C" strokeWidth={2} dot={{ r: 3, fill: "#E08A3C" }} activeDot={{ r: 5 }} strokeDasharray="4 4" />
           </LineChart>
         </ResponsiveContainer>
       </div>

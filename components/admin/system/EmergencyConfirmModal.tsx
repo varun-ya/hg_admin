@@ -33,12 +33,12 @@ function EmergencyConfirmModal({ isOpen, onClose, switchName, impact, onConfirm 
       <div className="relative bg-white rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] w-[500px] max-w-[95vw] overflow-hidden">
         {/* Header */}
         <div className="px-7 py-6 flex items-start gap-4">
-          <div className="w-10 h-10 rounded-xl bg-[#FEF2F2] flex items-center justify-center shrink-0">
-            <Warning size={20} weight="fill" className="text-[#E11D48]" />
+          <div className="w-10 h-10 rounded-xl bg-[#FFF1E6] flex items-center justify-center shrink-0">
+            <Warning size={20} weight="fill" className="text-[#C2571A]" />
           </div>
           <div className="flex-1 min-w-0">
             <h3 className="text-[15px] font-medium text-[#1A1A1A]">Emergency Kill Switch</h3>
-            <p className="text-[14px] font-medium text-[#E11D48] mt-0.5">{switchName}</p>
+            <p className="text-[14px] font-medium text-[#C2571A] mt-0.5">{switchName}</p>
           </div>
           <button onClick={onClose} className="text-[#CACACA] hover:text-[#999] bg-transparent border-none cursor-pointer shrink-0 mt-0.5">
             <X size={16} weight="bold" />
@@ -46,9 +46,9 @@ function EmergencyConfirmModal({ isOpen, onClose, switchName, impact, onConfirm 
         </div>
 
         {/* Impact */}
-        <div className="mx-7 mb-5 p-4 bg-[#FEF2F2] border border-[#E11D48]/10 rounded-xl">
-          <p className="text-[10px] font-medium text-[#E11D48]/50 uppercase tracking-[0.1em] mb-1">Impact Assessment</p>
-          <p className="text-[12px] text-[#E11D48]/80 leading-relaxed">{impact}</p>
+        <div className="mx-7 mb-5 p-4 bg-[#FFF1E6] border border-[#C2571A]/10 rounded-xl">
+          <p className="text-[10px] font-medium text-[#C2571A]/50 uppercase tracking-[0.1em] mb-1">Impact Assessment</p>
+          <p className="text-[12px] text-[#C2571A]/80 leading-relaxed">{impact}</p>
         </div>
 
         {/* Step 1: Phrase */}
@@ -68,8 +68,8 @@ function EmergencyConfirmModal({ isOpen, onClose, switchName, impact, onConfirm 
               phrase.length === 0
                 ? "border-[#EBEBEB] text-[#1A1A1A] placeholder:text-[#DCDCDC]"
                 : phraseMatch
-                ? "border-[#10B981] text-[#10B981]"
-                : "border-[#E11D48]/30 text-[#E11D48]"
+                ? "border-[#E08A3C] text-[#E08A3C]"
+                : "border-[#C2571A]/30 text-[#C2571A]"
             }`}
           />
         </div>
@@ -123,7 +123,7 @@ function EmergencyConfirmModal({ isOpen, onClose, switchName, impact, onConfirm 
             disabled={!canConfirm}
             className={`px-5 py-2 text-[13px] font-medium rounded-lg transition-all cursor-pointer border-none ${
               canConfirm
-                ? "bg-[#E11D48] text-white hover:bg-[#BE123C] active:scale-95"
+                ? "bg-[#C2571A] text-white hover:bg-[#BE123C] active:scale-95"
                 : "bg-[#F0F0F0] text-[#CACACA] cursor-not-allowed"
             }`}
           >

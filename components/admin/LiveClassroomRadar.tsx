@@ -24,7 +24,7 @@ function LiveClassroomRadar() {
 
   return (
     <>
-      <div className="bg-white rounded-2xl border border-[#F0F0F0] overflow-hidden h-full flex flex-col">
+      <div className="bg-white rounded-2xl border border-[#F0F0F0] overflow-hidden h-full flex flex-col max-h-[480px]">
         {/* Header */}
         <div className="flex items-center justify-between px-7 py-5 shrink-0">
           <div className="flex items-center gap-2.5">

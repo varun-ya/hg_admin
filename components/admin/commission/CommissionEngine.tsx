@@ -7,7 +7,7 @@ import type { CommissionRule } from "./commissionTypes";
 function Toast({ msg, onClose }: { msg: string; onClose: () => void }) {
   return (
     <div className="fixed bottom-6 right-6 z-[300] flex items-center gap-3 bg-[#1A1A1A] text-white px-4 py-3 rounded-xl shadow-lg animate-fadeIn">
-      <CheckCircle size={14} weight="fill" className="text-[#22C55E] shrink-0" />
+      <CheckCircle size={14} weight="fill" className="text-[#E08A3C] shrink-0" />
       <span className="text-[13px]">{msg}</span>
       <button onClick={onClose} className="ml-2 text-white/50 hover:text-white bg-transparent border-none cursor-pointer"><X size={12} weight="bold" /></button>
     </div>
@@ -62,13 +62,13 @@ function NewRuleModal({ onClose, onSave }: { onClose: () => void; onSave: (name:
 
 const STATUS_STYLE: Record<string, string> = {
   active: "bg-[#F0F0F0] text-[#1A1A1A]",
-  draft: "bg-[#FEF3C7] text-[#92400E]",
+  draft: "bg-[#FFF7ED] text-[#9A3412]",
   archived: "bg-[#F5F5F5] text-[#ACACAC]",
 };
 
 const TRIGGER_STYLE: Record<string, string> = {
   flat: "bg-[#F0F0F0] text-[#666]",
-  subject: "bg-[#EEF2FF] text-[#4F46E5]",
+  subject: "bg-[#FFF7ED] text-[#E08A3C]",
   volume: "bg-[#FFF8F3] text-[#E08A3C]",
   tiered: "bg-[#FFF8F3] text-[#E08A3C]",
 };
@@ -143,7 +143,7 @@ function CommissionEngine() {
               </div>
               <div className="flex items-center justify-between text-[11px] text-[#ACACAC]">
                 <span>Locked escrow: {fx.lockedEscrow} · Expires {fx.lockExpiry}</span>
-                <span className={fx.change24h >= 0 ? "text-[#22C55E]" : "text-[#EF4444]"}>
+                <span className={fx.change24h >= 0 ? "text-[#E08A3C]" : "text-[#C2571A]"}>
                   {fx.change24h >= 0 ? "+" : ""}{fx.change24h}%
                 </span>
               </div>
@@ -170,8 +170,8 @@ function CommissionEngine() {
               </div>
               <div className="flex items-center justify-between text-[11px] text-[#ACACAC]">
                 <span>{t.transactionsAffected.toLocaleString()} transactions</span>
-                <span className={`flex items-center gap-1 ${t.autoWithhold ? "text-[#22C55E]" : "text-[#ACACAC]"}`}>
-                  <span className={`w-[5px] h-[5px] rounded-full ${t.autoWithhold ? "bg-[#22C55E]" : "bg-[#DCDCDC]"}`} />
+                <span className={`flex items-center gap-1 ${t.autoWithhold ? "text-[#E08A3C]" : "text-[#ACACAC]"}`}>
+                  <span className={`w-[5px] h-[5px] rounded-full ${t.autoWithhold ? "bg-[#E08A3C]" : "bg-[#DCDCDC]"}`} />
                   {t.autoWithhold ? "Auto-withhold" : "Manual"}
                 </span>
               </div>
@@ -183,7 +183,7 @@ function CommissionEngine() {
         <NewRuleModal
           onClose={() => setShowNewRule(false)}
           onSave={(name, rate) => {
-            setRules((prev) => [{ id: `rule-${Date.now()}`, name, trigger: "flat" as const, conditions: "All tutors", rate, status: "draft" as const, appliedTo: 0, revenue30d: "$0", createdBy: "admin@homeguru.in", createdAt: new Date().toLocaleDateString() }, ...prev]);
+            setRules((prev) => [{ id: `rule-${Date.now()}`, name, trigger: "flat" as const, conditions: "All tutors", rate, status: "draft" as const, appliedTo: 0, revenue30d: "$0", createdBy: "admin@homeguruworld.com", createdAt: new Date().toLocaleDateString() }, ...prev]);
             showToast(`Rule "${name}" created as draft`);
           }}
         />
